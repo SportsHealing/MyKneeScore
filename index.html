@@ -471,6 +471,7 @@
         <li><a href="#how">How it works</a></li>
         <li><a href="#meaning">Your score</a></li>
         <li><a href="#track">Track progress</a></li>
+        <li><a href="anatomy.html">Knee anatomy</a></li>
         <li><a class="start-link" href="#quiz" data-open-quiz>Start the test</a></li>
       </ul>
     </nav>
@@ -1045,6 +1046,8 @@
     [].forEach.call(document.querySelectorAll("[data-open-quiz]"), function (el) {
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });
     });
+
+    if (window.location.hash === "#quiz") { open(); }
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && app.classList.contains("open")) { close(); }
