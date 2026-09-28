@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My Knee Score | Measure your knee health in five minutes</title>
+<meta name="description" content="Answer ten questions about your knee. Get a score out of 100, clear guidance on treatment, and a simple way to track your recovery over time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0e2b22;
+    --green-ink:  #16382d;
+    --green-soft: #23503f;
+    --sage:       #7c9284;
+    --gold:       #b58f47;
+    --gold-pale:  #e6d5ac;
+    --ivory:      #faf7ef;
+    --paper:      #f3efe3;
+    --text:       #22312a;
+    --line:       rgba(22, 56, 45, 0.16);
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  body {
+    font-family: var(--body);
+    font-size: clamp(1.0rem, 0.95rem + 0.3vw, 1.125rem);
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--ivory);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { width: min(1080px, 92%); margin-inline: auto; }
+
+  a { color: var(--green-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible + label {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .eyebrow {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.12; color: var(--green-ink); }
+  h1 { font-size: clamp(2.5rem, 1.8rem + 3.4vw, 4.4rem); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.9rem); }
+  h3 { font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.65rem); }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--green-deep);
+    color: var(--ivory);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+  }
+  .wordmark {
+    font-family: var(--body);
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ivory);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .wordmark span { color: var(--gold-pale); }
+  .nav ul { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); list-style: none; }
+  .nav ul a {
+    color: var(--ivory);
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .nav ul a:hover { border-color: var(--gold); }
+  .nav .start-link {
+    color: var(--green-deep);
+    background: var(--gold-pale);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border-bottom: none;
+  }
+  .nav .start-link:hover { background: #fff; border-bottom: none; }
+  @media (max-width: 700px) {
+    .nav ul li:not(:last-child) { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(181, 143, 71, 0.15), transparent 60%),
+      var(--green-deep);
+    color: var(--ivory);
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3.5rem, 8vw, 6rem);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .hero h1 { color: var(--ivory); }
+  .hero h1 em { font-style: italic; color: var(--gold-pale); }
+  .hero p.lede {
+    margin-top: 1.2rem;
+    max-width: 34em;
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+    color: rgba(250, 247, 239, 0.88);
+  }
+  .hero-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; }
+  .btn {
+    display: inline-block;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.7rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-gold { background: var(--gold); color: var(--green-deep); }
+  .btn-gold:hover { background: var(--gold-pale); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(250,247,239,0.45); }
+  .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
+  .hero-note { font-size: 0.88rem; color: rgba(250,247,239,0.6); margin-top: 1rem; }
+
+  /* Score dial: the signature element */
+  .dial-card {
+    background: var(--green-ink);
+    border: 1px solid rgba(230, 213, 172, 0.3);
+    border-radius: 18px;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    text-align: center;
+  }
+  .dial {
+    --value: 76;
+    width: min(260px, 70vw);
+    aspect-ratio: 2 / 1.1;
+    margin: 0.5rem auto 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dial::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 -100% 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 270deg,
+      var(--gold) 0deg,
+      var(--gold-pale) calc(var(--value) * 1.8deg),
+      rgba(250, 247, 239, 0.14) calc(var(--value) * 1.8deg),
+      rgba(250, 247, 239, 0.14) 180deg,
+      transparent 180deg
+    );
+    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
+            mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
+  }
+  .dial-num {
+    position: absolute;
+    inset: auto 0 0 0;
+    font-family: var(--display);
+    font-size: clamp(3rem, 9vw, 4.2rem);
+    font-weight: 600;
+    color: var(--ivory);
+    line-height: 1;
+  }
+  .dial-num small { display: block; font-family: var(--body); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-top: 0.4rem; }
+  .dial-caption { margin-top: 1rem; font-size: 0.92rem; color: rgba(250,247,239,0.75); }
+
+  /* ---------- Sections ---------- */
+  section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+  .section-head { max-width: 42em; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .section-head p { margin-top: 0.9rem; color: #45564c; }
+
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.5vw, 2rem); counter-reset: step; }
+  .step {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--gold);
+    border-radius: 12px;
+    padding: 1.6rem 1.5rem;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .step h3 { margin-bottom: 0.5rem; }
+  .step p { font-size: 0.98rem; color: #45564c; }
+
+  /* Whole-body strip */
+  .holistic {
+    background: var(--paper);
+    border-block: 1px solid var(--line);
+  }
+  .holistic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .holistic ul { list-style: none; margin-top: 1.2rem; }
+  .holistic li { padding: 0.7rem 0 0.7rem 1.6rem; border-bottom: 1px solid var(--line); position: relative; }
+  .holistic li:last-child { border-bottom: none; }
+  .holistic li::before { content: ""; position: absolute; left: 0; top: 1.15rem; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); }
+
+  /* Score bands */
+  .bands { display: grid; gap: 0.8rem; }
+  .band {
+    display: grid;
+    grid-template-columns: 110px 180px 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+  }
+  .band-range { font-family: var(--display); font-size: 1.7rem; font-weight: 600; color: var(--green-ink); }
+  .band-name { font-weight: 600; }
+  .band-name::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 0.55rem; }
+  .band.b1 .band-name::before { background: var(--green-soft); }
+  .band.b2 .band-name::before { background: var(--sage); }
+  .band.b3 .band-name::before { background: var(--gold); }
+  .band.b4 .band-name::before { background: #8c4a2f; }
+  .band p { font-size: 0.96rem; color: #45564c; }
+  @media (max-width: 760px) {
+    .band { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+
+  /* Tracking */
+  .track { background: var(--green-deep); color: var(--ivory); }
+  .track h2, .track h3 { color: var(--ivory); }
+  .track .section-head p { color: rgba(250,247,239,0.8); }
+  .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .chart {
+    background: var(--green-ink);
+    border: 1px solid rgba(230, 213, 172, 0.3);
+    border-radius: 16px;
+    padding: 1.6rem;
+  }
+  .chart-title { font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-bottom: 1.2rem; }
+  .bars { display: flex; align-items: flex-end; gap: clamp(0.5rem, 2vw, 1rem); height: 190px; }
+  .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; text-align: center; gap: 0.4rem; }
+  .bar i {
+    display: block;
+    background: linear-gradient(180deg, #a6c1b2, var(--green-soft));
+    border-radius: 6px 6px 2px 2px;
+    height: calc(var(--v) * 1%);
+  }
+  .bar b { font-family: var(--display); font-size: 1.1rem; color: var(--gold-pale); font-weight: 600; }
+  .bar span { font-size: 0.72rem; color: rgba(250,247,239,0.6); }
+  .track p.small { font-size: 0.9rem; color: rgba(250,247,239,0.6); margin-top: 1.2rem; }
+
+  /* ---------- Questionnaire preview (main page) ---------- */
+  .quiz-intro p { max-width: 40em; }
+  .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: #6b7a70; margin: 0 0 1.2rem; }
+  .q-preview { display: grid; gap: 1.6rem; }
+
+  /* Question sits above the answer box, not on its border */
+  .q-title {
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--green-ink);
+    font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2.3rem);
+    line-height: 1.15;
+    margin: 0 0.2rem 0.9rem;
+  }
+  .q-title:focus { outline: none; }
+  .q-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: clamp(1.3rem, 3vw, 1.9rem);
+  }
+  .q-card .q-topic {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.9rem;
+  }
+  .opts { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .opts input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .opts label {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.5rem 1.05rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: var(--ivory);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .opts label:hover { border-color: var(--gold); }
+  .opts input:checked + label {
+    background: var(--green-ink);
+    border-color: var(--green-ink);
+    color: var(--gold-pale);
+    font-weight: 600;
+  }
+  .pill {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.5rem 1.05rem;
+    font-size: 0.95rem;
+    background: var(--ivory);
+    color: #45564c;
+  }
+  .preview-cta { margin-top: 2.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .quiz-hint { font-size: 0.9rem; color: #6b7a70; }
+  .btn-green { background: var(--green-ink); color: var(--gold-pale); border: none; font-family: var(--body); }
+  .btn-green:hover { background: var(--green-soft); }
+  .btn-ghost-green { background: transparent; color: var(--green-ink); border: 1px solid var(--line); }
+  .btn-ghost-green:hover { border-color: var(--gold); }
+  .btn-green:disabled, .btn-ghost-green:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ---------- Questionnaire screen ---------- */
+  .quiz-app {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: var(--ivory);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .quiz-app[hidden] { display: none; }
+  .quiz-app.open { display: flex; flex-direction: column; }
+
+  .quiz-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--green-deep);
+    color: var(--ivory);
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+  }
+  .quiz-topbar-inner { display: flex; align-items: center; gap: 1rem; }
+  .quiz-exit {
+    flex: none;
+    background: transparent;
+    color: var(--ivory);
+    border: 1px solid rgba(250,247,239,0.45);
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .quiz-exit:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
+  .progress-track { flex: 1; height: 8px; background: rgba(250,247,239,0.18); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 8.3%; background: var(--gold); border-radius: 999px; transition: width 0.3s ease; }
+  .progress-meta { flex: none; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-pale); font-weight: 600; white-space: nowrap; }
+
+  .q-stage { flex: 1; display: flex; align-items: flex-start; padding: clamp(2rem, 6vw, 4.5rem) 0 3rem; }
+  .quiz-form .q-slide { display: none; }
+  .quiz-form .q-slide.active { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .quiz-form .q-slide.active { animation: qfade 0.3s ease; }
+  }
+  @keyframes qfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .quiz-form .opts label { font-size: 1rem; padding: 0.6rem 1.2rem; }
+
+  .q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.8rem; }
+
+  /* Result */
+  .result {
+    display: none;
+    margin-top: 1.6rem;
+    background: var(--green-deep);
+    color: var(--ivory);
+    border-radius: 16px;
+    padding: clamp(1.6rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+  .result.show { display: block; }
+  .result h3 { color: var(--gold-pale); }
+  .result h3:focus { outline: none; }
+  .result .dial { margin-top: 1rem; }
+  .result-band { font-family: var(--display); font-size: 1.6rem; margin-top: 1rem; color: var(--ivory); }
+  .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(250,247,239,0.88); }
+  .result .small { font-size: 0.85rem; color: rgba(250,247,239,0.55); margin-top: 1.4rem; }
+
+  /* Category breakdown */
+  .breakdown { margin-top: 2rem; text-align: left; }
+  .breakdown-title { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-bottom: 1.1rem; text-align: center; }
+  .breakdown-list { display: grid; gap: 0.7rem; max-width: 34em; margin: 0 auto; }
+  .cat { display: grid; grid-template-columns: 110px 1fr 40px; align-items: center; gap: 0.9rem; }
+  .cat-name { font-size: 0.95rem; color: var(--ivory); }
+  .cat-track { height: 12px; background: rgba(250,247,239,0.16); border-radius: 999px; overflow: hidden; }
+  .cat-fill { height: 100%; background: linear-gradient(90deg, #7c9284, #b6cdbf); border-radius: 999px; transition: width 0.5s ease; }
+  .cat-val { text-align: right; font-family: var(--display); font-size: 1.05rem; font-weight: 600; color: var(--gold-pale); font-variant-numeric: tabular-nums; }
+  .result-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 1.6rem; }
+
+  /* Disclaimer + footer */
+  .disclaimer {
+    background: var(--paper);
+    border-block: 1px solid var(--line);
+    padding: 2rem 0;
+    font-size: 0.92rem;
+    color: #45564c;
+  }
+  footer {
+    background: var(--green-deep);
+    color: rgba(250,247,239,0.75);
+    padding: 2.2rem 0;
+    font-size: 0.9rem;
+  }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+  footer a { color: var(--gold-pale); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .hero-grid, .holistic-grid, .track-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .dial-card { max-width: 420px; margin-inline: auto; }
+  }
+  @media (max-width: 520px) {
+    .cat { grid-template-columns: 92px 1fr 34px; gap: 0.6rem; }
+    .quiz-topbar-inner { flex-wrap: wrap; }
+    .progress-meta { order: 3; width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="#top">My<span>Knee</span>Score</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#meaning">Your score</a></li>
+        <li><a href="#track">Track progress</a></li>
+        <li><a href="anatomy.html">Knee anatomy</a></li>
+        <li><a class="start-link" href="#quiz" data-open-quiz>Start the test</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">A five minute knee health check</p>
+        <h1>Put a number on <em>your knee.</em></h1>
+        <p class="lede">Ten questions about pain, movement and daily life. One score out of 100. Clear guidance on what to do next, and a simple way to see whether your knee is getting better.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="#quiz" data-open-quiz>Start the test</a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <p class="hero-note">Free. No account needed. Suitable for ages 11 to 99.</p>
+      </div>
+      <div class="dial-card">
+        <p class="eyebrow">Example result</p>
+        <div class="dial" style="--value: 76;">
+          <div class="dial-num">76<small>out of 100</small></div>
+        </div>
+        <p class="dial-caption">A score of 76 suggests mild symptoms. Most people at this level improve with targeted exercise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps, five minutes</h2>
+        <p>The questions follow the same domains used in validated knee outcome measures: pain, function and quality of life.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>Answer ten questions</h3>
+          <p>Tell us about pain, stairs, walking, sleep and everyday activities over the past four weeks. No jargon, no measurements needed.</p>
+        </div>
+        <div class="step">
+          <h3>Get your score</h3>
+          <p>Your answers produce a single score from 0 to 100. Higher is healthier. The score appears instantly, with a breakdown by category.</p>
+        </div>
+        <div class="step">
+          <h3>Follow the guidance</h3>
+          <p>Each score band comes with a clear next step, from home exercise to a specialist review. Retake the test to track change.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Whole body -->
+  <section class="holistic">
+    <div class="wrap holistic-grid">
+      <div>
+        <p class="eyebrow">Beyond the joint</p>
+        <h2>Your knee is part of a whole body</h2>
+        <p style="margin-top:0.9rem; color:#45564c;">A knee rarely fails on its own. Weight, muscle strength, sleep, mood and activity all shape how a knee feels and how well it heals. Your score reflects the joint, but the guidance treats the person.</p>
+      </div>
+      <ul>
+        <li><strong>Strength and balance.</strong> Weak hips and thighs load the knee unevenly. Guidance includes whole-leg exercise, not just knee bends.</li>
+        <li><strong>Weight and metabolism.</strong> Each kilogram lost removes roughly four kilograms of force from the knee with every step.</li>
+        <li><strong>Sleep and mood.</strong> Poor sleep amplifies pain. The questionnaire asks about night pain for this reason.</li>
+        <li><strong>Activity, not rest.</strong> For most knees, the right movement is medicine. Complete rest usually makes stiffness worse.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Score meaning -->
+  <section id="meaning">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Your score</p>
+        <h2>What the number means</h2>
+        <p>Four bands, each with a clear next step. The bands are a guide, not a diagnosis. Sudden injury, locking, giving way or a hot swollen knee always deserve prompt medical review, whatever the score.</p>
+      </div>
+      <div class="bands">
+        <div class="band b1">
+          <div class="band-range">85–100</div>
+          <div class="band-name">Optimal</div>
+          <p>Your knee is working well. Keep active, keep your legs strong, and retest if anything changes.</p>
+        </div>
+        <div class="band b2">
+          <div class="band-range">70–84</div>
+          <div class="band-name">Good</div>
+          <p>Your knee works well most of the time. A structured six week strengthening programme usually closes the gap. Retest monthly.</p>
+        </div>
+        <div class="band b3">
+          <div class="band-range">60–69</div>
+          <div class="band-name">Fair</div>
+          <p>Symptoms are limiting you. See a physiotherapist or GP. Options include supervised rehabilitation, weight support and, for some, an injection.</p>
+        </div>
+        <div class="band b4">
+          <div class="band-range">0–59</div>
+          <div class="band-name">Pay attention</div>
+          <p>Your knee is affecting daily life. Book a specialist review. Scores in this range are where injections, surgery and joint replacement are discussed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tracking -->
+  <section id="track" class="track">
+    <div class="wrap track-grid">
+      <div>
+        <div class="section-head" style="margin-bottom:1rem;">
+          <p class="eyebrow">Track progress</p>
+          <h2>One number, watched over time</h2>
+        </div>
+        <p>A single score is a snapshot. A series of scores is a story. Retake the test every two to four weeks during treatment or recovery.</p>
+        <p style="margin-top:0.9rem;">A rise of 10 points or more is a meaningful improvement. A steady fall is a signal to review your plan with a clinician.</p>
+        <p class="small">Tip: write your score and date in your phone notes, or screenshot each result. Retesting takes five minutes.</p>
+      </div>
+      <div class="chart" role="img" aria-label="Example recovery chart showing scores rising from 41 to 78 over four months">
+        <p class="chart-title">Example: recovery after physiotherapy</p>
+        <div class="bars">
+          <div class="bar"><i style="--v:41"></i><b>41</b><span>Mar</span></div>
+          <div class="bar"><i style="--v:48"></i><b>48</b><span>Apr</span></div>
+          <div class="bar"><i style="--v:57"></i><b>57</b><span>May</span></div>
+          <div class="bar"><i style="--v:66"></i><b>66</b><span>Jun</span></div>
+          <div class="bar"><i style="--v:78"></i><b>78</b><span>Jul</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Questionnaire preview + entry point -->
+  <section id="quiz">
+    <div class="wrap">
+      <div class="section-head quiz-intro">
+        <p class="eyebrow">The test</p>
+        <h2>Score your knee now</h2>
+        <p>Ten short questions about pain, movement and daily life. Think about your <strong>worst knee</strong> over the <strong>past four weeks</strong>. It takes about five minutes.</p>
+      </div>
+
+      <p class="preview-label">A few examples of what you will be asked</p>
+      <div class="q-preview">
+
+        <div class="q-example">
+          <h3 class="q-title">How comfortable is your knee during usual activities?</h3>
+          <div class="q-card">
+            <p class="q-topic">Comfort</p>
+            <div class="opts">
+              <span class="pill">Completely comfortable</span>
+              <span class="pill">Mostly comfortable</span>
+              <span class="pill">Moderately comfortable</span>
+              <span class="pill">Uncomfortable most of the time</span>
+              <span class="pill">Very uncomfortable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-example">
+          <h3 class="q-title">How free is your knee from sharp catching pain, locking or freezing up?</h3>
+          <div class="q-card">
+            <p class="q-topic">Mechanical symptoms</p>
+            <div class="opts">
+              <span class="pill">Never</span>
+              <span class="pill">Rarely</span>
+              <span class="pill">Sometimes</span>
+              <span class="pill">Often</span>
+              <span class="pill">Most days</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-example">
+          <h3 class="q-title">What is your current activity level?</h3>
+          <div class="q-card">
+            <p class="q-topic">Activity level</p>
+            <div class="opts">
+              <span class="pill">I can play sport with no difficulty</span>
+              <span class="pill">I can play sport with difficulty</span>
+              <span class="pill">I can run and jump</span>
+              <span class="pill">I can run</span>
+              <span class="pill">I can walk but not run</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="preview-cta">
+        <button type="button" class="btn btn-gold" data-open-quiz>Start the test</button>
+        <span class="quiz-hint">Free, and no account needed. Nothing is saved unless you note it down.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <div class="wrap">
+      <strong>Important.</strong> My Knee Score is an educational self-assessment based on validated knee outcome measures. It is not a diagnosis and does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>© 2026 mykneescore.com</p>
+    <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+<!-- Questionnaire screen -->
+<div class="quiz-app" id="quizApp" role="dialog" aria-modal="true" aria-label="Knee questionnaire" hidden>
+  <div class="quiz-topbar">
+    <div class="wrap quiz-topbar-inner">
+      <button type="button" class="quiz-exit" id="quizExit" aria-label="Close the questionnaire">Exit</button>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-meta" id="progressMeta" aria-live="polite">Question 1 of 10</p>
+    </div>
+  </div>
+
+  <div class="q-stage">
+    <div class="wrap">
+      <form class="quiz-form" id="kneeForm">
+
+        <div class="q-slide" data-cat="Comfort">
+          <h2 class="q-title" tabindex="-1">How comfortable is your knee during usual activities?</h2>
+          <div class="q-card">
+            <p class="q-topic">Comfort</p>
+            <div class="opts">
+              <input type="radio" name="q1" id="q1a" value="10"><label for="q1a">Completely comfortable</label>
+              <input type="radio" name="q1" id="q1b" value="7.5"><label for="q1b">Mostly comfortable</label>
+              <input type="radio" name="q1" id="q1c" value="5"><label for="q1c">Moderately comfortable</label>
+              <input type="radio" name="q1" id="q1d" value="2.5"><label for="q1d">Uncomfortable most of the time</label>
+              <input type="radio" name="q1" id="q1e" value="0"><label for="q1e">Very uncomfortable</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Stiffness">
+          <h2 class="q-title" tabindex="-1">How free is your knee from stiffness when you first move after rest?</h2>
+          <div class="q-card">
+            <p class="q-topic">Stiffness</p>
+            <div class="opts">
+              <input type="radio" name="q2" id="q2a" value="10"><label for="q2a">No stiffness</label>
+              <input type="radio" name="q2" id="q2b" value="7.5"><label for="q2b">Slight stiffness</label>
+              <input type="radio" name="q2" id="q2c" value="5"><label for="q2c">Moderate stiffness</label>
+              <input type="radio" name="q2" id="q2d" value="2.5"><label for="q2d">Marked stiffness</label>
+              <input type="radio" name="q2" id="q2e" value="0"><label for="q2e">Severe stiffness</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Swelling">
+          <h2 class="q-title" tabindex="-1">How little swelling do you have after activity?</h2>
+          <div class="q-card">
+            <p class="q-topic">Swelling</p>
+            <div class="opts">
+              <input type="radio" name="q3" id="q3a" value="10"><label for="q3a">No swelling</label>
+              <input type="radio" name="q3" id="q3b" value="7.5"><label for="q3b">Slight swelling</label>
+              <input type="radio" name="q3" id="q3c" value="5"><label for="q3c">Moderate swelling</label>
+              <input type="radio" name="q3" id="q3d" value="2.5"><label for="q3d">Marked swelling</label>
+              <input type="radio" name="q3" id="q3e" value="0"><label for="q3e">Severe swelling</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Stability">
+          <h2 class="q-title" tabindex="-1">How stable does your knee feel, with no giving way?</h2>
+          <div class="q-card">
+            <p class="q-topic">Stability</p>
+            <div class="opts">
+              <input type="radio" name="q4" id="q4a" value="10"><label for="q4a">Never gives way</label>
+              <input type="radio" name="q4" id="q4b" value="7.5"><label for="q4b">Rarely gives way</label>
+              <input type="radio" name="q4" id="q4c" value="5"><label for="q4c">Sometimes gives way</label>
+              <input type="radio" name="q4" id="q4d" value="2.5"><label for="q4d">Often gives way</label>
+              <input type="radio" name="q4" id="q4e" value="0"><label for="q4e">Gives way most days</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Walking">
+          <h2 class="q-title" tabindex="-1">How well can you walk long distances on level ground?</h2>
+          <div class="q-card">
+            <p class="q-topic">Walking</p>
+            <div class="opts">
+              <input type="radio" name="q5" id="q5a" value="10"><label for="q5a">No limit</label>
+              <input type="radio" name="q5" id="q5b" value="7.5"><label for="q5b">More than 30 minutes</label>
+              <input type="radio" name="q5" id="q5c" value="5"><label for="q5c">15 to 30 minutes</label>
+              <input type="radio" name="q5" id="q5d" value="2.5"><label for="q5d">5 to 15 minutes</label>
+              <input type="radio" name="q5" id="q5e" value="0"><label for="q5e">Less than 5 minutes</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Stairs">
+          <h2 class="q-title" tabindex="-1">How easily can you manage one flight of stairs?</h2>
+          <div class="q-card">
+            <p class="q-topic">Stairs</p>
+            <div class="opts">
+              <input type="radio" name="q6" id="q6a" value="10"><label for="q6a">No difficulty</label>
+              <input type="radio" name="q6" id="q6b" value="7.5"><label for="q6b">Slight difficulty</label>
+              <input type="radio" name="q6" id="q6c" value="5"><label for="q6c">Moderate difficulty</label>
+              <input type="radio" name="q6" id="q6d" value="2.5"><label for="q6d">Severe difficulty</label>
+              <input type="radio" name="q6" id="q6e" value="0"><label for="q6e">Cannot do it</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Kneeling">
+          <h2 class="q-title" tabindex="-1">How easily can you kneel or squat?</h2>
+          <div class="q-card">
+            <p class="q-topic">Kneeling</p>
+            <div class="opts">
+              <input type="radio" name="q7" id="q7a" value="10"><label for="q7a">No difficulty</label>
+              <input type="radio" name="q7" id="q7b" value="7.5"><label for="q7b">Slight difficulty</label>
+              <input type="radio" name="q7" id="q7c" value="5"><label for="q7c">Moderate difficulty</label>
+              <input type="radio" name="q7" id="q7d" value="2.5"><label for="q7d">Severe difficulty</label>
+              <input type="radio" name="q7" id="q7e" value="0"><label for="q7e">Cannot do it</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Mechanical symptoms">
+          <h2 class="q-title" tabindex="-1">How free is your knee from sharp catching pain, locking or freezing up?</h2>
+          <div class="q-card">
+            <p class="q-topic">Mechanical symptoms</p>
+            <div class="opts">
+              <input type="radio" name="q8" id="q8a" value="10"><label for="q8a">Never</label>
+              <input type="radio" name="q8" id="q8b" value="7.5"><label for="q8b">Rarely</label>
+              <input type="radio" name="q8" id="q8c" value="5"><label for="q8c">Sometimes</label>
+              <input type="radio" name="q8" id="q8d" value="2.5"><label for="q8d">Often</label>
+              <input type="radio" name="q8" id="q8e" value="0"><label for="q8e">Most days</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Activity level">
+          <h2 class="q-title" tabindex="-1">What is your current activity level?</h2>
+          <div class="q-card">
+            <p class="q-topic">Activity level</p>
+            <div class="opts">
+              <input type="radio" name="q9" id="q9a" value="10"><label for="q9a">I can play sport with no difficulty</label>
+              <input type="radio" name="q9" id="q9b" value="7.5"><label for="q9b">I can play sport with difficulty</label>
+              <input type="radio" name="q9" id="q9c" value="5"><label for="q9c">I can run and jump</label>
+              <input type="radio" name="q9" id="q9d" value="2.5"><label for="q9d">I can run</label>
+              <input type="radio" name="q9" id="q9e" value="0"><label for="q9e">I can walk but not run</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Overall function">
+          <h2 class="q-title" tabindex="-1">Overall, how good does your knee function feel today?</h2>
+          <div class="q-card">
+            <p class="q-topic">Overall function</p>
+            <div class="opts">
+              <input type="radio" name="q10" id="q10a" value="10"><label for="q10a">Excellent</label>
+              <input type="radio" name="q10" id="q10b" value="7.5"><label for="q10b">Good</label>
+              <input type="radio" name="q10" id="q10c" value="5"><label for="q10c">Fair</label>
+              <input type="radio" name="q10" id="q10d" value="2.5"><label for="q10d">Poor</label>
+              <input type="radio" name="q10" id="q10e" value="0"><label for="q10e">Very poor</label>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="q-nav" id="quizNav">
+        <button type="button" class="btn btn-ghost-green" id="backBtn">Back</button>
+        <button type="button" class="btn btn-green" id="nextBtn">Next</button>
+      </div>
+
+      <div class="result" id="result" aria-live="polite">
+        <h3 tabindex="-1">Your knee score</h3>
+        <div class="dial" id="resultDial" style="--value: 0;">
+          <div class="dial-num"><span id="scoreNum">0</span><small>out of 100</small></div>
+        </div>
+        <p class="result-band" id="bandName"></p>
+        <p class="result-advice" id="bandAdvice"></p>
+
+        <div class="breakdown">
+          <p class="breakdown-title">How your score breaks down</p>
+          <div class="breakdown-list" id="breakdownList"></div>
+        </div>
+
+        <p class="small">Note today's date and score, then retest in two to four weeks. This tool does not replace a medical assessment.</p>
+
+        <div class="result-actions">
+          <button type="button" class="btn btn-gold" id="retakeBtn">Retake the test</button>
+          <button type="button" class="btn btn-ghost" id="doneBtn">Return to the site</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var app       = document.getElementById("quizApp");
+    var form      = document.getElementById("kneeForm");
+    var slides    = [].slice.call(form.querySelectorAll(".q-slide"));
+    var totalQ    = slides.length;
+    var navWrap   = document.getElementById("quizNav");
+    var backBtn   = document.getElementById("backBtn");
+    var nextBtn   = document.getElementById("nextBtn");
+    var fill      = document.getElementById("progressFill");
+    var meta      = document.getElementById("progressMeta");
+    var resultEl  = document.getElementById("result");
+    var exitBtn   = document.getElementById("quizExit");
+    var retakeBtn = document.getElementById("retakeBtn");
+    var doneBtn   = document.getElementById("doneBtn");
+    var scoreNum  = document.getElementById("scoreNum");
+    var dial      = document.getElementById("resultDial");
+    var bandName  = document.getElementById("bandName");
+    var bandAdvice= document.getElementById("bandAdvice");
+    var listEl    = document.getElementById("breakdownList");
+    var current   = 0;
+    var reduce    = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* Short Knee Score. Each question is answered 0 to 10, where 10 is best.
+       The weights below are the proprietary weightings, held as whole numbers
+       (x100) so they sum to exactly 100 and the maths cannot drift. */
+    var weights = {
+      q1: 15,
+      q2: 7,
+      q3: 7,
+      q4: 10,
+      q5: 10,
+      q6: 8,
+      q7: 8,
+      q8: 10,
+      q9: 12,
+      q10: 13
+    };
+
+    var topicOf = {
+      q1: "Comfort",
+      q2: "Stiffness",
+      q3: "Swelling",
+      q4: "Stability",
+      q5: "Walking",
+      q6: "Stairs",
+      q7: "Kneeling",
+      q8: "Mechanical symptoms",
+      q9: "Activity level",
+      q10: "Overall function"
+    };
+    var bands = [
+      { min: 85, name: "Optimal (85\u2013100)", advice: "Your knee is working well. Keep active, keep your legs strong, and retest if anything changes." },
+      { min: 70, name: "Good (70\u201384)", advice: "Your knee works well most of the time. Start a structured strengthening programme for six weeks, then retest." },
+      { min: 60, name: "Fair (60\u201369)", advice: "Your knee is limiting you. Book a review with a physiotherapist or GP to discuss supervised rehabilitation and, if appropriate, an injection." },
+      { min: 0,  name: "Pay attention (0\u201359)", advice: "Your knee is affecting your daily life. Arrange a specialist review. This is the range in which injections, surgery and joint replacement are discussed." }
+    ];
+
+    function groupName(i) { return slides[i].querySelector("input").name; }
+    function answered(i)  { return !!form.querySelector('input[name="' + groupName(i) + '"]:checked'); }
+
+    function open() {
+      app.hidden = false;
+      app.classList.add("open");
+      document.body.style.overflow = "hidden";
+      reset();
+    }
+    function close() {
+      app.classList.remove("open");
+      app.hidden = true;
+      document.body.style.overflow = "";
+    }
+    function reset() {
+      form.reset();
+      resultEl.classList.remove("show");
+      navWrap.style.display = "";
+      current = 0;
+      show(0);
+    }
+
+    function show(i) {
+      current = i;
+      slides.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
+      var pct = ((i + 1) / totalQ) * 100;
+      fill.style.width = pct + "%";
+      meta.textContent = "Question " + (i + 1) + " of " + totalQ;
+      backBtn.disabled = (i === 0);
+      nextBtn.textContent = (i === totalQ - 1) ? "See my results" : "Next";
+      nextBtn.disabled = !answered(i);
+      var h = slides[i].querySelector(".q-title");
+      if (h) { h.focus(); }
+    }
+
+    form.addEventListener("change", function (e) {
+      if (!e.target.name) { return; }
+      if (e.target.name !== groupName(current)) { nextBtn.disabled = !answered(current); return; }
+      nextBtn.disabled = false;
+      if (current < totalQ - 1) {
+        window.setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
+      } else {
+        window.setTimeout(finish, reduce ? 0 : 320);
+      }
+    });
+
+    nextBtn.addEventListener("click", function () {
+      if (!answered(current)) { return; }
+      if (current < totalQ - 1) { show(current + 1); } else { finish(); }
+    });
+    backBtn.addEventListener("click", function () { if (current > 0) { show(current - 1); } });
+    exitBtn.addEventListener("click", close);
+    doneBtn.addEventListener("click", close);
+    retakeBtn.addEventListener("click", reset);
+
+    function firstUnanswered() {
+      for (var i = 0; i < totalQ; i++) { if (!answered(i)) { return i; } }
+      return -1;
+    }
+
+    function finish() {
+      var u = firstUnanswered();
+      if (u > -1) { show(u); return; }
+
+      /* Answers are held as halves (0 to 20) and weights as hundredths, so the
+         weighted total is a whole number. Dividing by 20 gives the score out of
+         100, rounded half up, exactly as the scoring sheet does it. */
+      var totalWeighted = 0;
+      var perQ = [];
+      for (var i = 0; i < totalQ; i++) {
+        var name = groupName(i);
+        var val = parseFloat(form.querySelector('input[name="' + name + '"]:checked').value);
+        totalWeighted += Math.round(val * 2) * weights[name];
+        perQ.push({ topic: topicOf[name], pct: Math.round(val * 10) });
+      }
+
+      var score = Math.floor(totalWeighted / 20) + ((totalWeighted % 20) >= 10 ? 1 : 0);
+      var band = bands.find(function (b) { return score >= b.min; });
+
+      scoreNum.textContent = score;
+      dial.style.setProperty("--value", score);
+      bandName.textContent = band.name;
+      bandAdvice.textContent = band.advice;
+
+      listEl.innerHTML = "";
+      perQ.forEach(function (r) {
+        var row = document.createElement("div");
+        row.className = "cat";
+        row.innerHTML =
+          '<span class="cat-name">' + r.topic + '</span>' +
+          '<div class="cat-track"><div class="cat-fill" style="width:' + r.pct + '%"></div></div>' +
+          '<span class="cat-val">' + r.pct + '</span>';
+        listEl.appendChild(row);
+      });
+
+      navWrap.style.display = "none";
+      slides.forEach(function (s) { s.classList.remove("active"); });
+      fill.style.width = "100%";
+      meta.textContent = "Complete";
+      resultEl.classList.add("show");
+      resultEl.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      var rh = resultEl.querySelector("h3");
+      if (rh) { rh.focus(); }
+    }
+
+    [].forEach.call(document.querySelectorAll("[data-open-quiz]"), function (el) {
+      el.addEventListener("click", function (e) { e.preventDefault(); open(); });
+    });
+
+    if (window.location.hash === "#quiz") { open(); }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && app.classList.contains("open")) { close(); }
+    });
+  })();
+</script>
+
+</body>
+</html>

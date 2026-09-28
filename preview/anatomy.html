@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Knee Anatomy | My Knee Score</title>
+<meta name="description" content="The bones, ligaments and cartilage of the knee, what each one does, and what commonly goes wrong with it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0e2b22;
+    --green-ink:  #16382d;
+    --green-soft: #23503f;
+    --sage:       #7c9284;
+    --gold:       #b58f47;
+    --gold-pale:  #e6d5ac;
+    --ivory:      #faf7ef;
+    --paper:      #f3efe3;
+    --text:       #22312a;
+    --line:       rgba(22, 56, 45, 0.16);
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  body {
+    font-family: var(--body);
+    font-size: clamp(1.0rem, 0.95rem + 0.3vw, 1.125rem);
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--ivory);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { width: min(1080px, 92%); margin-inline: auto; }
+
+  a { color: var(--green-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible + label {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .eyebrow {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.12; color: var(--green-ink); }
+  h1 { font-size: clamp(2.5rem, 1.8rem + 3.4vw, 4.4rem); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.9rem); }
+  h3 { font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.65rem); }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--green-deep);
+    color: var(--ivory);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+  }
+  .wordmark {
+    font-family: var(--body);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--ivory);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .wordmark span { color: var(--gold-pale); }
+  .nav ul { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); list-style: none; }
+  .nav ul a {
+    color: var(--ivory);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .nav ul a:hover { border-color: var(--gold); }
+  .nav .start-link {
+    color: var(--green-deep);
+    background: var(--gold-pale);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border-bottom: none;
+  }
+  .nav .start-link:hover { background: #fff; border-bottom: none; }
+  @media (max-width: 700px) {
+    .nav ul li:not(:last-child) { display: none; }
+  }
+  .btn {
+    display: inline-block;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.7rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-gold { background: var(--gold); color: var(--green-deep); }
+  .btn-gold:hover { background: var(--gold-pale); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(250,247,239,0.45); }
+  .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
+  /* Disclaimer + footer */
+  .disclaimer {
+    background: var(--paper);
+    border-block: 1px solid var(--line);
+    padding: 2rem 0;
+    font-size: 0.92rem;
+    color: #45564c;
+  }
+  footer {
+    background: var(--green-deep);
+    color: rgba(250,247,239,0.75);
+    padding: 2.2rem 0;
+    font-size: 0.9rem;
+  }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+
+  /* ---------- Anatomy page: additions only ---------- */
+  html { scroll-padding-top: 90px; }
+  .nav ul a[aria-current="page"] { border-color: var(--gold); }
+
+  /* Hero */
+  .a-hero { background: var(--paper); border-bottom: 1px solid var(--line); padding: clamp(2.6rem, 6vw, 4.4rem) 0; }
+  .a-hero .lede { max-width: 40em; margin-top: 1rem; color: #3c4c43; }
+  .a-hero h1 em { font-style: italic; color: var(--gold); }
+
+  /* Jump bar */
+  .jump { border-bottom: 1px solid var(--line); background: var(--ivory); }
+  .jump-inner { display: flex; flex-wrap: wrap; gap: 0.6rem; padding: 0.85rem 0; }
+  .jump a {
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--green-ink);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .jump a:hover { background: var(--green-ink); color: var(--ivory); border-color: var(--green-ink); }
+
+  /* Section frame */
+  section.block { padding: clamp(2.6rem, 6vw, 4.2rem) 0; }
+  section.block + section.block { border-top: 1px solid var(--line); }
+  .block-head { max-width: 46em; margin-bottom: 2rem; }
+  .block-head p { margin-top: 0.7rem; color: #3c4c43; }
+
+  /* Diagram */
+  .map { background: var(--paper); }
+  .map-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .map-figure { background: var(--ivory); border: 1px solid var(--line); border-radius: 16px; padding: 1rem; }
+  .map-figure svg { width: 100%; height: auto; display: block; }
+  .map-note { font-size: 0.85rem; color: #55665c; margin-top: 0.6rem; text-align: center; }
+
+  .key { display: grid; gap: 0.5rem; }
+  .key h2 { margin-bottom: 0.4rem; }
+  .key > p { color: #3c4c43; margin-bottom: 0.7rem; }
+  .key-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-family: var(--body);
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .key-row:hover, .key-row.is-active { background: var(--ivory); border-color: var(--green-soft); }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid var(--green-ink); }
+  .sw-bone { background: #e9e2ce; }
+  .sw-lig { background: var(--gold); }
+  .sw-cart { background: var(--sage); }
+  .key-row b { font-weight: 600; }
+  .key-row small { color: #55665c; font-size: 0.85rem; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--sage);
+    border-radius: 16px;
+    padding: 1.5rem 1.6rem;
+    scroll-margin-top: 100px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card.is-active { border-left-color: var(--gold); box-shadow: 0 0 0 2px rgba(181, 143, 71, 0.35); }
+  .card .tag {
+    font-family: var(--body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .card h3 { margin: 0.3rem 0 0.5rem; }
+  .card .role { font-size: 0.97rem; color: #3c4c43; }
+  .card .sub {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 1.1rem 0 0.6rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+  .card ul { list-style: none; display: grid; gap: 0.5rem; }
+  .card li { position: relative; padding-left: 1.1rem; font-size: 0.95rem; }
+  .card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .card li b { font-weight: 600; color: var(--green-ink); }
+
+  /* Red flags */
+  .flags { background: var(--green-deep); color: var(--ivory); }
+  .flags h2 { color: var(--gold-pale); }
+  .flags > .wrap > p { color: rgba(250,247,239,0.85); max-width: 44em; margin-top: 0.8rem; }
+  .flag-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; margin-top: 1.6rem; }
+  .flag-list li {
+    border: 1px solid rgba(230, 213, 172, 0.3);
+    border-radius: 16px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.95rem;
+    color: rgba(250,247,239,0.9);
+  }
+
+  /* Closing call to action */
+  .a-cta { text-align: center; }
+  .a-cta p { max-width: 34em; margin: 0.8rem auto 1.6rem; color: #3c4c43; }
+
+  /* Diagram parts */
+  .anat [data-part] { cursor: pointer; }
+  .anat .bone { fill: #e9e2ce; stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .lig { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke 0.2s, stroke-width 0.2s; }
+  .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
+  .anat .patella { fill: rgba(233, 226, 206, 0.72); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .lead { stroke: rgba(22, 56, 45, 0.32); stroke-width: 1; }
+  .anat .lbl { font-family: var(--body); font-size: 13px; font-weight: 600; fill: #3c4c43; transition: fill 0.2s; }
+  .anat [data-part]:hover .bone, .anat [data-part].is-active .bone { fill: #cfdbd0; }
+  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: rgba(207, 219, 208, 0.85); }
+  .anat [data-part]:hover .lig, .anat [data-part].is-active .lig { stroke: var(--green-soft); stroke-width: 11; }
+  .anat [data-part]:hover .cart, .anat [data-part].is-active .cart { fill: var(--green-soft); }
+  .anat [data-part]:hover .lbl, .anat [data-part].is-active .lbl { fill: var(--green-ink); font-weight: 700; }
+
+  /* Responsive */
+  @media (max-width: 860px) {
+    .map-grid { grid-template-columns: 1fr; }
+    .map-figure { max-width: 420px; margin-inline: auto; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="index.html">My<span>Knee</span>Score</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#meaning">Your score</a></li>
+        <li><a href="index.html#track">Track progress</a></li>
+        <li><a href="anatomy.html" aria-current="page">Knee anatomy</a></li>
+        <li><a class="start-link" href="index.html#quiz">Start the test</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="a-hero">
+    <div class="wrap">
+      <p class="eyebrow">Know your knee</p>
+      <h1>Four bones, four ligaments, <em>two kinds of cartilage.</em></h1>
+      <p class="lede">The knee is a hinge that also rotates. That is why it is easy to injure. Each structure below, what it does, and what goes wrong with it.</p>
+    </div>
+  </section>
+
+  <!-- Jump bar -->
+  <div class="jump">
+    <div class="wrap jump-inner">
+      <a href="#diagram">Diagram</a>
+      <a href="#bones">Bones</a>
+      <a href="#ligaments">Ligaments</a>
+      <a href="#cartilage">Cartilage</a>
+      <a href="#urgent">When to seek help</a>
+    </div>
+  </div>
+
+  <!-- Diagram -->
+  <section class="block map" id="diagram">
+    <div class="wrap map-grid">
+
+      <figure class="map-figure">
+        <svg class="anat" viewBox="0 0 460 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Front view of the knee showing femur, patella, tibia, fibula, four ligaments and the menisci">
+
+          <g data-part="femur" tabindex="0" role="button" aria-label="Femur">
+            <path class="bone" d="M212,14 h36 c3,0 5,2 5,5 l4,132 c1,12 8,20 14,28 c8,11 11,22 11,34 c0,20 -14,32 -32,31 l-30,-1 c-18,1 -32,-11 -32,-31 c0,-12 3,-23 11,-34 c6,-8 13,-16 14,-28 l4,-132 c0,-3 2,-5 5,-5 z"/>
+            <path d="M225,220 c5,-9 15,-9 20,0 c-6,4 -14,4 -20,0 z" fill="#c8cfc4" stroke="#16382d" stroke-width="1"/>
+            <line class="lead" x1="336" y1="98" x2="266" y2="112"/>
+            <text class="lbl" x="342" y="102" text-anchor="start">Femur</text>
+          </g>
+
+          <g data-part="tibia" tabindex="0" role="button" aria-label="Tibia">
+            <path class="bone" d="M182,268 c0,-8 6,-13 14,-13 h68 c8,0 14,5 14,13 l-8,44 l-14,130 h-52 l-14,-130 z"/>
+            <line class="lead" x1="150" y1="366" x2="196" y2="360"/>
+            <text class="lbl" x="144" y="370" text-anchor="end">Tibia</text>
+          </g>
+
+          <g data-part="fibula" tabindex="0" role="button" aria-label="Fibula">
+            <path class="bone" d="M286,278 c7,0 11,5 10,12 l-10,152 h-14 l8,-152 c0,-7 -1,-12 6,-12 z"/>
+            <line class="lead" x1="336" y1="372" x2="292" y2="366"/>
+            <text class="lbl" x="342" y="376" text-anchor="start">Fibula</text>
+          </g>
+
+          <g data-part="meniscus" tabindex="0" role="button" aria-label="Menisci">
+            <path class="cart" d="M190,258 c10,-8 34,-10 44,-2 c-10,7 -34,9 -44,2 z"/>
+            <path class="cart" d="M240,256 c10,-8 34,-6 44,2 c-10,7 -34,5 -44,-2 z"/>
+            <line class="lead" x1="150" y1="248" x2="196" y2="258"/>
+            <text class="lbl" x="144" y="252" text-anchor="end">Meniscus</text>
+          </g>
+
+          <g data-part="cruciate" tabindex="0" role="button" aria-label="Cruciate ligaments">
+            <path class="lig" d="M248,204 C242,222 234,240 226,256"/>
+            <path class="lig" d="M224,204 C232,222 240,240 248,256"/>
+            <line class="lead" x1="336" y1="212" x2="258" y2="226"/>
+            <text class="lbl" x="342" y="216" text-anchor="start">ACL and PCL</text>
+          </g>
+
+          <g data-part="patella" tabindex="0" role="button" aria-label="Patella">
+            <ellipse class="patella" cx="236" cy="202" rx="27" ry="35"/>
+            <line class="lead" x1="150" y1="182" x2="210" y2="194"/>
+            <text class="lbl" x="144" y="186" text-anchor="end">Patella</text>
+          </g>
+
+          <g data-part="mcl" tabindex="0" role="button" aria-label="Medial collateral ligament">
+            <path class="lig" d="M190,186 C180,216 180,250 188,292"/>
+            <line class="lead" x1="150" y1="306" x2="188" y2="292"/>
+            <text class="lbl" x="144" y="310" text-anchor="end">MCL</text>
+          </g>
+
+          <g data-part="lcl" tabindex="0" role="button" aria-label="Lateral collateral ligament">
+            <path class="lig" d="M278,186 C288,212 290,240 286,280"/>
+            <line class="lead" x1="336" y1="290" x2="288" y2="280"/>
+            <text class="lbl" x="342" y="294" text-anchor="start">LCL</text>
+          </g>
+
+        </svg>
+        <figcaption class="map-note">Front view of the knee. Not to scale.</figcaption>
+      </figure>
+
+      <div class="key">
+        <p class="eyebrow">The key</p>
+        <h2>Start with the map</h2>
+        <p>Select a structure to jump to it. Bones are cream, ligaments gold, cartilage green.</p>
+
+        <button class="key-row" type="button" data-part="femur"><span class="swatch sw-bone"></span><span><b>Femur</b> <small>thigh bone, top of the joint</small></span></button>
+        <button class="key-row" type="button" data-part="tibia"><span class="swatch sw-bone"></span><span><b>Tibia</b> <small>shin bone, carries the load</small></span></button>
+        <button class="key-row" type="button" data-part="patella"><span class="swatch sw-bone"></span><span><b>Patella</b> <small>kneecap, sits in a groove</small></span></button>
+        <button class="key-row" type="button" data-part="fibula"><span class="swatch sw-bone"></span><span><b>Fibula</b> <small>outer bone, anchor point</small></span></button>
+        <button class="key-row" type="button" data-part="cruciate"><span class="swatch sw-lig"></span><span><b>ACL and PCL</b> <small>front to back control</small></span></button>
+        <button class="key-row" type="button" data-part="mcl"><span class="swatch sw-lig"></span><span><b>MCL</b> <small>inner side stability</small></span></button>
+        <button class="key-row" type="button" data-part="lcl"><span class="swatch sw-lig"></span><span><b>LCL</b> <small>outer side stability</small></span></button>
+        <button class="key-row" type="button" data-part="meniscus"><span class="swatch sw-cart"></span><span><b>Meniscus</b> <small>shock absorbing wedges</small></span></button>
+        <button class="key-row" type="button" data-part="articular"><span class="swatch sw-cart"></span><span><b>Articular cartilage</b> <small>the sliding surface</small></span></button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Bones -->
+  <section class="block" id="bones">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Structure one</p>
+        <h2>Bones</h2>
+        <p>Four bones meet at or near the knee. Femur and tibia form the joint. The patella glides across the front. The fibula anchors soft tissue on the outside.</p>
+      </div>
+
+      <div class="cards">
+
+        <article class="card" id="p-femur" data-part="femur">
+          <p class="tag">Bone</p>
+          <h3>Femur</h3>
+          <p class="role">Thigh bone. Its lower end forms the top half of the joint.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Fracture.</b> High force injury when young. Low force fall when bone is thin.</li>
+            <li><b>Osteochondritis dissecans.</b> A fragment of bone and cartilage loses blood supply and loosens. Mostly teenagers.</li>
+            <li><b>Osteonecrosis.</b> Sudden inner side pain, often at night.</li>
+            <li><b>Bone bruising.</b> Deep swelling after impact. Settles over weeks.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-tibia" data-part="tibia">
+          <p class="tag">Bone</p>
+          <h3>Tibia</h3>
+          <p class="role">Shin bone. Its flat top, the tibial plateau, carries your body weight.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Plateau fracture.</b> The top surface splits or crushes. Usually needs fixing.</li>
+            <li><b>Stress fracture.</b> Hairline crack from repeated loading. Common when mileage climbs fast.</li>
+            <li><b>Osgood-Schlatter disease.</b> Painful bump below the kneecap in growing teenagers.</li>
+            <li><b>Bone marrow lesions.</b> Swollen bone under worn cartilage. A common source of arthritis pain.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-patella" data-part="patella">
+          <p class="tag">Bone</p>
+          <h3>Patella</h3>
+          <p class="role">Kneecap. Runs in a groove on the femur and levers the thigh muscle.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Dislocation.</b> Slips to the outside. Often relocates as the knee straightens.</li>
+            <li><b>Maltracking.</b> Runs off centre. Pain on stairs and after sitting.</li>
+            <li><b>Fracture.</b> Direct fall onto the front of the knee.</li>
+            <li><b>Chondromalacia.</b> Softened cartilage behind the kneecap. Grinding and aching.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-fibula" data-part="fibula">
+          <p class="tag">Bone</p>
+          <h3>Fibula</h3>
+          <p class="role">Slim outer bone. Carries little weight. Anchors the LCL and a hamstring tendon.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Head fracture.</b> Usually alongside serious ligament damage on the outer side.</li>
+            <li><b>Nerve injury.</b> The peroneal nerve wraps the bone. Numbness or a dropped foot.</li>
+            <li><b>Stress fracture.</b> Uncommon. Linked to repetitive impact sport.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Ligaments -->
+  <section class="block" id="ligaments">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Structure two</p>
+        <h2>Ligaments</h2>
+        <p>Ligaments join bone to bone. Four control the knee: two cross inside the joint, two sit on either side. Injuries grade one to three. Stretched, partly torn, fully torn.</p>
+      </div>
+
+      <div class="cards">
+
+        <article class="card" id="p-cruciate" data-part="cruciate">
+          <p class="tag">Ligament</p>
+          <h3>Anterior cruciate (ACL)</h3>
+          <p class="role">Crosses the centre of the joint. Stops the tibia sliding forwards and controls twisting.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Cause.</b> A pivot, a sudden stop, an awkward landing.</li>
+            <li><b>The pop.</b> Many people hear or feel one at the moment of injury.</li>
+            <li><b>Swelling.</b> The joint fills with blood within hours.</li>
+            <li><b>Giving way.</b> Instability on turning, weeks later.</li>
+            <li><b>Rarely alone.</b> Meniscal tears and bone bruising often happen with it.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-pcl" data-part="cruciate">
+          <p class="tag">Ligament</p>
+          <h3>Posterior cruciate (PCL)</h3>
+          <p class="role">The thicker central ligament. Stops the tibia sliding backwards.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Cause.</b> A blow to the front of the bent knee. Dashboards, or falling onto the knee.</li>
+            <li><b>Easy to miss.</b> Aching and stiffness rather than clear instability.</li>
+            <li><b>Late effect.</b> Long standing laxity loads the front of the knee.</li>
+            <li><b>Outlook.</b> Isolated tears usually do well without surgery.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-mcl" data-part="mcl">
+          <p class="tag">Ligament</p>
+          <h3>Medial collateral (MCL)</h3>
+          <p class="role">Broad band on the inner side. Resists forces pushing the knee inwards.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Cause.</b> A blow to the outside of the knee, or a caught ski edge.</li>
+            <li><b>Pain site.</b> Along the inner line, not deep in the joint.</li>
+            <li><b>Healing.</b> Good blood supply. A brace and physiotherapy are usually enough.</li>
+            <li><b>Risk.</b> Scarring limits bending if movement starts too late.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-lcl" data-part="lcl">
+          <p class="tag">Ligament</p>
+          <h3>Lateral collateral (LCL)</h3>
+          <p class="role">Cord on the outer side, femur to fibula. Resists forces pushing the knee outwards.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Cause.</b> A blow to the inner side. Less common than MCL injury.</li>
+            <li><b>Rarely alone.</b> Often part of wider posterolateral corner damage.</li>
+            <li><b>Nerve symptoms.</b> Numbness or a dropped foot, from the peroneal nerve nearby.</li>
+            <li><b>Untreated.</b> The knee opens up on uneven ground.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Cartilage -->
+  <section class="block" id="cartilage">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Structure three</p>
+        <h2>Cartilage</h2>
+        <p>Two types. Articular cartilage coats the bone ends. The menisci are separate wedges between them. Neither has much blood supply, so both heal slowly.</p>
+      </div>
+
+      <div class="cards">
+
+        <article class="card" id="p-articular" data-part="articular">
+          <p class="tag">Cartilage</p>
+          <h3>Articular cartilage</h3>
+          <p class="role">A few millimetres thick, covering the femur, tibia and back of the patella. Near frictionless.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Osteoarthritis.</b> Gradual thinning. Stiffness, aching, less movement.</li>
+            <li><b>Focal defect.</b> A single pothole, often after injury. Catching and swelling.</li>
+            <li><b>No repair.</b> There is no blood supply, so damage does not heal.</li>
+            <li><b>Silent early.</b> No nerve supply either, so first losses go unnoticed.</li>
+            <li><b>Crepitus.</b> Grating as roughened surfaces pass over each other.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p-meniscus" data-part="meniscus">
+          <p class="tag">Cartilage</p>
+          <h3>Meniscus</h3>
+          <p class="role">Two C-shaped wedges of fibrocartilage. They spread load, absorb shock and add stability.</p>
+          <p class="sub">What can go wrong</p>
+          <ul>
+            <li><b>Acute tear.</b> A twist on a planted foot. Joint line pain, clicking, swelling over a day.</li>
+            <li><b>Degenerate tear.</b> Wear related splitting after about forty. Often no injury at all.</li>
+            <li><b>Locking.</b> A displaced flap blocks full straightening. Needs prompt assessment.</li>
+            <li><b>Root tear.</b> Detaches at its anchor and slips out of the joint. Speeds up arthritis.</li>
+            <li><b>Repair odds.</b> Only the outer third has blood supply and can be stitched.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Red flags -->
+  <section class="block flags" id="urgent">
+    <div class="wrap">
+      <p class="eyebrow">Do not wait</p>
+      <h2>When to seek help the same day</h2>
+      <p>Most knee pain can wait. These signs cannot.</p>
+      <ul class="flag-list">
+        <li>Hot, red and swollen, with or without a fever.</li>
+        <li>You cannot put weight through the leg.</li>
+        <li>The knee is locked and will not straighten.</li>
+        <li>The leg looks bent or out of line after a fall.</li>
+        <li>It swelled within an hour of an injury.</li>
+        <li>Numbness, pins and needles, or a cold foot.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Closing call to action -->
+  <section class="block a-cta">
+    <div class="wrap">
+      <h2>Put a number on your knee</h2>
+      <p>Anatomy tells you what is there. The test tells you how well it works, and what to do next.</p>
+      <a class="btn btn-gold" href="index.html#quiz">Start the test</a>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <div class="wrap">
+      <strong>Important.</strong> General education, not a diagnosis. Knee problems often involve more than one structure, and symptoms overlap. See a doctor or physiotherapist about your own knee.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>&copy; 2026 mykneescore.com</p>
+    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var parts = document.querySelectorAll("[data-part]");
+
+    function setActive(name, on) {
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].getAttribute("data-part") === name) {
+          parts[i].classList.toggle("is-active", on);
+        }
+      }
+    }
+
+    function goTo(name) {
+      var target = document.getElementById("p-" + name);
+      if (!target) { return; }
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      setActive(name, true);
+      window.setTimeout(function () { setActive(name, false); }, 2200);
+    }
+
+    for (var i = 0; i < parts.length; i++) {
+      (function (el) {
+        var name = el.getAttribute("data-part");
+        var isTrigger = el.tagName.toLowerCase() === "g" || el.classList.contains("key-row");
+
+        el.addEventListener("mouseenter", function () { setActive(name, true); });
+        el.addEventListener("mouseleave", function () { setActive(name, false); });
+        el.addEventListener("focus", function () { setActive(name, true); });
+        el.addEventListener("blur", function () { setActive(name, false); });
+
+        if (isTrigger) {
+          el.addEventListener("click", function () { goTo(name); });
+          el.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goTo(name); }
+          });
+        }
+      })(parts[i]);
+    }
+  })();
+</script>
+
+</body>
+</html>
