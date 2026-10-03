@@ -14,7 +14,10 @@ const SITE = path.resolve(HERE, "../..");
 const OUT = path.join(SITE, "advanced");
 
 // Held back until licence permission is in place
-const EXCLUDED = { oks: "Oxford Knee Score: awaiting licence permission" };
+const EXCLUDED = {
+  oks: "Oxford Knee Score",
+  womac: "WOMAC",
+};
 
 // Scores with their own dedicated calculator on the research site (Tools page)
 const DEDICATED = { sk11: "sk11", pk7: "pk7" };
@@ -174,7 +177,7 @@ ${header(true)}
       <div class="score-grid">
         ${own.map(card).join("\n        ")}
       </div>
-      <p class="coming">Coming soon: ${Object.values(EXCLUDED).map(esc).join(". ")}.</p>
+      <p class="coming">Coming soon, once licence permission is in place: ${Object.values(EXCLUDED).map(esc).join(" and ")}.</p>
     </div>
   </section>
 </main>
@@ -292,6 +295,12 @@ function quizShell(s) {
     </div>
   </div>
 </div>`;
+}
+
+// Remove pages for scores that are no longer published (e.g. newly excluded)
+const keep = new Set(["index.html", ...scores.map(s => `${s.slug}.html`)]);
+for (const f of fs.readdirSync(OUT)) {
+  if (f.endsWith(".html") && !keep.has(f)) fs.unlinkSync(path.join(OUT, f));
 }
 
 for (const s of scores) {
