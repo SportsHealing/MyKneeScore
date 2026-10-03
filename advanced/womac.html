@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WOMAC | Western Ontario and McMaster Universities Osteoarthritis Index | My Knee Score</title>
+<meta name="description" content="Take the Western Ontario and McMaster Universities Osteoarthritis Index (WOMAC) online. 24 questions, 8-12 min. Get your score instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/advanced.css">
+</head>
+<body data-score="womac">
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="../index.html">My<span>Knee</span>Score</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="../index.html#how">How it works</a></li>
+        <li><a href="../index.html#meaning">Your score</a></li>
+        <li><a href="../anatomy.html">Knee anatomy</a></li>
+        <li><a href="index.html">Advanced scores</a></li>
+        <li><a class="start-link" href="../index.html#quiz">Start the test</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="top">
+  <section class="hero hero-slim">
+    <div class="wrap">
+      <p class="eyebrow"><a href="index.html">Advanced scores</a> &middot; Osteoarthritis</p>
+      <h1>Western Ontario and McMaster Universities Osteoarthritis Index <em>(WOMAC)</em></h1>
+      <p class="lede">The most widely used osteoarthritis-specific outcome measure worldwide. Validated for hip and knee OA. Gold standard for OA research.</p>
+      <ul class="facts">
+        <li><b>24</b> questions</li>
+        <li><b>8-12 min</b></li>
+        <li>Score <b>0 to 96, lower is better</b></li>
+        <li><b>Gold Standard</b></li>
+      </ul>
+      
+      <div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the WOMAC</button><a class="btn btn-ghost" href="index.html">All scores</a></div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="wrap about-grid">
+      <div>
+        <h2>About the WOMAC</h2>
+        <h3>Who it is for</h3>
+        <p>Patients with hip or knee osteoarthritis, including those undergoing arthroplasty. Standard for OA clinical trials.</p>
+        <h3>What it measures</h3>
+        <p>Three subscales assess pain during activities, joint stiffness, and difficulty with physical functions. Specific to lower limb OA.</p>
+        <h3>Sections</h3><ul class="ticks"><li>Pain (5 items)</li><li>Stiffness (2 items)</li><li>Physical Function (17 items)</li></ul>
+        <h3>Reading your score</h3>
+        <p>Higher scores indicate worse symptoms. Can be normalized to 0-100. Subscales reported separately or as aggregate.</p>
+      </div>
+      <aside class="side-card">
+        <p class="eyebrow">Strengths</p>
+        <ul class="ticks"><li>Gold standard for OA research</li><li>Extensively validated worldwide</li><li>Accepted by regulatory agencies</li><li>Subscale and total scoring options</li></ul>
+        <p class="eyebrow">Limitations</p>
+        <ul class="ticks"><li>License required for use</li><li>Less responsive in young active patients</li><li>Not validated for acute injuries</li><li>Hip/knee combined - not knee-specific</li></ul>
+        <p class="eyebrow">Source</p>
+        <p class="cite">Bellamy N, et al. Validation study of WOMAC: a health status instrument for measuring clinically important patient relevant outcomes. J Rheumatol. 1988;15(12):1833-1840. <a href="https://pubmed.ncbi.nlm.nih.gov/3068365/" rel="noopener" target="_blank">PubMed</a></p>
+        <p class="cite">Licence: License Required. License from WOMAC.org. Academic and commercial licenses available.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+<div class="disclaimer">
+  <div class="wrap">
+    <strong>Important.</strong> These questionnaires are provided for education and self-tracking. A score is not a diagnosis and does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
+  </div>
+</div>
+<footer>
+  <div class="wrap foot">
+    <p>&copy; 2026 mykneescore.com</p>
+    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+  </div>
+</footer>
+<div class="quiz-app" id="quizApp" role="dialog" aria-modal="true" aria-label="WOMAC questionnaire" hidden>
+  <div class="quiz-topbar">
+    <div class="wrap quiz-topbar-inner">
+      <button type="button" class="quiz-exit" id="quizExit" aria-label="Close the questionnaire">Exit</button>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-meta" id="progressMeta" aria-live="polite"></p>
+    </div>
+  </div>
+  <div class="q-stage">
+    <div class="wrap narrow">
+      <div id="quizBody"></div>
+      <div class="q-nav" id="quizNav">
+        <button type="button" class="btn btn-ghost-green" id="backBtn">Back</button>
+        <button type="button" class="btn btn-green" id="nextBtn">Next</button>
+      </div>
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/scores-data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
