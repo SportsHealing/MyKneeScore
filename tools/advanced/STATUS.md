@@ -4,7 +4,7 @@ Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
 
 ## Current state
 - Built on branch `claude/awesome-dijkstra-ykvxd2` of `SportsHealing/MyKneeScore`.
-- Preview approved by the user. Branch pushed to GitHub and a pull request opened (see progress log).
+- Preview approved by the user. Branch pushed. Pull request: https://github.com/SportsHealing/MyKneeScore/pull/2
 - Not live until the pull request is merged into `main`.
 - Every parity and browser test passes (details below).
 
@@ -91,4 +91,4 @@ Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
 - 2026-10-03: Generator, hub page, 21 score pages, styling and UI built. Nav and footer links added to `index.html` and `anatomy.html`.
 - 2026-10-03: Mobile fixes (header, 0 to 10 scale on one row, compact sticky live score). Browser test 69/69.
 - 2026-10-03: Committed locally on branch (commit c8dce89). Private preview published: https://claude.ai/artifact/LVbUH6nyz8XrjYhZY51FwJ (links back to the main site do not work inside the preview). Waiting for approval to push.
-- 2026-10-03: User decisions: WOMAC held back, SK11/PK7 dedicated engines confirmed, preview approved. WOMAC removed (now 20 pages, 17 on the hub). Parity 28/28, browser 69/69 rerun. Pushed and pull request opened.
+- 2026-10-03: User decisions: WOMAC held back, SK11/PK7 dedicated engines confirmed, preview approved. WOMAC removed (now 20 pages, 17 on the hub). Parity 28/28, browser 69/69 rerun. Pushed and pull request opened: https://github.com/SportsHealing/MyKneeScore/pull/2
