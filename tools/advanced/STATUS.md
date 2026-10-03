@@ -83,4 +83,4 @@ Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
 - 2026-10-03: Engine ported. Parity test written and passing (28/28). Mutation check done.
 - 2026-10-03: Generator, hub page, 21 score pages, styling and UI built. Nav and footer links added to `index.html` and `anatomy.html`.
 - 2026-10-03: Mobile fixes (header, 0 to 10 scale on one row, compact sticky live score). Browser test 69/69.
-- 2026-10-03: Committed locally on branch. Preview shared with the user. Waiting for approval to push.
+- 2026-10-03: Committed locally on branch (commit c8dce89). Private preview published: https://claude.ai/artifact/LVbUH6nyz8XrjYhZY51FwJ (links back to the main site do not work inside the preview). Waiting for approval to push.
