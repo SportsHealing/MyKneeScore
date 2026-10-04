@@ -1,11 +1,13 @@
 # MyKneeScore "Advanced" section: project status
 
-Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
+Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
 ## Current state
 - Built on branch `claude/awesome-dijkstra-ykvxd2` of `SportsHealing/MyKneeScore`.
-- Preview approved by the user. Branch pushed. Pull request: https://github.com/SportsHealing/MyKneeScore/pull/2
-- Not live until the pull request is merged into `main`.
+- Preview approved by the user. Pull request: https://github.com/SportsHealing/MyKneeScore/pull/2
+- 2026-10-04: user asked for the section on the live site, "tucked away for now". PR merged into `main`, so the section is live at https://mykneescore.com/advanced/
+- "Tucked away" means: the only ways in are the "Advanced scores" tab in the top menu and a small footer link. Nothing on the home page promotes it. On phones the top menu shows only "Start the test" (existing site behaviour), so the tab is not visible there; the footer link still is.
+- The live site deploys from the `main` branch. A pushed branch is not live until it is merged.
 - Every parity and browser test passes (details below).
 
 ## Goal
@@ -78,12 +80,14 @@ Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
 - The PK7 "Pain" and "Disturbed sleep" items are labelled "0 = worst, 10 = best", as in the original.
 
 ## Open questions for the user
-- None at present. Next step is reviewing and merging the pull request.
+- Keep the footer link, or make the top tab the only way in?
+- Should the tab also show on phones?
 
 ## Resolved decisions
 - WOMAC: hold back until licensed (2026-10-03).
 - **SK11/PK7: keep the dedicated weighted engines (2026-10-03).**
 - Preview approved. Push and open a PR (2026-10-03).
+- Put the section live, tucked away behind the "Advanced scores" tab (2026-10-04).
 
 ## Progress log
 - 2026-10-03: Chat renamed. Both repos surveyed. Decisions recorded.
@@ -92,3 +96,4 @@ Last updated: 2026-10-03 (chat "Kneescore - advanced scores")
 - 2026-10-03: Mobile fixes (header, 0 to 10 scale on one row, compact sticky live score). Browser test 69/69.
 - 2026-10-03: Committed locally on branch (commit c8dce89). Private preview published: https://claude.ai/artifact/LVbUH6nyz8XrjYhZY51FwJ (links back to the main site do not work inside the preview). Waiting for approval to push.
 - 2026-10-03: User decisions: WOMAC held back, SK11/PK7 dedicated engines confirmed, preview approved. WOMAC removed (now 20 pages, 17 on the hub). Parity 28/28, browser 69/69 rerun. Pushed and pull request opened: https://github.com/SportsHealing/MyKneeScore/pull/2
+- 2026-10-04: User could not see the section on mykneescore.com because the PR was not merged yet. Merged latest `main` (a `/preview/` refresh, no overlap) into the branch, then merged PR #2 into `main` to put it live.
