@@ -63,8 +63,32 @@ header {
 .nav ul a:hover, .nav ul a[aria-current="page"] { border-color: var(--gold); }
 .nav .start-link { color: var(--green-deep); background: var(--gold-pale); padding: 0.45rem 1rem; border-radius: 999px; font-weight: 600; border-bottom: none; }
 .nav .start-link:hover { background: #fff; }
+@media (max-width: 1100px) {
+  .wordmark { font-size: 1.35rem; }
+  .nav ul { gap: clamp(0.6rem, 1.6vw, 1.1rem); }
+  .nav ul a { font-size: 0.95rem; white-space: nowrap; }
+  .nav .start-link { padding: 0.4rem 0.85rem; }
+}
 @media (max-width: 700px) {
-  .nav ul li:not(:last-child) { display: none; }
+  .nav ul li:not(:last-child):not(.nav-adv) { display: none; }
+  .nav ul { gap: 0.9rem; }
+  .nav .nav-long { display: none; }
+}
+@media (max-width: 700px) {
+  .nav ul a { white-space: nowrap; }
+}
+@media (max-width: 440px) {
+  .nav { gap: 0.6rem; }
+  .wordmark { font-size: 1.25rem; }
+  .nav ul { gap: 0.7rem; }
+  .nav ul a { font-size: 0.95rem; }
+  .nav .start-link { padding: 0.4rem 0.75rem; }
+}
+@media (max-width: 350px) {
+  .wordmark { font-size: 1.1rem; }
+  .nav ul { gap: 0.5rem; }
+  .nav ul a { font-size: 0.88rem; }
+  .nav .start-link { padding: 0.35rem 0.6rem; }
 }
 
 /* Buttons */
