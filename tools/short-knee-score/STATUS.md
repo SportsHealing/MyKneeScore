@@ -65,6 +65,22 @@ Each is a candidate for Dr Gupte to confirm or overturn.
 - **Result breakdown.** Ten bars, one per question. The previous seven
   category grouping no longer maps.
 
+## Automated checks
+Run on every push by `.github/workflows/checks.yml`. Before 2026-10-04 all of
+these existed and were run by hand, which meant they were run when somebody
+remembered.
+
+| Check | What it does |
+|---|---|
+| `tools/checks/house-style.py` | 8 checks. Each encodes a rule this repo has actually broken, named in the source. Mutation tested: 8 deliberate breakages, 8 caught, 0 missed. |
+| `tools/short-knee-score/verify-scoring.js` | Enumerates all 9,765,625 answer sets and compares the page against the sheet's arithmetic. Reads the weights out of `index.html`, so it cannot drift from what ships. Runs in under two seconds. |
+| `tools/advanced/e2e.cjs` | The Advanced section in a browser. 69 checks. |
+
+Not automated: `tools/advanced/run-parity.sh`. It needs a checkout of the
+private `SportsHealing/kneescore-research`, so it cannot run from a public
+repo's CI without a deploy key. Run it by hand after any change to
+`advanced/assets/engine.js` or `advanced/assets/scores-data.js`.
+
 ## Verification
 - Scoring checked against the spreadsheet arithmetic across **all 9,765,625
   possible answer sets. Zero mismatches.**
@@ -78,6 +94,9 @@ Each is a candidate for Dr Gupte to confirm or overturn.
 - Worked examples: all best 100, all second 75, all middle 50, all worst 0.
 - The colour token refactor was proved **pixel identical** across eight full
   page screenshots before being accepted.
+- The Advanced section's parity test was run against the research repo at
+  commit `553ba40` on 2026-10-04: **28 tests, 28 passed**. This confirms the
+  Short Knee Score deploy did not disturb the Advanced scoring.
 
 ## Questions for Dr Gupte
 Open. None of these block the deploy, but all affect what users are told.
@@ -109,7 +128,6 @@ Open. None of these block the deploy, but all affect what users are told.
    the user at a relevant validated score?
 
 ## Open questions for the user
-- Should `/preview/` be removed once the home page carries the same content?
 - Should the scoring weights be considered confidential? They run in the
   browser, so they are readable in page source by anyone. There is no way to
   hide them on a static site.
@@ -128,6 +146,10 @@ Open. None of these block the deploy, but all affect what users are told.
   `anatomy.html`, `preview/index.html` and `advanced/assets/advanced.css`, and
   the fourth has already diverged in naming. An architecture brief proposing a
   single shared file was written for Dinis on 2026-10-03.
+- **No markdown twin.** coding.sgit.ai publishes one at every URL so an agent
+  never has to parse HTML. Its mechanism is a Lambda@Edge function. On GitHub
+  Pages a hand written twin would drift, which by the same site's staleness
+  argument is worse than not having one. Deliberately not done.
 - **This file is public**, at github.com and at
   https://mykneescore.com/tools/short-knee-score/STATUS.md, as is the Advanced
   section's status doc. Excluding `tools/` from the published site would need
@@ -151,3 +173,9 @@ Open. None of these block the deploy, but all affect what users are told.
   branch, keeping both the Advanced nav and footer links and this branch's
   version stamp. `llms.txt` updated to describe the Advanced section. No
   Advanced file was touched; all verified byte identical to `main`.
+- 2026-10-04: Deployed. The home page now serves the Short Knee Score. Live
+  files verified byte identical to the tested files. Advanced parity test run
+  for real (28/28) once the research repo was attached. `/preview/` removed,
+  because it went stale the moment the home page shipped and was a public page
+  showing an out of date questionnaire. CI added: house style, scoring and the
+  Advanced browser test now run on every push.

@@ -1,0 +1,61 @@
+# Checks for mykneescore.com.
+#
+# These all existed before this workflow did. They were run by hand, which
+# means they were run when somebody remembered. That is the gap this closes.
+#
+# Not run here: tools/advanced/run-parity.sh, which compares the Advanced
+# scoring engine against the original React components. It needs a checkout of
+# the private SportsHealing/kneescore-research repo, so it cannot run from a
+# public repo's CI without a deploy key. Run it by hand after any change to
+# advanced/assets/engine.js or advanced/assets/scores-data.js.
+
+name: checks
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  static:
+    name: house style and scoring
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: House style
+        run: python3 tools/checks/house-style.py
+
+      - name: Short Knee Score agrees with the scoring sheet
+        run: node tools/short-knee-score/verify-scoring.js
+
+  browser:
+    name: advanced section in a browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm install -g playwright@latest
+          npx --yes playwright@latest install --with-deps chromium
+
+      # Server and test in one step: a process backgrounded in an earlier
+      # step is not guaranteed to still be running in a later one.
+      - name: Serve the site and run the browser test
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          SERVER=$!
+          trap 'kill $SERVER 2>/dev/null || true' EXIT
+          up=0
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://localhost:8765/advanced/; then up=1; break; fi
+            sleep 1
+          done
+          if [ "$up" != "1" ]; then echo "server did not come up"; exit 1; fi
+          node tools/advanced/e2e.cjs
