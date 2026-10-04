@@ -22,6 +22,28 @@
     --line:       rgba(22, 56, 45, 0.16);
     --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
     --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+    /* Extended palette. Every colour used on the page is named here, so no
+       literal appears anywhere below. The RGB triplets exist so an alpha
+       variant does not need a second copy of the colour value. */
+    --white:            #fff;
+    --rust:             #8c4a2f;
+    --green-mist:       #a6c1b2;
+    --green-light:      #b6cdbf;
+    --bone:             #e9e2ce;
+    --bone-active:      #cfdbd0;
+    --bone-detail:      #c8cfc4;
+    --text-muted:       #45564c;
+    --text-muted-deep:  #3c4c43;
+    --text-soft:        #6b7a70;
+    --text-soft-deep:   #55665c;
+    --ivory-rgb:        250, 247, 239;
+    --gold-rgb:         181, 143, 71;
+    --gold-pale-rgb:    230, 213, 172;
+    --green-ink-rgb:    22, 56, 45;
+    --bone-rgb:         233, 226, 206;
+    --bone-active-rgb:  207, 219, 208;
+    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
+    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -72,7 +94,7 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
   }
   .nav {
     display: flex;
@@ -109,7 +131,7 @@
     font-weight: 600;
     border-bottom: none;
   }
-  .nav .start-link:hover { background: #fff; border-bottom: none; }
+  .nav .start-link:hover { background: var(--white); border-bottom: none; }
   @media (max-width: 1100px) {
     .wordmark { font-size: 1.35rem; }
     .nav ul { gap: clamp(0.6rem, 1.6vw, 1.1rem); }
@@ -118,6 +140,11 @@
   }
   @media (max-width: 860px) {
     .nav ul li:nth-child(3) { display: none; }
+  }
+  @media (max-width: 760px) {
+    .wordmark { font-size: 1.25rem; }
+    .nav ul { gap: 0.6rem; }
+    .nav ul a { font-size: 0.9rem; }
   }
   @media (max-width: 700px) {
     .nav ul li:not(:last-child):not(.nav-adv) { display: none; }
@@ -155,7 +182,7 @@
   .btn:active { transform: translateY(1px); }
   .btn-gold { background: var(--gold); color: var(--green-deep); }
   .btn-gold:hover { background: var(--gold-pale); }
-  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(250,247,239,0.45); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(var(--ivory-rgb), 0.45); }
   .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
   /* Disclaimer + footer */
   .disclaimer {
@@ -163,15 +190,16 @@
     border-block: 1px solid var(--line);
     padding: 2rem 0;
     font-size: 0.92rem;
-    color: #45564c;
+    color: var(--text-muted);
   }
   footer {
     background: var(--green-deep);
-    color: rgba(250,247,239,0.75);
+    color: rgba(var(--ivory-rgb), 0.75);
     padding: 2.2rem 0;
     font-size: 0.9rem;
   }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+  .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
 
   /* ---------- Anatomy page: additions only ---------- */
   html { scroll-padding-top: 90px; }
@@ -179,7 +207,7 @@
 
   /* Hero */
   .a-hero { background: var(--paper); border-bottom: 1px solid var(--line); padding: clamp(2.6rem, 6vw, 4.4rem) 0; }
-  .a-hero .lede { max-width: 40em; margin-top: 1rem; color: #3c4c43; }
+  .a-hero .lede { max-width: 40em; margin-top: 1rem; color: var(--text-muted-deep); }
   .a-hero h1 em { font-style: italic; color: var(--gold); }
 
   /* Jump bar */
@@ -201,7 +229,7 @@
   section.block { padding: clamp(2.6rem, 6vw, 4.2rem) 0; }
   section.block + section.block { border-top: 1px solid var(--line); }
   .block-head { max-width: 46em; margin-bottom: 2rem; }
-  .block-head p { margin-top: 0.7rem; color: #3c4c43; }
+  .block-head p { margin-top: 0.7rem; color: var(--text-muted-deep); }
 
   /* Diagram */
   .map { background: var(--paper); }
@@ -213,11 +241,11 @@
   }
   .map-figure { background: var(--ivory); border: 1px solid var(--line); border-radius: 16px; padding: 1rem; }
   .map-figure svg { width: 100%; height: auto; display: block; }
-  .map-note { font-size: 0.85rem; color: #55665c; margin-top: 0.6rem; text-align: center; }
+  .map-note { font-size: 0.85rem; color: var(--text-soft-deep); margin-top: 0.6rem; text-align: center; }
 
   .key { display: grid; gap: 0.5rem; }
   .key h2 { margin-bottom: 0.4rem; }
-  .key > p { color: #3c4c43; margin-bottom: 0.7rem; }
+  .key > p { color: var(--text-muted-deep); margin-bottom: 0.7rem; }
   .key-row {
     display: flex;
     align-items: center;
@@ -236,11 +264,11 @@
   }
   .key-row:hover, .key-row.is-active { background: var(--ivory); border-color: var(--green-soft); }
   .swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid var(--green-ink); }
-  .sw-bone { background: #e9e2ce; }
+  .sw-bone { background: var(--bone); }
   .sw-lig { background: var(--gold); }
   .sw-cart { background: var(--sage); }
   .key-row b { font-weight: 600; }
-  .key-row small { color: #55665c; font-size: 0.85rem; }
+  .key-row small { color: var(--text-soft-deep); font-size: 0.85rem; }
 
   /* Cards */
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
@@ -253,7 +281,7 @@
     scroll-margin-top: 100px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .card.is-active { border-left-color: var(--gold); box-shadow: 0 0 0 2px rgba(181, 143, 71, 0.35); }
+  .card.is-active { border-left-color: var(--gold); box-shadow: 0 0 0 2px rgba(var(--gold-rgb), 0.35); }
   .card .tag {
     font-family: var(--body);
     font-size: 0.7rem;
@@ -263,7 +291,7 @@
     color: var(--sage);
   }
   .card h3 { margin: 0.3rem 0 0.5rem; }
-  .card .role { font-size: 0.97rem; color: #3c4c43; }
+  .card .role { font-size: 0.97rem; color: var(--text-muted-deep); }
   .card .sub {
     font-family: var(--body);
     font-size: 0.78rem;
@@ -292,30 +320,31 @@
   /* Red flags */
   .flags { background: var(--green-deep); color: var(--ivory); }
   .flags h2 { color: var(--gold-pale); }
-  .flags > .wrap > p { color: rgba(250,247,239,0.85); max-width: 44em; margin-top: 0.8rem; }
+  .flags > .wrap > p { color: rgba(var(--ivory-rgb), 0.85); max-width: 44em; margin-top: 0.8rem; }
   .flag-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; margin-top: 1.6rem; }
   .flag-list li {
-    border: 1px solid rgba(230, 213, 172, 0.3);
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
     border-radius: 16px;
     padding: 0.9rem 1.1rem;
     font-size: 0.95rem;
-    color: rgba(250,247,239,0.9);
+    color: rgba(var(--ivory-rgb), 0.9);
   }
 
   /* Closing call to action */
   .a-cta { text-align: center; }
-  .a-cta p { max-width: 34em; margin: 0.8rem auto 1.6rem; color: #3c4c43; }
+  .a-cta p { max-width: 34em; margin: 0.8rem auto 1.6rem; color: var(--text-muted-deep); }
 
   /* Diagram parts */
   .anat [data-part] { cursor: pointer; }
-  .anat .bone { fill: #e9e2ce; stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .bone { fill: var(--bone); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
   .anat .lig { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke 0.2s, stroke-width 0.2s; }
   .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
-  .anat .patella { fill: rgba(233, 226, 206, 0.72); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
-  .anat .lead { stroke: rgba(22, 56, 45, 0.32); stroke-width: 1; }
-  .anat .lbl { font-family: var(--body); font-size: 13px; font-weight: 600; fill: #3c4c43; transition: fill 0.2s; }
-  .anat [data-part]:hover .bone, .anat [data-part].is-active .bone { fill: #cfdbd0; }
-  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: rgba(207, 219, 208, 0.85); }
+  .anat .patella { fill: rgba(var(--bone-rgb), 0.72); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .lead { stroke: rgba(var(--green-ink-rgb), 0.32); stroke-width: 1; }
+  .anat .bone-detail { fill: var(--bone-detail); stroke: var(--green-ink); stroke-width: 1; }
+  .anat .lbl { font-family: var(--body); font-size: 13px; font-weight: 600; fill: var(--text-muted-deep); transition: fill 0.2s; }
+  .anat [data-part]:hover .bone, .anat [data-part].is-active .bone { fill: var(--bone-active); }
+  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: rgba(var(--bone-active-rgb), 0.85); }
   .anat [data-part]:hover .lig, .anat [data-part].is-active .lig { stroke: var(--green-soft); stroke-width: 11; }
   .anat [data-part]:hover .cart, .anat [data-part].is-active .cart { fill: var(--green-soft); }
   .anat [data-part]:hover .lbl, .anat [data-part].is-active .lbl { fill: var(--green-ink); font-weight: 700; }
@@ -377,7 +406,7 @@
 
           <g data-part="femur" tabindex="0" role="button" aria-label="Femur">
             <path class="bone" d="M212,14 h36 c3,0 5,2 5,5 l4,132 c1,12 8,20 14,28 c8,11 11,22 11,34 c0,20 -14,32 -32,31 l-30,-1 c-18,1 -32,-11 -32,-31 c0,-12 3,-23 11,-34 c6,-8 13,-16 14,-28 l4,-132 c0,-3 2,-5 5,-5 z"/>
-            <path d="M225,220 c5,-9 15,-9 20,0 c-6,4 -14,4 -20,0 z" fill="#c8cfc4" stroke="#16382d" stroke-width="1"/>
+            <path class="bone-detail" d="M225,220 c5,-9 15,-9 20,0 c-6,4 -14,4 -20,0 z"/>
             <line class="lead" x1="336" y1="98" x2="266" y2="112"/>
             <text class="lbl" x="342" y="102" text-anchor="start">Femur</text>
           </g>
@@ -664,6 +693,7 @@
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
     <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p class="foot-version">Page updated 4 October 2026</p>
   </div>
 </footer>
 

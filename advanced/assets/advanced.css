@@ -69,6 +69,11 @@ header {
   .nav ul a { font-size: 0.95rem; white-space: nowrap; }
   .nav .start-link { padding: 0.4rem 0.85rem; }
 }
+@media (max-width: 760px) {
+  .wordmark { font-size: 1.25rem; }
+  .nav ul { gap: 0.6rem; }
+  .nav ul a { font-size: 0.9rem; }
+}
 @media (max-width: 700px) {
   .nav ul li:not(:last-child):not(.nav-adv) { display: none; }
   .nav ul { gap: 0.9rem; }

@@ -8,7 +8,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - 2026-10-04: user asked for the section on the live site, "tucked away for now". PR merged into `main`, so the section is live at https://mykneescore.com/advanced/
 - "Tucked away" means: the only ways in are the "Advanced scores" tab in the top menu and a small footer link. Nothing on the home page promotes it.
 - **2026-10-04 user decisions: keep the footer link; show the tab on phones too.**
-- Phone menu change (built and previewed, awaiting approval to push): on screens up to 700px the menu shows "Advanced" (short label) plus "Start the test". Between 701 and 860px "Track progress" is hidden on the home and anatomy pages so the menu fits on one line. Fonts and spacing tighten below 1100px. Checked one line at 13 widths from 320px to 1280px, no sideways scrolling.
+- Phone menu change (approved and put live 2026-10-04): on screens up to 700px the menu shows "Advanced" (short label) plus "Start the test". Between 701 and 860px "Track progress" is hidden on the home and anatomy pages so the menu fits on one line. Fonts and spacing tighten below 1100px. Checked one line at 13 widths from 320px to 1280px, no sideways scrolling.
 - The live site deploys from the `main` branch. A pushed branch is not live until it is merged.
 - Every parity and browser test passes (details below).
 
@@ -82,7 +82,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - The PK7 "Pain" and "Disturbed sleep" items are labelled "0 = worst, 10 = best", as in the original.
 
 ## Open questions for the user
-- Approve the phone menu preview (with correct fonts) so it can go live?
+- None at present.
 
 ## Resolved decisions
 - WOMAC: hold back until licensed (2026-10-03).
@@ -103,3 +103,5 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - 2026-10-04: User could not see the section on mykneescore.com because the PR was not merged yet. Merged latest `main` (a `/preview/` refresh, no overlap) into the branch, then merged PR #2 into `main` to put it live. Live check: all 28 site files on mykneescore.com are byte-identical to the tested files.
 - 2026-10-04: Branch restarted from `main`. Tab made visible on phones ("Advanced" short label), menu tightened for phones and tablets, pages rebuilt. Scoring files unchanged; browser test 69/69. Committed on branch, not pushed. Preview images sent for approval.
 - 2026-10-04: User saw a different font in the preview images. Cause: this sandbox cannot load Google Fonts, so screenshots used a fallback font. No font settings were changed. Previews re-taken with Cormorant Garamond and Hanken Grotesk fed in separately. Tip for future sessions: intercept fonts.googleapis.com and fonts.gstatic.com in Playwright and fetch them with curl, or screenshots will show the wrong font.
+- 2026-10-04: User approved the menu change. `main` had moved on (weighted Short Knee Score v2.0, sgit house rules, `llms.txt`, `tools/short-knee-score/STATUS.md`). Merged it into the branch. Conflicts in `index.html` and `anatomy.html` were next-door lines only; kept their `var(--white)` change and added the menu rules after it. The only remaining difference from their `main` is the menu change. Follows the house rules (no colour literals outside `:root`, no em dashes, UK spelling).
+- 2026-10-04: Found and fixed a 9px sideways scroll at 701 to 710px; added a 760px rule. Checked 13 widths x 3 pages with real fonts: one line, tab visible, no sideways scroll. Browser test 69/69. Merged to `main` via pull request.

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Knee Score | Measure your knee health in five minutes</title>
-<meta name="description" content="Answer twelve questions about your knee. Get a score out of 100, clear guidance on treatment, and a simple way to track your recovery over time.">
+<meta name="description" content="Answer ten questions about your knee. Get a score out of 100, clear guidance on treatment, and a simple way to track your recovery over time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,6 +22,28 @@
     --line:       rgba(22, 56, 45, 0.16);
     --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
     --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+    /* Extended palette. Every colour used on the page is named here, so no
+       literal appears anywhere below. The RGB triplets exist so an alpha
+       variant does not need a second copy of the colour value. */
+    --white:            #fff;
+    --rust:             #8c4a2f;
+    --green-mist:       #a6c1b2;
+    --green-light:      #b6cdbf;
+    --bone:             #e9e2ce;
+    --bone-active:      #cfdbd0;
+    --bone-detail:      #c8cfc4;
+    --text-muted:       #45564c;
+    --text-muted-deep:  #3c4c43;
+    --text-soft:        #6b7a70;
+    --text-soft-deep:   #55665c;
+    --ivory-rgb:        250, 247, 239;
+    --gold-rgb:         181, 143, 71;
+    --gold-pale-rgb:    230, 213, 172;
+    --green-ink-rgb:    22, 56, 45;
+    --bone-rgb:         233, 226, 206;
+    --bone-active-rgb:  207, 219, 208;
+    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
+    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -72,7 +94,7 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
   }
   .nav {
     display: flex;
@@ -109,7 +131,7 @@
     font-weight: 600;
     border-bottom: none;
   }
-  .nav .start-link:hover { background: #fff; border-bottom: none; }
+  .nav .start-link:hover { background: var(--white); border-bottom: none; }
   @media (max-width: 1100px) {
     .wordmark { font-size: 1.35rem; }
     .nav ul { gap: clamp(0.6rem, 1.6vw, 1.1rem); }
@@ -118,6 +140,11 @@
   }
   @media (max-width: 860px) {
     .nav ul li:nth-child(3) { display: none; }
+  }
+  @media (max-width: 760px) {
+    .wordmark { font-size: 1.25rem; }
+    .nav ul { gap: 0.6rem; }
+    .nav ul a { font-size: 0.9rem; }
   }
   @media (max-width: 700px) {
     .nav ul li:not(:last-child):not(.nav-adv) { display: none; }
@@ -144,7 +171,7 @@
   /* ---------- Hero ---------- */
   .hero {
     background:
-      radial-gradient(1100px 500px at 85% -10%, rgba(181, 143, 71, 0.15), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(var(--gold-rgb), 0.15), transparent 60%),
       var(--green-deep);
     color: var(--ivory);
     padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3.5rem, 8vw, 6rem);
@@ -161,7 +188,7 @@
     margin-top: 1.2rem;
     max-width: 34em;
     font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-    color: rgba(250, 247, 239, 0.88);
+    color: rgba(var(--ivory-rgb), 0.88);
   }
   .hero-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; }
   .btn {
@@ -179,14 +206,14 @@
   .btn:active { transform: translateY(1px); }
   .btn-gold { background: var(--gold); color: var(--green-deep); }
   .btn-gold:hover { background: var(--gold-pale); }
-  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(250,247,239,0.45); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(var(--ivory-rgb), 0.45); }
   .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
-  .hero-note { font-size: 0.88rem; color: rgba(250,247,239,0.6); margin-top: 1rem; }
+  .hero-note { font-size: 0.88rem; color: rgba(var(--ivory-rgb), 0.6); margin-top: 1rem; }
 
   /* Score dial: the signature element */
   .dial-card {
     background: var(--green-ink);
-    border: 1px solid rgba(230, 213, 172, 0.3);
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
     border-radius: 18px;
     padding: clamp(1.4rem, 3vw, 2.2rem);
     text-align: center;
@@ -208,12 +235,12 @@
       from 270deg,
       var(--gold) 0deg,
       var(--gold-pale) calc(var(--value) * 1.8deg),
-      rgba(250, 247, 239, 0.14) calc(var(--value) * 1.8deg),
-      rgba(250, 247, 239, 0.14) 180deg,
+      rgba(var(--ivory-rgb), 0.14) calc(var(--value) * 1.8deg),
+      rgba(var(--ivory-rgb), 0.14) 180deg,
       transparent 180deg
     );
-    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
-            mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
+    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
+            mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
   }
   .dial-num {
     position: absolute;
@@ -225,17 +252,17 @@
     line-height: 1;
   }
   .dial-num small { display: block; font-family: var(--body); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-top: 0.4rem; }
-  .dial-caption { margin-top: 1rem; font-size: 0.92rem; color: rgba(250,247,239,0.75); }
+  .dial-caption { margin-top: 1rem; font-size: 0.92rem; color: rgba(var(--ivory-rgb), 0.75); }
 
   /* ---------- Sections ---------- */
   section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   .section-head { max-width: 42em; margin-bottom: clamp(2rem, 4vw, 3rem); }
-  .section-head p { margin-top: 0.9rem; color: #45564c; }
+  .section-head p { margin-top: 0.9rem; color: var(--text-muted); }
 
   /* How it works */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.5vw, 2rem); counter-reset: step; }
   .step {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-top: 3px solid var(--gold);
     border-radius: 12px;
@@ -253,7 +280,7 @@
     margin-bottom: 0.6rem;
   }
   .step h3 { margin-bottom: 0.5rem; }
-  .step p { font-size: 0.98rem; color: #45564c; }
+  .step p { font-size: 0.98rem; color: var(--text-muted); }
 
   /* Whole-body strip */
   .holistic {
@@ -273,7 +300,7 @@
     grid-template-columns: 110px 180px 1fr;
     gap: 1.2rem;
     align-items: center;
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 1.1rem 1.4rem;
@@ -284,8 +311,8 @@
   .band.b1 .band-name::before { background: var(--green-soft); }
   .band.b2 .band-name::before { background: var(--sage); }
   .band.b3 .band-name::before { background: var(--gold); }
-  .band.b4 .band-name::before { background: #8c4a2f; }
-  .band p { font-size: 0.96rem; color: #45564c; }
+  .band.b4 .band-name::before { background: var(--rust); }
+  .band p { font-size: 0.96rem; color: var(--text-muted); }
   @media (max-width: 760px) {
     .band { grid-template-columns: 1fr; gap: 0.3rem; }
   }
@@ -293,11 +320,11 @@
   /* Tracking */
   .track { background: var(--green-deep); color: var(--ivory); }
   .track h2, .track h3 { color: var(--ivory); }
-  .track .section-head p { color: rgba(250,247,239,0.8); }
+  .track .section-head p { color: rgba(var(--ivory-rgb), 0.8); }
   .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .chart {
     background: var(--green-ink);
-    border: 1px solid rgba(230, 213, 172, 0.3);
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
     border-radius: 16px;
     padding: 1.6rem;
   }
@@ -306,17 +333,17 @@
   .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; text-align: center; gap: 0.4rem; }
   .bar i {
     display: block;
-    background: linear-gradient(180deg, #a6c1b2, var(--green-soft));
+    background: linear-gradient(180deg, var(--green-mist), var(--green-soft));
     border-radius: 6px 6px 2px 2px;
     height: calc(var(--v) * 1%);
   }
   .bar b { font-family: var(--display); font-size: 1.1rem; color: var(--gold-pale); font-weight: 600; }
-  .bar span { font-size: 0.72rem; color: rgba(250,247,239,0.6); }
-  .track p.small { font-size: 0.9rem; color: rgba(250,247,239,0.6); margin-top: 1.2rem; }
+  .bar span { font-size: 0.72rem; color: rgba(var(--ivory-rgb), 0.6); }
+  .track p.small { font-size: 0.9rem; color: rgba(var(--ivory-rgb), 0.6); margin-top: 1.2rem; }
 
   /* ---------- Questionnaire preview (main page) ---------- */
   .quiz-intro p { max-width: 40em; }
-  .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: #6b7a70; margin: 0 0 1.2rem; }
+  .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: var(--text-soft); margin: 0 0 1.2rem; }
   .q-preview { display: grid; gap: 1.6rem; }
 
   /* Question sits above the answer box, not on its border */
@@ -330,7 +357,7 @@
   }
   .q-title:focus { outline: none; }
   .q-card {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: clamp(1.3rem, 3vw, 1.9rem);
@@ -368,10 +395,10 @@
     padding: 0.5rem 1.05rem;
     font-size: 0.95rem;
     background: var(--ivory);
-    color: #45564c;
+    color: var(--text-muted);
   }
   .preview-cta { margin-top: 2.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
-  .quiz-hint { font-size: 0.9rem; color: #6b7a70; }
+  .quiz-hint { font-size: 0.9rem; color: var(--text-soft); }
   .btn-green { background: var(--green-ink); color: var(--gold-pale); border: none; font-family: var(--body); }
   .btn-green:hover { background: var(--green-soft); }
   .btn-ghost-green { background: transparent; color: var(--green-ink); border: 1px solid var(--line); }
@@ -397,14 +424,14 @@
     background: var(--green-deep);
     color: var(--ivory);
     padding: 0.9rem 0;
-    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
   }
   .quiz-topbar-inner { display: flex; align-items: center; gap: 1rem; }
   .quiz-exit {
     flex: none;
     background: transparent;
     color: var(--ivory);
-    border: 1px solid rgba(250,247,239,0.45);
+    border: 1px solid rgba(var(--ivory-rgb), 0.45);
     border-radius: 999px;
     padding: 0.4rem 1rem;
     font-family: var(--body);
@@ -413,7 +440,7 @@
     cursor: pointer;
   }
   .quiz-exit:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
-  .progress-track { flex: 1; height: 8px; background: rgba(250,247,239,0.18); border-radius: 999px; overflow: hidden; }
+  .progress-track { flex: 1; height: 8px; background: rgba(var(--ivory-rgb), 0.18); border-radius: 999px; overflow: hidden; }
   .progress-fill { height: 100%; width: 8.3%; background: var(--gold); border-radius: 999px; transition: width 0.3s ease; }
   .progress-meta { flex: none; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-pale); font-weight: 600; white-space: nowrap; }
 
@@ -443,8 +470,8 @@
   .result h3:focus { outline: none; }
   .result .dial { margin-top: 1rem; }
   .result-band { font-family: var(--display); font-size: 1.6rem; margin-top: 1rem; color: var(--ivory); }
-  .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(250,247,239,0.88); }
-  .result .small { font-size: 0.85rem; color: rgba(250,247,239,0.55); margin-top: 1.4rem; }
+  .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(var(--ivory-rgb), 0.88); }
+  .result .small { font-size: 0.85rem; color: rgba(var(--ivory-rgb), 0.55); margin-top: 1.4rem; }
 
   /* Category breakdown */
   .breakdown { margin-top: 2rem; text-align: left; }
@@ -452,8 +479,8 @@
   .breakdown-list { display: grid; gap: 0.7rem; max-width: 34em; margin: 0 auto; }
   .cat { display: grid; grid-template-columns: 110px 1fr 40px; align-items: center; gap: 0.9rem; }
   .cat-name { font-size: 0.95rem; color: var(--ivory); }
-  .cat-track { height: 12px; background: rgba(250,247,239,0.16); border-radius: 999px; overflow: hidden; }
-  .cat-fill { height: 100%; background: linear-gradient(90deg, #7c9284, #b6cdbf); border-radius: 999px; transition: width 0.5s ease; }
+  .cat-track { height: 12px; background: rgba(var(--ivory-rgb), 0.16); border-radius: 999px; overflow: hidden; }
+  .cat-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--green-light)); border-radius: 999px; transition: width 0.5s ease; }
   .cat-val { text-align: right; font-family: var(--display); font-size: 1.05rem; font-weight: 600; color: var(--gold-pale); font-variant-numeric: tabular-nums; }
   .result-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 1.6rem; }
 
@@ -463,15 +490,16 @@
     border-block: 1px solid var(--line);
     padding: 2rem 0;
     font-size: 0.92rem;
-    color: #45564c;
+    color: var(--text-muted);
   }
   footer {
     background: var(--green-deep);
-    color: rgba(250,247,239,0.75);
+    color: rgba(var(--ivory-rgb), 0.75);
     padding: 2.2rem 0;
     font-size: 0.9rem;
   }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+  .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
   footer a { color: var(--gold-pale); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
@@ -514,7 +542,7 @@
       <div>
         <p class="eyebrow">A five minute knee health check</p>
         <h1>Put a number on <em>your knee.</em></h1>
-        <p class="lede">Twelve questions about pain, movement and daily life. One score out of 100. Clear guidance on what to do next, and a simple way to see whether your knee is getting better.</p>
+        <p class="lede">Ten questions about pain, movement and daily life. One score out of 100. Clear guidance on what to do next, and a simple way to see whether your knee is getting better.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="#quiz" data-open-quiz>Start the test</a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -537,11 +565,11 @@
       <div class="section-head">
         <p class="eyebrow">How it works</p>
         <h2>Three steps, five minutes</h2>
-        <p>The questions follow the same domains used in validated knee outcome measures: pain, function and quality of life.</p>
+        <p>The questions cover the domains standard knee questionnaires use: pain, stiffness, swelling, stability, function and activity.</p>
       </div>
       <div class="steps">
         <div class="step">
-          <h3>Answer twelve questions</h3>
+          <h3>Answer ten questions</h3>
           <p>Tell us about pain, stairs, walking, sleep and everyday activities over the past four weeks. No jargon, no measurements needed.</p>
         </div>
         <div class="step">
@@ -562,7 +590,7 @@
       <div>
         <p class="eyebrow">Beyond the joint</p>
         <h2>Your knee is part of a whole body</h2>
-        <p style="margin-top:0.9rem; color:#45564c;">A knee rarely fails on its own. Weight, muscle strength, sleep, mood and activity all shape how a knee feels and how well it heals. Your score reflects the joint, but the guidance treats the person.</p>
+        <p style="margin-top:0.9rem; color:var(--text-muted);">A knee rarely fails on its own. Weight, muscle strength, sleep, mood and activity all shape how a knee feels and how well it heals. Your score reflects the joint, but the guidance treats the person.</p>
       </div>
       <ul>
         <li><strong>Strength and balance.</strong> Weak hips and thighs load the knee unevenly. Guidance includes whole-leg exercise, not just knee bends.</li>
@@ -583,24 +611,24 @@
       </div>
       <div class="bands">
         <div class="band b1">
-          <div class="band-range">80–100</div>
-          <div class="band-name">Healthy</div>
-          <p>Your knee is coping well. Keep active, keep strong, and retest if symptoms change.</p>
+          <div class="band-range">85–100</div>
+          <div class="band-name">Optimal</div>
+          <p>Your knee is working well. Keep active, keep your legs strong, and retest if anything changes.</p>
         </div>
         <div class="band b2">
-          <div class="band-range">60–79</div>
-          <div class="band-name">Mild</div>
-          <p>Early symptoms. A structured six week strengthening programme resolves most knees in this band. Retest monthly.</p>
+          <div class="band-range">70–84</div>
+          <div class="band-name">Good</div>
+          <p>Your knee works well most of the time. A structured six week strengthening programme usually closes the gap. Retest monthly.</p>
         </div>
         <div class="band b3">
-          <div class="band-range">40–59</div>
-          <div class="band-name">Moderate</div>
-          <p>Symptoms are limiting daily life. See a physiotherapist or GP. Options include supervised rehabilitation, weight support and, for some, an injection.</p>
+          <div class="band-range">60–69</div>
+          <div class="band-name">Fair</div>
+          <p>Symptoms are limiting you. See a physiotherapist or GP. Options include supervised rehabilitation, weight support and, for some, an injection.</p>
         </div>
         <div class="band b4">
-          <div class="band-range">0–39</div>
-          <div class="band-name">Severe</div>
-          <p>Significant impact on daily life. Book a specialist review. Scores in this range are where joint replacement and other surgical options are discussed.</p>
+          <div class="band-range">0–59</div>
+          <div class="band-name">Pay attention</div>
+          <p>Your knee is affecting daily life. Book a specialist review. Scores in this range are where injections, surgery and joint replacement are discussed.</p>
         </div>
       </div>
     </div>
@@ -637,50 +665,50 @@
       <div class="section-head quiz-intro">
         <p class="eyebrow">The test</p>
         <h2>Score your knee now</h2>
-        <p>Twelve short questions about pain, movement and daily life. Think about your <strong>worst knee</strong> over the <strong>past four weeks</strong>. It takes about five minutes.</p>
+        <p>Ten short questions about pain, movement and daily life. Think about your <strong>worst knee</strong> over the <strong>past four weeks</strong>. It takes about five minutes.</p>
       </div>
 
       <p class="preview-label">A few examples of what you will be asked</p>
       <div class="q-preview">
 
         <div class="q-example">
-          <h3 class="q-title">How would you describe your usual knee pain?</h3>
+          <h3 class="q-title">How comfortable is your knee during usual activities?</h3>
           <div class="q-card">
             <p class="q-topic">Comfort</p>
             <div class="opts">
-              <span class="pill">None</span>
-              <span class="pill">Very mild</span>
-              <span class="pill">Mild</span>
-              <span class="pill">Moderate</span>
-              <span class="pill">Severe</span>
+              <span class="pill">Completely comfortable</span>
+              <span class="pill">Mostly comfortable</span>
+              <span class="pill">Moderately comfortable</span>
+              <span class="pill">Uncomfortable most of the time</span>
+              <span class="pill">Very uncomfortable</span>
             </div>
           </div>
         </div>
 
         <div class="q-example">
-          <h3 class="q-title">Does your knee give way, catch or lock?</h3>
+          <h3 class="q-title">How free is your knee from sharp catching pain, locking or freezing up?</h3>
           <div class="q-card">
-            <p class="q-topic">Stability</p>
+            <p class="q-topic">Mechanical symptoms</p>
             <div class="opts">
               <span class="pill">Never</span>
               <span class="pill">Rarely</span>
               <span class="pill">Sometimes</span>
               <span class="pill">Often</span>
-              <span class="pill">Every day</span>
+              <span class="pill">Most days</span>
             </div>
           </div>
         </div>
 
         <div class="q-example">
-          <h3 class="q-title">Can you kneel and get up again?</h3>
+          <h3 class="q-title">What is your current activity level?</h3>
           <div class="q-card">
-            <p class="q-topic">Kneeling</p>
+            <p class="q-topic">Activity level</p>
             <div class="opts">
-              <span class="pill">Easily</span>
-              <span class="pill">With little difficulty</span>
-              <span class="pill">With moderate difficulty</span>
-              <span class="pill">With great difficulty</span>
-              <span class="pill">Not at all</span>
+              <span class="pill">I can play sport with no difficulty</span>
+              <span class="pill">I can play sport with difficulty</span>
+              <span class="pill">I can run and jump</span>
+              <span class="pill">I can run</span>
+              <span class="pill">I can walk but not run</span>
             </div>
           </div>
         </div>
@@ -696,7 +724,7 @@
 
   <div class="disclaimer">
     <div class="wrap">
-      <strong>Important.</strong> My Knee Score is an educational self-assessment based on validated knee outcome measures. It is not a diagnosis and does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
+      <strong>Important.</strong> My Knee Score is an educational self-assessment. It uses the Short Knee Score, a weighted scoring developed in house. It has not been clinically validated, it is not a diagnosis, and it does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
     </div>
   </div>
 
@@ -706,6 +734,7 @@
   <div class="wrap foot">
     <p>© 2026 mykneescore.com</p>
     <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="advanced/index.html">Advanced scores</a> · <a href="#top">Back to top</a></p>
+    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 4 October 2026</p>
   </div>
 </footer>
 
@@ -715,7 +744,7 @@
     <div class="wrap quiz-topbar-inner">
       <button type="button" class="quiz-exit" id="quizExit" aria-label="Close the questionnaire">Exit</button>
       <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-      <p class="progress-meta" id="progressMeta" aria-live="polite">Question 1 of 12</p>
+      <p class="progress-meta" id="progressMeta" aria-live="polite">Question 1 of 10</p>
     </div>
   </div>
 
@@ -724,169 +753,141 @@
       <form class="quiz-form" id="kneeForm">
 
         <div class="q-slide" data-cat="Comfort">
-          <h2 class="q-title" tabindex="-1">How would you describe your usual knee pain?</h2>
+          <h2 class="q-title" tabindex="-1">How comfortable is your knee during usual activities?</h2>
           <div class="q-card">
             <p class="q-topic">Comfort</p>
             <div class="opts">
-              <input type="radio" name="q1" id="q1a" value="4"><label for="q1a">None</label>
-              <input type="radio" name="q1" id="q1b" value="3"><label for="q1b">Very mild</label>
-              <input type="radio" name="q1" id="q1c" value="2"><label for="q1c">Mild</label>
-              <input type="radio" name="q1" id="q1d" value="1"><label for="q1d">Moderate</label>
-              <input type="radio" name="q1" id="q1e" value="0"><label for="q1e">Severe</label>
+              <input type="radio" name="q1" id="q1a" value="10"><label for="q1a">Completely comfortable</label>
+              <input type="radio" name="q1" id="q1b" value="7.5"><label for="q1b">Mostly comfortable</label>
+              <input type="radio" name="q1" id="q1c" value="5"><label for="q1c">Moderately comfortable</label>
+              <input type="radio" name="q1" id="q1d" value="2.5"><label for="q1d">Uncomfortable most of the time</label>
+              <input type="radio" name="q1" id="q1e" value="0"><label for="q1e">Very uncomfortable</label>
             </div>
           </div>
         </div>
 
-        <div class="q-slide" data-cat="Mobility">
-          <h2 class="q-title" tabindex="-1">How far can you walk before knee pain becomes severe?</h2>
+        <div class="q-slide" data-cat="Stiffness">
+          <h2 class="q-title" tabindex="-1">How free is your knee from stiffness when you first move after rest?</h2>
           <div class="q-card">
-            <p class="q-topic">Mobility</p>
+            <p class="q-topic">Stiffness</p>
             <div class="opts">
-              <input type="radio" name="q2" id="q2a" value="4"><label for="q2a">No limit</label>
-              <input type="radio" name="q2" id="q2b" value="3"><label for="q2b">Over 30 minutes</label>
-              <input type="radio" name="q2" id="q2c" value="2"><label for="q2c">15 to 30 minutes</label>
-              <input type="radio" name="q2" id="q2d" value="1"><label for="q2d">Around the house only</label>
-              <input type="radio" name="q2" id="q2e" value="0"><label for="q2e">Not at all</label>
+              <input type="radio" name="q2" id="q2a" value="10"><label for="q2a">No stiffness</label>
+              <input type="radio" name="q2" id="q2b" value="7.5"><label for="q2b">Slight stiffness</label>
+              <input type="radio" name="q2" id="q2c" value="5"><label for="q2c">Moderate stiffness</label>
+              <input type="radio" name="q2" id="q2d" value="2.5"><label for="q2d">Marked stiffness</label>
+              <input type="radio" name="q2" id="q2e" value="0"><label for="q2e">Severe stiffness</label>
             </div>
           </div>
         </div>
 
-        <div class="q-slide" data-cat="Function">
-          <h2 class="q-title" tabindex="-1">How much trouble do stairs give you?</h2>
+        <div class="q-slide" data-cat="Swelling">
+          <h2 class="q-title" tabindex="-1">How little swelling do you have after activity?</h2>
           <div class="q-card">
-            <p class="q-topic">Function</p>
+            <p class="q-topic">Swelling</p>
             <div class="opts">
-              <input type="radio" name="q3" id="q3a" value="4"><label for="q3a">No trouble</label>
-              <input type="radio" name="q3" id="q3b" value="3"><label for="q3b">A little</label>
-              <input type="radio" name="q3" id="q3c" value="2"><label for="q3c">Moderate</label>
-              <input type="radio" name="q3" id="q3d" value="1"><label for="q3d">Severe</label>
-              <input type="radio" name="q3" id="q3e" value="0"><label for="q3e">I avoid stairs</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="q-slide" data-cat="Sleep">
-          <h2 class="q-title" tabindex="-1">Does knee pain disturb your sleep?</h2>
-          <div class="q-card">
-            <p class="q-topic">Sleep</p>
-            <div class="opts">
-              <input type="radio" name="q4" id="q4a" value="4"><label for="q4a">Never</label>
-              <input type="radio" name="q4" id="q4b" value="3"><label for="q4b">Occasionally</label>
-              <input type="radio" name="q4" id="q4c" value="2"><label for="q4c">Some nights</label>
-              <input type="radio" name="q4" id="q4d" value="1"><label for="q4d">Most nights</label>
-              <input type="radio" name="q4" id="q4e" value="0"><label for="q4e">Every night</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="q-slide" data-cat="Symptoms">
-          <h2 class="q-title" tabindex="-1">How stiff is your knee after sitting or on waking?</h2>
-          <div class="q-card">
-            <p class="q-topic">Symptoms</p>
-            <div class="opts">
-              <input type="radio" name="q5" id="q5a" value="4"><label for="q5a">Not stiff</label>
-              <input type="radio" name="q5" id="q5b" value="3"><label for="q5b">Slightly</label>
-              <input type="radio" name="q5" id="q5c" value="2"><label for="q5c">Moderately</label>
-              <input type="radio" name="q5" id="q5d" value="1"><label for="q5d">Very stiff</label>
-              <input type="radio" name="q5" id="q5e" value="0"><label for="q5e">Extremely stiff</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="q-slide" data-cat="Symptoms">
-          <h2 class="q-title" tabindex="-1">Does your knee swell?</h2>
-          <div class="q-card">
-            <p class="q-topic">Symptoms</p>
-            <div class="opts">
-              <input type="radio" name="q6" id="q6a" value="4"><label for="q6a">Never</label>
-              <input type="radio" name="q6" id="q6b" value="3"><label for="q6b">After hard exercise</label>
-              <input type="radio" name="q6" id="q6c" value="2"><label for="q6c">After normal activity</label>
-              <input type="radio" name="q6" id="q6d" value="1"><label for="q6d">Most days</label>
-              <input type="radio" name="q6" id="q6e" value="0"><label for="q6e">Constantly</label>
+              <input type="radio" name="q3" id="q3a" value="10"><label for="q3a">No swelling</label>
+              <input type="radio" name="q3" id="q3b" value="7.5"><label for="q3b">Slight swelling</label>
+              <input type="radio" name="q3" id="q3c" value="5"><label for="q3c">Moderate swelling</label>
+              <input type="radio" name="q3" id="q3d" value="2.5"><label for="q3d">Marked swelling</label>
+              <input type="radio" name="q3" id="q3e" value="0"><label for="q3e">Severe swelling</label>
             </div>
           </div>
         </div>
 
         <div class="q-slide" data-cat="Stability">
-          <h2 class="q-title" tabindex="-1">Does your knee give way, catch or lock?</h2>
+          <h2 class="q-title" tabindex="-1">How stable does your knee feel, with no giving way?</h2>
           <div class="q-card">
             <p class="q-topic">Stability</p>
             <div class="opts">
-              <input type="radio" name="q7" id="q7a" value="4"><label for="q7a">Never</label>
-              <input type="radio" name="q7" id="q7b" value="3"><label for="q7b">Rarely</label>
-              <input type="radio" name="q7" id="q7c" value="2"><label for="q7c">Sometimes</label>
-              <input type="radio" name="q7" id="q7d" value="1"><label for="q7d">Often</label>
-              <input type="radio" name="q7" id="q7e" value="0"><label for="q7e">Every day</label>
+              <input type="radio" name="q4" id="q4a" value="10"><label for="q4a">Never gives way</label>
+              <input type="radio" name="q4" id="q4b" value="7.5"><label for="q4b">Rarely gives way</label>
+              <input type="radio" name="q4" id="q4c" value="5"><label for="q4c">Sometimes gives way</label>
+              <input type="radio" name="q4" id="q4d" value="2.5"><label for="q4d">Often gives way</label>
+              <input type="radio" name="q4" id="q4e" value="0"><label for="q4e">Gives way most days</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Walking">
+          <h2 class="q-title" tabindex="-1">How well can you walk long distances on level ground?</h2>
+          <div class="q-card">
+            <p class="q-topic">Walking</p>
+            <div class="opts">
+              <input type="radio" name="q5" id="q5a" value="10"><label for="q5a">No limit</label>
+              <input type="radio" name="q5" id="q5b" value="7.5"><label for="q5b">More than 30 minutes</label>
+              <input type="radio" name="q5" id="q5c" value="5"><label for="q5c">15 to 30 minutes</label>
+              <input type="radio" name="q5" id="q5d" value="2.5"><label for="q5d">5 to 15 minutes</label>
+              <input type="radio" name="q5" id="q5e" value="0"><label for="q5e">Less than 5 minutes</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-slide" data-cat="Stairs">
+          <h2 class="q-title" tabindex="-1">How easily can you manage one flight of stairs?</h2>
+          <div class="q-card">
+            <p class="q-topic">Stairs</p>
+            <div class="opts">
+              <input type="radio" name="q6" id="q6a" value="10"><label for="q6a">No difficulty</label>
+              <input type="radio" name="q6" id="q6b" value="7.5"><label for="q6b">Slight difficulty</label>
+              <input type="radio" name="q6" id="q6c" value="5"><label for="q6c">Moderate difficulty</label>
+              <input type="radio" name="q6" id="q6d" value="2.5"><label for="q6d">Severe difficulty</label>
+              <input type="radio" name="q6" id="q6e" value="0"><label for="q6e">Cannot do it</label>
             </div>
           </div>
         </div>
 
         <div class="q-slide" data-cat="Kneeling">
-          <h2 class="q-title" tabindex="-1">Can you kneel and get up again?</h2>
+          <h2 class="q-title" tabindex="-1">How easily can you kneel or squat?</h2>
           <div class="q-card">
             <p class="q-topic">Kneeling</p>
             <div class="opts">
-              <input type="radio" name="q8" id="q8a" value="4"><label for="q8a">Easily</label>
-              <input type="radio" name="q8" id="q8b" value="3"><label for="q8b">With little difficulty</label>
-              <input type="radio" name="q8" id="q8c" value="2"><label for="q8c">With moderate difficulty</label>
-              <input type="radio" name="q8" id="q8d" value="1"><label for="q8d">With great difficulty</label>
-              <input type="radio" name="q8" id="q8e" value="0"><label for="q8e">Not at all</label>
+              <input type="radio" name="q7" id="q7a" value="10"><label for="q7a">No difficulty</label>
+              <input type="radio" name="q7" id="q7b" value="7.5"><label for="q7b">Slight difficulty</label>
+              <input type="radio" name="q7" id="q7c" value="5"><label for="q7c">Moderate difficulty</label>
+              <input type="radio" name="q7" id="q7d" value="2.5"><label for="q7d">Severe difficulty</label>
+              <input type="radio" name="q7" id="q7e" value="0"><label for="q7e">Cannot do it</label>
             </div>
           </div>
         </div>
 
-        <div class="q-slide" data-cat="Function">
-          <h2 class="q-title" tabindex="-1">How much does your knee limit work, school or housework?</h2>
+        <div class="q-slide" data-cat="Mechanical symptoms">
+          <h2 class="q-title" tabindex="-1">How free is your knee from sharp catching pain, locking or freezing up?</h2>
           <div class="q-card">
-            <p class="q-topic">Function</p>
+            <p class="q-topic">Mechanical symptoms</p>
             <div class="opts">
-              <input type="radio" name="q9" id="q9a" value="4"><label for="q9a">Not at all</label>
-              <input type="radio" name="q9" id="q9b" value="3"><label for="q9b">A little</label>
-              <input type="radio" name="q9" id="q9c" value="2"><label for="q9c">Moderately</label>
-              <input type="radio" name="q9" id="q9d" value="1"><label for="q9d">Greatly</label>
-              <input type="radio" name="q9" id="q9e" value="0"><label for="q9e">I cannot do them</label>
+              <input type="radio" name="q8" id="q8a" value="10"><label for="q8a">Never</label>
+              <input type="radio" name="q8" id="q8b" value="7.5"><label for="q8b">Rarely</label>
+              <input type="radio" name="q8" id="q8c" value="5"><label for="q8c">Sometimes</label>
+              <input type="radio" name="q8" id="q8d" value="2.5"><label for="q8d">Often</label>
+              <input type="radio" name="q8" id="q8e" value="0"><label for="q8e">Most days</label>
             </div>
           </div>
         </div>
 
-        <div class="q-slide" data-cat="Mobility">
-          <h2 class="q-title" tabindex="-1">How much does your knee limit sport, exercise or play?</h2>
+        <div class="q-slide" data-cat="Activity level">
+          <h2 class="q-title" tabindex="-1">What is your current activity level?</h2>
           <div class="q-card">
-            <p class="q-topic">Mobility</p>
+            <p class="q-topic">Activity level</p>
             <div class="opts">
-              <input type="radio" name="q10" id="q10a" value="4"><label for="q10a">Not at all</label>
-              <input type="radio" name="q10" id="q10b" value="3"><label for="q10b">A little</label>
-              <input type="radio" name="q10" id="q10c" value="2"><label for="q10c">Moderately</label>
-              <input type="radio" name="q10" id="q10d" value="1"><label for="q10d">Greatly</label>
-              <input type="radio" name="q10" id="q10e" value="0"><label for="q10e">I have given it up</label>
+              <input type="radio" name="q9" id="q9a" value="10"><label for="q9a">I can play sport with no difficulty</label>
+              <input type="radio" name="q9" id="q9b" value="7.5"><label for="q9b">I can play sport with difficulty</label>
+              <input type="radio" name="q9" id="q9c" value="5"><label for="q9c">I can run and jump</label>
+              <input type="radio" name="q9" id="q9d" value="2.5"><label for="q9d">I can run</label>
+              <input type="radio" name="q9" id="q9e" value="0"><label for="q9e">I can walk but not run</label>
             </div>
           </div>
         </div>
 
-        <div class="q-slide" data-cat="Comfort">
-          <h2 class="q-title" tabindex="-1">Do you use painkillers for your knee?</h2>
+        <div class="q-slide" data-cat="Overall function">
+          <h2 class="q-title" tabindex="-1">Overall, how good does your knee function feel today?</h2>
           <div class="q-card">
-            <p class="q-topic">Comfort</p>
+            <p class="q-topic">Overall function</p>
             <div class="opts">
-              <input type="radio" name="q11" id="q11a" value="4"><label for="q11a">Never</label>
-              <input type="radio" name="q11" id="q11b" value="3"><label for="q11b">Rarely</label>
-              <input type="radio" name="q11" id="q11c" value="2"><label for="q11c">Weekly</label>
-              <input type="radio" name="q11" id="q11d" value="1"><label for="q11d">Most days</label>
-              <input type="radio" name="q11" id="q11e" value="0"><label for="q11e">Daily, and they barely help</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="q-slide" data-cat="Stability">
-          <h2 class="q-title" tabindex="-1">Overall, how confident are you in your knee?</h2>
-          <div class="q-card">
-            <p class="q-topic">Stability</p>
-            <div class="opts">
-              <input type="radio" name="q12" id="q12a" value="4"><label for="q12a">Fully confident</label>
-              <input type="radio" name="q12" id="q12b" value="3"><label for="q12b">Mostly</label>
-              <input type="radio" name="q12" id="q12c" value="2"><label for="q12c">Somewhat</label>
-              <input type="radio" name="q12" id="q12d" value="1"><label for="q12d">A little</label>
-              <input type="radio" name="q12" id="q12e" value="0"><label for="q12e">Not at all</label>
+              <input type="radio" name="q10" id="q10a" value="10"><label for="q10a">Excellent</label>
+              <input type="radio" name="q10" id="q10b" value="7.5"><label for="q10b">Good</label>
+              <input type="radio" name="q10" id="q10c" value="5"><label for="q10c">Fair</label>
+              <input type="radio" name="q10" id="q10d" value="2.5"><label for="q10d">Poor</label>
+              <input type="radio" name="q10" id="q10e" value="0"><label for="q10e">Very poor</label>
             </div>
           </div>
         </div>
@@ -946,22 +947,39 @@
     var current   = 0;
     var reduce    = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    var catMap = {
-      q1: "Comfort", q11: "Comfort",
-      q5: "Symptoms", q6: "Symptoms",
-      q2: "Mobility", q10: "Mobility",
-      q3: "Function", q9: "Function",
-      q7: "Stability", q12: "Stability",
-      q4: "Sleep",
-      q8: "Kneeling"
+    /* Short Knee Score. Each question is answered 0 to 10, where 10 is best.
+       The weights below are the proprietary weightings, held as whole numbers
+       (x100) so they sum to exactly 100 and the maths cannot drift. */
+    var weights = {
+      q1: 15,
+      q2: 7,
+      q3: 7,
+      q4: 10,
+      q5: 10,
+      q6: 8,
+      q7: 8,
+      q8: 10,
+      q9: 12,
+      q10: 13
     };
-    var catOrder = ["Comfort", "Symptoms", "Mobility", "Function", "Stability", "Sleep", "Kneeling"];
 
+    var topicOf = {
+      q1: "Comfort",
+      q2: "Stiffness",
+      q3: "Swelling",
+      q4: "Stability",
+      q5: "Walking",
+      q6: "Stairs",
+      q7: "Kneeling",
+      q8: "Mechanical symptoms",
+      q9: "Activity level",
+      q10: "Overall function"
+    };
     var bands = [
-      { min: 80, name: "Healthy (80\u2013100)", advice: "Your knee is coping well. Keep active, keep your legs strong, and retest if symptoms change." },
-      { min: 60, name: "Mild (60\u201379)", advice: "Early symptoms. Start a structured strengthening programme for six weeks, then retest. Most knees in this band recover fully." },
-      { min: 40, name: "Moderate (40\u201359)", advice: "Your knee is limiting daily life. Book a review with a physiotherapist or GP to discuss supervised rehabilitation and, if appropriate, an injection." },
-      { min: 0,  name: "Severe (0\u201339)", advice: "Your knee is significantly affecting your life. Arrange a specialist review. This is the range in which joint replacement and other surgical options are discussed." }
+      { min: 85, name: "Optimal (85\u2013100)", advice: "Your knee is working well. Keep active, keep your legs strong, and retest if anything changes." },
+      { min: 70, name: "Good (70\u201384)", advice: "Your knee works well most of the time. Start a structured strengthening programme for six weeks, then retest." },
+      { min: 60, name: "Fair (60\u201369)", advice: "Your knee is limiting you. Book a review with a physiotherapist or GP to discuss supervised rehabilitation and, if appropriate, an injection." },
+      { min: 0,  name: "Pay attention (0\u201359)", advice: "Your knee is affecting your daily life. Arrange a specialist review. This is the range in which injections, surgery and joint replacement are discussed." }
     ];
 
     function groupName(i) { return slides[i].querySelector("input").name; }
@@ -1028,20 +1046,19 @@
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
 
-      var totals = {}, maxes = {};
-      catOrder.forEach(function (c) { totals[c] = 0; maxes[c] = 0; });
-
-      var total = 0;
+      /* Answers are held as halves (0 to 20) and weights as hundredths, so the
+         weighted total is a whole number. Dividing by 20 gives the score out of
+         100, rounded half up, exactly as the scoring sheet does it. */
+      var totalWeighted = 0;
+      var perQ = [];
       for (var i = 0; i < totalQ; i++) {
         var name = groupName(i);
-        var val = parseInt(form.querySelector('input[name="' + name + '"]:checked').value, 10);
-        total += val;
-        var c = catMap[name];
-        totals[c] += val;
-        maxes[c] += 4;
+        var val = parseFloat(form.querySelector('input[name="' + name + '"]:checked').value);
+        totalWeighted += Math.round(val * 2) * weights[name];
+        perQ.push({ topic: topicOf[name], pct: Math.round(val * 10) });
       }
 
-      var score = Math.round((total / 48) * 100);
+      var score = Math.floor(totalWeighted / 20) + ((totalWeighted % 20) >= 10 ? 1 : 0);
       var band = bands.find(function (b) { return score >= b.min; });
 
       scoreNum.textContent = score;
@@ -1050,14 +1067,13 @@
       bandAdvice.textContent = band.advice;
 
       listEl.innerHTML = "";
-      catOrder.forEach(function (c) {
-        var pct = Math.round((totals[c] / maxes[c]) * 100);
+      perQ.forEach(function (r) {
         var row = document.createElement("div");
         row.className = "cat";
         row.innerHTML =
-          '<span class="cat-name">' + c + '</span>' +
-          '<div class="cat-track"><div class="cat-fill" style="width:' + pct + '%"></div></div>' +
-          '<span class="cat-val">' + pct + '</span>';
+          '<span class="cat-name">' + r.topic + '</span>' +
+          '<div class="cat-track"><div class="cat-fill" style="width:' + r.pct + '%"></div></div>' +
+          '<span class="cat-val">' + r.pct + '</span>';
         listEl.appendChild(row);
       });
 
