@@ -110,8 +110,11 @@ for word in ("Twelve questions", "twelve questions"):
 check("nav matches across pages", "incident: handover, 'check every page's nav'")
 navs = {}
 for p in PAGES:
-    links = re.findall(r'<li><a[^>]*href="([^"]+)"[^>]*>([^<]*)</a></li>', read(p))
-    navs[p] = [t.strip() for _, t in links]
+    nav = re.search(r'<nav\b.*?</nav>', read(p), re.S)
+    links = re.findall(r'<li\b[^>]*>\s*<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>',
+                       nav.group(0) if nav else "", re.S)
+    # Strip nested markup, so a <span> inside a link cannot hide it from this check.
+    navs[p] = [re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', t)).strip() for _, t in links]
 if len(set(tuple(v) for v in navs.values())) > 1:
     fail("nav matches across pages", str(navs))
 
