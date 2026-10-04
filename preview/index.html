@@ -23,6 +23,28 @@
     --line:       rgba(22, 56, 45, 0.16);
     --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
     --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+    /* Extended palette. Every colour used on the page is named here, so no
+       literal appears anywhere below. The RGB triplets exist so an alpha
+       variant does not need a second copy of the colour value. */
+    --white:            #fff;
+    --rust:             #8c4a2f;
+    --green-mist:       #a6c1b2;
+    --green-light:      #b6cdbf;
+    --bone:             #e9e2ce;
+    --bone-active:      #cfdbd0;
+    --bone-detail:      #c8cfc4;
+    --text-muted:       #45564c;
+    --text-muted-deep:  #3c4c43;
+    --text-soft:        #6b7a70;
+    --text-soft-deep:   #55665c;
+    --ivory-rgb:        250, 247, 239;
+    --gold-rgb:         181, 143, 71;
+    --gold-pale-rgb:    230, 213, 172;
+    --green-ink-rgb:    22, 56, 45;
+    --bone-rgb:         233, 226, 206;
+    --bone-active-rgb:  207, 219, 208;
+    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
+    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,7 +95,7 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
   }
   .nav {
     display: flex;
@@ -110,7 +132,7 @@
     font-weight: 600;
     border-bottom: none;
   }
-  .nav .start-link:hover { background: #fff; border-bottom: none; }
+  .nav .start-link:hover { background: var(--white); border-bottom: none; }
   @media (max-width: 700px) {
     .nav ul li:not(:last-child) { display: none; }
   }
@@ -118,7 +140,7 @@
   /* ---------- Hero ---------- */
   .hero {
     background:
-      radial-gradient(1100px 500px at 85% -10%, rgba(181, 143, 71, 0.15), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(var(--gold-rgb), 0.15), transparent 60%),
       var(--green-deep);
     color: var(--ivory);
     padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3.5rem, 8vw, 6rem);
@@ -135,7 +157,7 @@
     margin-top: 1.2rem;
     max-width: 34em;
     font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-    color: rgba(250, 247, 239, 0.88);
+    color: rgba(var(--ivory-rgb), 0.88);
   }
   .hero-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; }
   .btn {
@@ -153,14 +175,14 @@
   .btn:active { transform: translateY(1px); }
   .btn-gold { background: var(--gold); color: var(--green-deep); }
   .btn-gold:hover { background: var(--gold-pale); }
-  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(250,247,239,0.45); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(var(--ivory-rgb), 0.45); }
   .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
-  .hero-note { font-size: 0.88rem; color: rgba(250,247,239,0.6); margin-top: 1rem; }
+  .hero-note { font-size: 0.88rem; color: rgba(var(--ivory-rgb), 0.6); margin-top: 1rem; }
 
   /* Score dial: the signature element */
   .dial-card {
     background: var(--green-ink);
-    border: 1px solid rgba(230, 213, 172, 0.3);
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
     border-radius: 18px;
     padding: clamp(1.4rem, 3vw, 2.2rem);
     text-align: center;
@@ -182,12 +204,12 @@
       from 270deg,
       var(--gold) 0deg,
       var(--gold-pale) calc(var(--value) * 1.8deg),
-      rgba(250, 247, 239, 0.14) calc(var(--value) * 1.8deg),
-      rgba(250, 247, 239, 0.14) 180deg,
+      rgba(var(--ivory-rgb), 0.14) calc(var(--value) * 1.8deg),
+      rgba(var(--ivory-rgb), 0.14) 180deg,
       transparent 180deg
     );
-    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
-            mask: radial-gradient(circle at 50% 50%, transparent 58%, #000 59%);
+    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
+            mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
   }
   .dial-num {
     position: absolute;
@@ -199,17 +221,17 @@
     line-height: 1;
   }
   .dial-num small { display: block; font-family: var(--body); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-top: 0.4rem; }
-  .dial-caption { margin-top: 1rem; font-size: 0.92rem; color: rgba(250,247,239,0.75); }
+  .dial-caption { margin-top: 1rem; font-size: 0.92rem; color: rgba(var(--ivory-rgb), 0.75); }
 
   /* ---------- Sections ---------- */
   section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   .section-head { max-width: 42em; margin-bottom: clamp(2rem, 4vw, 3rem); }
-  .section-head p { margin-top: 0.9rem; color: #45564c; }
+  .section-head p { margin-top: 0.9rem; color: var(--text-muted); }
 
   /* How it works */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.5vw, 2rem); counter-reset: step; }
   .step {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-top: 3px solid var(--gold);
     border-radius: 12px;
@@ -227,7 +249,7 @@
     margin-bottom: 0.6rem;
   }
   .step h3 { margin-bottom: 0.5rem; }
-  .step p { font-size: 0.98rem; color: #45564c; }
+  .step p { font-size: 0.98rem; color: var(--text-muted); }
 
   /* Whole-body strip */
   .holistic {
@@ -247,7 +269,7 @@
     grid-template-columns: 110px 180px 1fr;
     gap: 1.2rem;
     align-items: center;
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 1.1rem 1.4rem;
@@ -258,8 +280,8 @@
   .band.b1 .band-name::before { background: var(--green-soft); }
   .band.b2 .band-name::before { background: var(--sage); }
   .band.b3 .band-name::before { background: var(--gold); }
-  .band.b4 .band-name::before { background: #8c4a2f; }
-  .band p { font-size: 0.96rem; color: #45564c; }
+  .band.b4 .band-name::before { background: var(--rust); }
+  .band p { font-size: 0.96rem; color: var(--text-muted); }
   @media (max-width: 760px) {
     .band { grid-template-columns: 1fr; gap: 0.3rem; }
   }
@@ -267,11 +289,11 @@
   /* Tracking */
   .track { background: var(--green-deep); color: var(--ivory); }
   .track h2, .track h3 { color: var(--ivory); }
-  .track .section-head p { color: rgba(250,247,239,0.8); }
+  .track .section-head p { color: rgba(var(--ivory-rgb), 0.8); }
   .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .chart {
     background: var(--green-ink);
-    border: 1px solid rgba(230, 213, 172, 0.3);
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
     border-radius: 16px;
     padding: 1.6rem;
   }
@@ -280,17 +302,17 @@
   .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; text-align: center; gap: 0.4rem; }
   .bar i {
     display: block;
-    background: linear-gradient(180deg, #a6c1b2, var(--green-soft));
+    background: linear-gradient(180deg, var(--green-mist), var(--green-soft));
     border-radius: 6px 6px 2px 2px;
     height: calc(var(--v) * 1%);
   }
   .bar b { font-family: var(--display); font-size: 1.1rem; color: var(--gold-pale); font-weight: 600; }
-  .bar span { font-size: 0.72rem; color: rgba(250,247,239,0.6); }
-  .track p.small { font-size: 0.9rem; color: rgba(250,247,239,0.6); margin-top: 1.2rem; }
+  .bar span { font-size: 0.72rem; color: rgba(var(--ivory-rgb), 0.6); }
+  .track p.small { font-size: 0.9rem; color: rgba(var(--ivory-rgb), 0.6); margin-top: 1.2rem; }
 
   /* ---------- Questionnaire preview (main page) ---------- */
   .quiz-intro p { max-width: 40em; }
-  .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: #6b7a70; margin: 0 0 1.2rem; }
+  .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: var(--text-soft); margin: 0 0 1.2rem; }
   .q-preview { display: grid; gap: 1.6rem; }
 
   /* Question sits above the answer box, not on its border */
@@ -304,7 +326,7 @@
   }
   .q-title:focus { outline: none; }
   .q-card {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: clamp(1.3rem, 3vw, 1.9rem);
@@ -342,10 +364,10 @@
     padding: 0.5rem 1.05rem;
     font-size: 0.95rem;
     background: var(--ivory);
-    color: #45564c;
+    color: var(--text-muted);
   }
   .preview-cta { margin-top: 2.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
-  .quiz-hint { font-size: 0.9rem; color: #6b7a70; }
+  .quiz-hint { font-size: 0.9rem; color: var(--text-soft); }
   .btn-green { background: var(--green-ink); color: var(--gold-pale); border: none; font-family: var(--body); }
   .btn-green:hover { background: var(--green-soft); }
   .btn-ghost-green { background: transparent; color: var(--green-ink); border: 1px solid var(--line); }
@@ -371,14 +393,14 @@
     background: var(--green-deep);
     color: var(--ivory);
     padding: 0.9rem 0;
-    border-bottom: 1px solid rgba(230, 213, 172, 0.25);
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
   }
   .quiz-topbar-inner { display: flex; align-items: center; gap: 1rem; }
   .quiz-exit {
     flex: none;
     background: transparent;
     color: var(--ivory);
-    border: 1px solid rgba(250,247,239,0.45);
+    border: 1px solid rgba(var(--ivory-rgb), 0.45);
     border-radius: 999px;
     padding: 0.4rem 1rem;
     font-family: var(--body);
@@ -387,7 +409,7 @@
     cursor: pointer;
   }
   .quiz-exit:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
-  .progress-track { flex: 1; height: 8px; background: rgba(250,247,239,0.18); border-radius: 999px; overflow: hidden; }
+  .progress-track { flex: 1; height: 8px; background: rgba(var(--ivory-rgb), 0.18); border-radius: 999px; overflow: hidden; }
   .progress-fill { height: 100%; width: 8.3%; background: var(--gold); border-radius: 999px; transition: width 0.3s ease; }
   .progress-meta { flex: none; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-pale); font-weight: 600; white-space: nowrap; }
 
@@ -417,8 +439,8 @@
   .result h3:focus { outline: none; }
   .result .dial { margin-top: 1rem; }
   .result-band { font-family: var(--display); font-size: 1.6rem; margin-top: 1rem; color: var(--ivory); }
-  .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(250,247,239,0.88); }
-  .result .small { font-size: 0.85rem; color: rgba(250,247,239,0.55); margin-top: 1.4rem; }
+  .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(var(--ivory-rgb), 0.88); }
+  .result .small { font-size: 0.85rem; color: rgba(var(--ivory-rgb), 0.55); margin-top: 1.4rem; }
 
   /* Category breakdown */
   .breakdown { margin-top: 2rem; text-align: left; }
@@ -426,8 +448,8 @@
   .breakdown-list { display: grid; gap: 0.7rem; max-width: 34em; margin: 0 auto; }
   .cat { display: grid; grid-template-columns: 110px 1fr 40px; align-items: center; gap: 0.9rem; }
   .cat-name { font-size: 0.95rem; color: var(--ivory); }
-  .cat-track { height: 12px; background: rgba(250,247,239,0.16); border-radius: 999px; overflow: hidden; }
-  .cat-fill { height: 100%; background: linear-gradient(90deg, #7c9284, #b6cdbf); border-radius: 999px; transition: width 0.5s ease; }
+  .cat-track { height: 12px; background: rgba(var(--ivory-rgb), 0.16); border-radius: 999px; overflow: hidden; }
+  .cat-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--green-light)); border-radius: 999px; transition: width 0.5s ease; }
   .cat-val { text-align: right; font-family: var(--display); font-size: 1.05rem; font-weight: 600; color: var(--gold-pale); font-variant-numeric: tabular-nums; }
   .result-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 1.6rem; }
 
@@ -437,15 +459,16 @@
     border-block: 1px solid var(--line);
     padding: 2rem 0;
     font-size: 0.92rem;
-    color: #45564c;
+    color: var(--text-muted);
   }
   footer {
     background: var(--green-deep);
-    color: rgba(250,247,239,0.75);
+    color: rgba(var(--ivory-rgb), 0.75);
     padding: 2.2rem 0;
     font-size: 0.9rem;
   }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+  .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
   footer a { color: var(--gold-pale); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
@@ -510,7 +533,7 @@
       <div class="section-head">
         <p class="eyebrow">How it works</p>
         <h2>Three steps, five minutes</h2>
-        <p>The questions follow the same domains used in validated knee outcome measures: pain, function and quality of life.</p>
+        <p>The questions cover the domains standard knee questionnaires use: pain, stiffness, swelling, stability, function and activity.</p>
       </div>
       <div class="steps">
         <div class="step">
@@ -535,7 +558,7 @@
       <div>
         <p class="eyebrow">Beyond the joint</p>
         <h2>Your knee is part of a whole body</h2>
-        <p style="margin-top:0.9rem; color:#45564c;">A knee rarely fails on its own. Weight, muscle strength, sleep, mood and activity all shape how a knee feels and how well it heals. Your score reflects the joint, but the guidance treats the person.</p>
+        <p style="margin-top:0.9rem; color:var(--text-muted);">A knee rarely fails on its own. Weight, muscle strength, sleep, mood and activity all shape how a knee feels and how well it heals. Your score reflects the joint, but the guidance treats the person.</p>
       </div>
       <ul>
         <li><strong>Strength and balance.</strong> Weak hips and thighs load the knee unevenly. Guidance includes whole-leg exercise, not just knee bends.</li>
@@ -669,7 +692,7 @@
 
   <div class="disclaimer">
     <div class="wrap">
-      <strong>Important.</strong> My Knee Score is an educational self-assessment based on validated knee outcome measures. It is not a diagnosis and does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
+      <strong>Important.</strong> My Knee Score is an educational self-assessment. It uses the Short Knee Score, a weighted scoring developed in house. It has not been clinically validated, it is not a diagnosis, and it does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
     </div>
   </div>
 
@@ -679,6 +702,7 @@
   <div class="wrap foot">
     <p>© 2026 mykneescore.com</p>
     <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="#top">Back to top</a></p>
+    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 3 October 2026</p>
   </div>
 </footer>
 
