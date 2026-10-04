@@ -82,7 +82,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - The PK7 "Pain" and "Disturbed sleep" items are labelled "0 = worst, 10 = best", as in the original.
 
 ## Open questions for the user
-- Approve the phone menu preview so it can be pushed live?
+- Approve the phone menu preview (with correct fonts) so it can go live?
 
 ## Resolved decisions
 - WOMAC: hold back until licensed (2026-10-03).
@@ -91,6 +91,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - Put the section live, tucked away behind the "Advanced scores" tab (2026-10-04).
 - Keep the footer link (2026-10-04).
 - Show the tab on phones (2026-10-04).
+- Hiding "Track progress" on tablets (701 to 860px) is fine (2026-10-04).
 
 ## Progress log
 - 2026-10-03: Chat renamed. Both repos surveyed. Decisions recorded.
@@ -101,3 +102,4 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - 2026-10-03: User decisions: WOMAC held back, SK11/PK7 dedicated engines confirmed, preview approved. WOMAC removed (now 20 pages, 17 on the hub). Parity 28/28, browser 69/69 rerun. Pushed and pull request opened: https://github.com/SportsHealing/MyKneeScore/pull/2
 - 2026-10-04: User could not see the section on mykneescore.com because the PR was not merged yet. Merged latest `main` (a `/preview/` refresh, no overlap) into the branch, then merged PR #2 into `main` to put it live. Live check: all 28 site files on mykneescore.com are byte-identical to the tested files.
 - 2026-10-04: Branch restarted from `main`. Tab made visible on phones ("Advanced" short label), menu tightened for phones and tablets, pages rebuilt. Scoring files unchanged; browser test 69/69. Committed on branch, not pushed. Preview images sent for approval.
+- 2026-10-04: User saw a different font in the preview images. Cause: this sandbox cannot load Google Fonts, so screenshots used a fallback font. No font settings were changed. Previews re-taken with Cormorant Garamond and Hanken Grotesk fed in separately. Tip for future sessions: intercept fonts.googleapis.com and fonts.gstatic.com in Playwright and fetch them with curl, or screenshots will show the wrong font.
