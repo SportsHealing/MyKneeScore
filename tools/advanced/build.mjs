@@ -94,7 +94,7 @@ function header(current) {
         <li><a href="../index.html#how">How it works</a></li>
         <li><a href="../index.html#meaning">Your score</a></li>
         <li><a href="../anatomy.html">Knee anatomy</a></li>
-        <li><a href="index.html"${current ? ' aria-current="page"' : ""}>Advanced scores</a></li>
+        <li class="nav-adv"><a href="index.html"${current ? ' aria-current="page"' : ""}>Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="../index.html#quiz">Start the test</a></li>
       </ul>
     </nav>
