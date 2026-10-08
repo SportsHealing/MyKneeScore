@@ -31,6 +31,12 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - Advanced code in `app.js` and `advanced.css`; home page code in its own style and script blocks (tokens only). Existing Print buttons unchanged.
 - Checks: every report score recomputed from its listed answers; e2e now also checks the PDF score (95/95); house style and scoring sheet pass.
 
+## 2026-10-08: PDF link keeps earlier scores
+- Owner found that retaking via the PDF link lost the earlier result. Cause: by design nothing is stored between visits.
+- Fix: the PDF link carries earlier dates and scores in the URL fragment (`#h=2026-10-08.48,...`, last 12 kept, strictly validated). The fragment is never sent to the server and nothing is stored on the device. The next report lists them in "Track your progress" with the change since last time.
+- `?report=N` makes each link differ from the page it came from. Without it Chrome drops the link from the PDF (it had been dropping the home page link since launch).
+- Home page: `#quiz&h=...` still opens the test. Owner decisions: keep the Print button, keep 4 tracking rows, Q6 stays "last week".
+
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.
 - Layout: one hub page linking to one page per score.

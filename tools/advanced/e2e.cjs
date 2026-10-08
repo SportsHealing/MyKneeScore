@@ -79,6 +79,20 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
       await page.waitForSelector(".report");
     }
   }
+  // Earlier scores in the PDF link are listed in the next report, and passed on
+  await page.goto(BASE + "koos-jr.html?report=2#h=2026-09-01.40,bad,2026-09-15.45");
+  await page.evaluate(() => { window.print = () => {}; });
+  await page.click("[data-open-quiz]");
+  for (let i = 0; i < DATA["koos-jr"].questionSet.length; i++) { await page.click(`label[for="q${DATA["koos-jr"].questionSet[i].id}-0"]`); await page.waitForTimeout(340); }
+  await page.waitForSelector("#result.show");
+  await page.click('[data-act="pdf"]');
+  const hist = await page.evaluate(() => ({
+    rows: [...document.querySelectorAll("#pdfReport .rp-track tbody tr")].filter(tr => tr.textContent.trim()).length,
+    link: document.querySelector("#pdfReport .rp-foot a").getAttribute("href")
+  }));
+  checks++;
+  if (hist.rows !== 3 || !/\?report=3#h=2026-09-01\.40,2026-09-15\.45,\d{4}-\d{2}-\d{2}\.\d+$/.test(hist.link)) { fails++; console.log("HISTORY MISMATCH", JSON.stringify(hist)); }
+
   // hub filter
   await page.goto(BASE + "index.html");
   const total = await page.$$eval("#scoreGrid .score-card", c => c.length);
@@ -87,4 +101,6 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   console.log("hub cards", total, "patellofemoral filter ->", visible.join(", "));
   console.log(`checks=${checks} fails=${fails} pageErrors=${errors.length}`); errors.slice(0, 5).forEach(e => console.log("ERR", e));
   await browser.close();
+  // Fail the CI step on any mismatch or page error
+  if (fails || errors.length) process.exitCode = 1;
 })();

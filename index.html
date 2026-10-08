@@ -989,6 +989,7 @@
           <label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>
           <input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60">
           <p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>
+          <p class="pdf-note" id="pdfHistory" hidden></p>
           <button type="button" class="btn btn-gold" id="pdfBtn">Download PDF report</button>
           <p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>
         </div>
@@ -1179,6 +1180,43 @@
     function esc(v) {
       return String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
+    /* Earlier results carried in the PDF link, e.g. #h=2026-10-08.48,2026-10-22.55
+       The part after # is never sent to the server, and nothing is stored on the
+       device. Each new PDF link carries the earlier scores plus the new one. */
+    function readHistory() {
+      var m = /(?:^#|[&;])h=([^&;]*)/.exec(window.location.hash);
+      if (!m) { return []; }
+      return m[1].split(",").filter(function (e) { return /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\.\d{1,3}$/.test(e); })
+        .slice(-12).map(function (e) { var p = e.split("."); return { date: p[0], score: Number(p[1]) }; });
+    }
+    var pastScores = readHistory();
+    function isoDate(d) {
+      return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+    }
+    function ukDate(iso) { var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+    /* The link to the next test. "?report=" counts the reports so the link never
+       matches the page it came from; browsers drop such links from PDFs. */
+    function retakeLink(score, when, hashPrefix) {
+      var base = window.location.href.split("#")[0].split("?")[0];
+      return base + "?report=" + (pastScores.length + 1) + "#" + hashPrefix + historyTag(score, when);
+    }
+    function historyTag(score, when) {
+      return "h=" + pastScores.concat([{ date: isoDate(when), score: score }]).slice(-12)
+        .map(function (e) { return e.date + "." + e.score; }).join(",");
+    }
+    function trackRows(score, when) {
+      var rows = pastScores.map(function (e) {
+        return '<tr><td>' + esc(ukDate(e.date)) + '</td><td>' + e.score + '</td><td>Earlier report</td></tr>';
+      });
+      var note = "This report";
+      if (pastScores.length) {
+        var diff = score - pastScores[pastScores.length - 1].score;
+        note += diff > 0 ? " (up " + diff + " since last report)" : diff < 0 ? " (down " + (-diff) + " since last report)" : " (same as last report)";
+      }
+      rows.push('<tr><td>' + esc(when.toLocaleDateString("en-GB")) + '</td><td>' + score + '</td><td>' + note + '</td></tr>');
+      for (var i = Math.max(1, 4 - rows.length); i > 0; i--) { rows.push('<tr><td></td><td></td><td></td></tr>'); }
+      return rows.join("");
+    }
     function levelOf(score) { return score >= 70 ? "good" : score >= 60 ? "fair" : "poor"; }
     function longDate(d) {
       return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) +
@@ -1194,7 +1232,7 @@
         var label = input ? form.querySelector('label[for="' + input.id + '"]') : null;
         return [s.querySelector(".q-title").textContent, label ? label.textContent : "Not answered"];
       });
-      var url = location.href.split("#")[0];
+      var url = location.href.split("#")[0].split("?")[0];
       return '<div class="rp-head"><span class="rp-mark">My<b>Knee</b>Score</span><span class="rp-kind">Knee score report</span></div>' +
         '<h1 class="rp-title">Short Knee Score</h1>' +
         '<div class="rp-meta">' +
@@ -1222,13 +1260,19 @@
         '<div class="rp-sec"><h2>Your answers</h2><table class="rp-table"><thead><tr><th>#</th><th>Question</th><th>Your answer</th></tr></thead><tbody>' +
         answers.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
         '</tbody></table></div>' +
-        '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Take the test again in two to four weeks and write your score here, or save a new report each time.</p>' +
+        '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Use the link below to take the test again in two to four weeks. Your next report will list these scores too.</p>' +
         '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
-        '<tr><td>' + esc(r.when.toLocaleDateString("en-GB")) + '</td><td>' + r.score + '</td><td>This report</td></tr>' +
-        '<tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div>' +
-        '<p class="rp-foot">Retake the test at <a href="' + esc(url) + '#quiz">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
-        'This report was made on your device. Nothing you entered was saved or sent. ' +
+        trackRows(r.score, r.when) + '</tbody></table></div>' +
+        '<p class="rp-foot">Retake the test at <a href="' + esc(retakeLink(r.score, r.when, "quiz&")) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
+        'The link carries your dates and scores, so your next report lists them too. ' +
+        'This report was made on your device. Nothing you entered was saved or sent to us. ' +
         'A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.</p>';
+    }
+
+    if (pastScores.length) {
+      var ph = document.getElementById("pdfHistory");
+      ph.textContent = pastScores.length + " earlier score" + (pastScores.length === 1 ? "" : "s") + " from your PDF link will be added to this report.";
+      ph.hidden = false;
     }
 
     pdfBtn.addEventListener("click", function () {
@@ -1260,7 +1304,7 @@
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });
     });
 
-    if (window.location.hash === "#quiz") { open(); }
+    if (/^#quiz(&|$)/.test(window.location.hash)) { open(); }
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && app.classList.contains("open")) { close(); }

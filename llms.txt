@@ -54,7 +54,7 @@ tools/advanced/.
 
 ## Not here yet
 
-- Score history. Nothing is saved between visits; users are told to note their score.
+- Stored score history. Nothing is saved between visits. The PDF report link carries earlier dates and scores in the URL fragment (#h=...), so the next report lists them without anything being stored.
 - A Terms and Conditions page.
 - A How It Works page setting out the evidence base.
 - A markdown twin of each page. These are hand written files with no build step, so a twin would drift.

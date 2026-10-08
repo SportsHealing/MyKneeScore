@@ -47,12 +47,54 @@
   }
   function levelOfPct(p) { return p >= 70 ? "good" : p >= 40 ? "fair" : "poor"; }
 
+  /* Earlier results carried in the PDF link, e.g. #h=2026-10-08.48,2026-10-22.55
+     The part after # is never sent to the server, and nothing is stored on the
+     device. Each new PDF link carries the earlier scores plus the new one. */
+  function readHistory() {
+    var m = /(?:^#|[&;])h=([^&;]*)/.exec(window.location.hash);
+    if (!m) { return []; }
+    return m[1].split(",").filter(function (e) { return /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\.\d{1,3}$/.test(e); })
+      .slice(-12).map(function (e) { var p = e.split("."); return { date: p[0], score: Number(p[1]) }; });
+  }
+  var pastScores = readHistory();
+  function isoDate(d) {
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function ukDate(iso) { var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+  /* The link to the next test. "?report=" counts the reports so the link never
+     matches the page it came from; browsers drop such links from PDFs. */
+  function retakeLink(score, when, hashPrefix) {
+    var base = window.location.href.split("#")[0].split("?")[0];
+    return base + "?report=" + (pastScores.length + 1) + "#" + hashPrefix + historyTag(score, when);
+  }
+  function historyTag(score, when) {
+    return "h=" + pastScores.concat([{ date: isoDate(when), score: score }]).slice(-12)
+      .map(function (e) { return e.date + "." + e.score; }).join(",");
+  }
+  function trackRows(score, when) {
+    var rows = pastScores.map(function (e) {
+      return '<tr><td>' + esc(ukDate(e.date)) + '</td><td>' + e.score + '</td><td>Earlier report</td></tr>';
+    });
+    var note = "This report";
+    if (pastScores.length) {
+      var diff = score - pastScores[pastScores.length - 1].score;
+      note += diff > 0 ? " (up " + diff + " since last report)" : diff < 0 ? " (down " + (-diff) + " since last report)" : " (same as last report)";
+    }
+    rows.push('<tr><td>' + esc(when.toLocaleDateString("en-GB")) + '</td><td>' + score + '</td><td>' + note + '</td></tr>');
+    for (var i = Math.max(1, 4 - rows.length); i > 0; i--) { rows.push('<tr><td></td><td></td><td></td></tr>'); }
+    return rows.join("");
+  }
+  function historyNote() {
+    return pastScores.length ? '<p class="pdf-note">' + pastScores.length + ' earlier score' + (pastScores.length === 1 ? '' : 's') +
+      ' from your PDF link will be added to this report.</p>' : '';
+  }
+
   function pdfBoxHtml() {
     var old = document.getElementById("pdfName");
     return '<div class="pdf-box">' +
       '<label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>' +
       '<input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60" value="' + esc(old ? old.value : "") + '">' +
-      '<p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>' +
+      '<p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>' + historyNote() +
       '<button type="button" class="btn btn-gold" data-act="pdf">Download PDF report</button>' +
       '<p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>' +
       '</div>';
@@ -109,13 +151,13 @@
         d.answers.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
         '</tbody></table></div>';
     }
-    var url = location.href.split("#")[0];
-    h += '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Take the ' + esc(S.acronym) + ' again in 2 to 4 weeks and write your score here, or save a new report each time.</p>' +
+    var url = location.href.split("#")[0].split("?")[0];
+    h += '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Use the link below to take the ' + esc(S.acronym) + ' again in 2 to 4 weeks. Your next report will list these scores too.</p>' +
       '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
-      '<tr><td>' + esc(when.toLocaleDateString("en-GB")) + '</td><td>' + d.score + '</td><td>This report</td></tr>' +
-      '<tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div>' +
-      '<p class="rp-foot">Retake this score at <a href="' + esc(url) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
-      'This report was made on your device. Nothing you entered was saved or sent. ' +
+      trackRows(d.score, when) + '</tbody></table></div>' +
+      '<p class="rp-foot">Retake this score at <a href="' + esc(retakeLink(d.score, when, "")) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
+      'The link carries your dates and scores, so your next report lists them too. ' +
+      'This report was made on your device. Nothing you entered was saved or sent to us. ' +
       'A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.</p>';
     return h;
   }
