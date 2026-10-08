@@ -8,7 +8,7 @@ grown from a checklist. The incident is named in each check.
 No dependencies. Run from the repo root:  python3 tools/checks/house-style.py
 Exit code 0 if everything passes, 1 otherwise.
 """
-import os, re, sys
+import base64, glob, hashlib, os, re, sys
 
 PAGES = ["index.html", "anatomy.html"]
 TEXT_EXT = (".html", ".txt", ".md", ".css", ".js", ".mjs", ".cjs", ".yml", ".sh")
@@ -117,6 +117,40 @@ for p in PAGES:
     navs[p] = [re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', t)).strip() for _, t in links]
 if len(set(tuple(v) for v in navs.values())) > 1:
     fail("nav matches across pages", str(navs))
+
+# 9. A Content Security Policy is the backstop if a script ever gets injected.
+# A hash based policy breaks silently when an inline script is edited, so check
+# that every inline script's hash is in its page's policy.
+PUBLISHED = PAGES + sorted(glob.glob("advanced/*.html"))
+check("CSP present and inline scripts hashed", "incident: security audit 2026-10-08")
+for p in PUBLISHED:
+    s = read(p)
+    m = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]+)"', s)
+    if not m:
+        fail("CSP present and inline scripts hashed", "%s has no CSP meta" % p)
+        continue
+    for body in re.findall(r'<script>(.*?)</script>', s, re.S):
+        h = "sha256-" + base64.b64encode(hashlib.sha256(body.encode("utf-8")).digest()).decode()
+        if "'%s'" % h not in m.group(1):
+            fail("CSP present and inline scripts hashed",
+                 "%s: inline script changed, put '%s' in the CSP script-src" % (p, h))
+
+# 10. The site promises nothing is sent anywhere. A third party font, script or
+# stylesheet sends every visitor's IP address to that third party.
+check("no third party resources", "incident: Google Fonts, audit 2026-10-08")
+for p in PUBLISHED + sorted(glob.glob("advanced/assets/*")) + sorted(glob.glob("fonts/*.css")):
+    s = read(p)
+    hits = re.findall(r'<(?:script|link|img|iframe)\b[^>]*\b(?:src|href)="(?:https?:)?//[^"]+"', s)
+    hits += re.findall(r'url\(\s*["\']?(?:https?:)?//[^)]+\)', s)
+    if hits:
+        fail("no third party resources", "%s: %s" % (p, hits[:3]))
+
+# 11. Jekyll publishes everything it is not told to exclude.
+check("internal files are not published", "incident: tools/ live on the site, 2026-10-08")
+cfg = read("_config.yml") if os.path.exists("_config.yml") else ""
+for name in ("tools", "CLAUDE.md"):
+    if not re.search(r'^\s*-\s*%s\s*$' % re.escape(name), cfg, re.M):
+        fail("internal files are not published", "_config.yml does not exclude %s" % name)
 
 print()
 if failures:

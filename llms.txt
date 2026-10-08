@@ -41,6 +41,8 @@ tools/advanced/.
 ## Conventions
 
 - Static files served from GitHub Pages.
+- No third party requests. Fonts are self hosted in fonts/. Every page has a
+  Content Security Policy meta tag; see CLAUDE.md for the security rules.
 - The home and anatomy pages are self contained: CSS in a style block, JS in a
   script block, no build step. Every colour is a token in their `:root` block,
   with no colour literals elsewhere.

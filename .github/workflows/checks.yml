@@ -17,12 +17,18 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Read only. Nothing in this workflow writes to the repo.
+permissions:
+  contents: read
+
 jobs:
   static:
     name: house style and scoring
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - name: House style
         run: python3 tools/checks/house-style.py
@@ -34,16 +40,20 @@ jobs:
     name: advanced section in a browser
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
 
+      # Pinned, not @latest: a fresh release is the usual way a poisoned
+      # package reaches CI. Bump on purpose, not by accident.
       - name: Install Playwright and Chromium
         run: |
-          npm install -g playwright@latest
-          npx --yes playwright@latest install --with-deps chromium
+          npm install -g playwright@1.63.0
+          npx --yes playwright@1.63.0 install --with-deps chromium
 
       # Server and test in one step: a process backgrounded in an earlier
       # step is not guaranteed to still be running in a later one.
