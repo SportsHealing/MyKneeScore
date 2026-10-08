@@ -514,6 +514,77 @@
     .quiz-topbar-inner { flex-wrap: wrap; }
     .progress-meta { order: 3; width: 100%; text-align: center; }
   }
+  /* PDF report: name box on the result screen */
+  .pdf-box { max-width: 26rem; margin: 1.6rem auto 0; text-align: left; }
+  .pdf-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--gold-pale); }
+  .pdf-box input { width: 100%; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+  .pdf-box input:hover { border-color: var(--gold); }
+  .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
+  .pdf-note { font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.7); margin-top: 0.35rem; }
+  .pdf-opt { font-weight: 400; }
+
+  /* PDF report: only shown when printing it with "Save as PDF" */
+  .pdf-report { display: none; }
+  @page report { size: A4; margin: 14mm 14mm 16mm; }
+  @media print {
+    body.print-report { overflow: visible !important; background: var(--white); }
+    body.print-report > *:not(.pdf-report) { display: none !important; }
+    body.print-report .pdf-report { display: block; page: report; }
+    .pdf-report, .pdf-report * { -webkit-print-color-adjust: exact; print-color-adjust: exact; color: var(--text); }
+    .pdf-report { font-family: var(--body); font-size: 10.5pt; line-height: 1.45; }
+    .pdf-report h1, .pdf-report h2, .pdf-report p { margin-left: 0; margin-right: 0; margin-bottom: 0; }
+    .rp-head { display: flex; justify-content: space-between; align-items: center; background: var(--green-deep); border-radius: 10px; padding: 10pt 14pt; }
+    .rp-head .rp-mark { font-family: var(--display); font-size: 18pt; font-weight: 600; color: var(--ivory); }
+    .rp-head .rp-mark b { color: var(--gold); font-weight: 600; }
+    .rp-head .rp-kind { font-size: 8.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); }
+    .rp-title { font-family: var(--display); font-size: 20pt; font-weight: 600; color: var(--green-ink); margin: 12pt 0 6pt; line-height: 1.15; }
+    .rp-meta { display: grid; grid-template-columns: 1.3fr 1.5fr 1fr; gap: 8pt; border: 1px solid var(--line); border-radius: 10px; padding: 8pt 12pt; background: var(--ivory); }
+    .rp-k { display: block; font-size: 7.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+    .rp-v { display: block; font-weight: 600; color: var(--green-ink); }
+    .rp-score { display: grid; grid-template-columns: 110pt 1fr auto; gap: 16pt; align-items: center; margin-top: 12pt; padding: 12pt 14pt; border: 1px solid var(--line); border-radius: 12px; break-inside: avoid; }
+    .rp-ring { width: 110pt; height: 110pt; }
+    .rp-ring circle { fill: none; stroke-width: 12; }
+    .rp-ring-track { stroke: var(--paper); }
+    .rp-ring-fill { stroke-linecap: round; }
+    .rp-ring-fill.rp-good { stroke: var(--green-soft); }
+    .rp-ring-fill.rp-fair { stroke: var(--gold); }
+    .rp-ring-fill.rp-poor { stroke: var(--rust); }
+    .rp-big { font-family: var(--display); font-size: 40pt; font-weight: 600; line-height: 1; color: var(--green-ink); }
+    .rp-big small { font-family: var(--body); font-size: 10pt; font-weight: 500; color: var(--text-muted); }
+    .rp-chip { display: inline-block; margin-top: 6pt; padding: 3pt 10pt; border-radius: 999px; font-weight: 700; font-size: 10pt; }
+    .rp-bg-good { background: var(--green-soft); }
+    .rp-bg-fair { background: var(--gold); }
+    .rp-bg-poor { background: var(--rust); }
+    .rp-chip.rp-bg-good, .rp-chip.rp-bg-poor { color: var(--ivory); }
+    .rp-chip.rp-bg-fair { color: var(--green-deep); }
+    .rp-dir { font-size: 9pt; color: var(--text-muted); margin-top: 4pt; }
+    .rp-key p { font-size: 9pt; margin-top: 3pt; display: flex; align-items: center; gap: 6pt; }
+    .rp-dot { display: inline-block; width: 9pt; height: 9pt; border-radius: 50%; }
+    .rp-sec { margin-top: 14pt; }
+    .rp-sec h2 { font-family: var(--display); font-size: 14pt; font-weight: 600; color: var(--green-ink); border-bottom: 2px solid var(--gold); padding-bottom: 3pt; margin-bottom: 6pt; break-after: avoid; }
+    .rp-bar { display: grid; grid-template-columns: 120pt 1fr 44pt; gap: 10pt; align-items: center; break-inside: avoid; }
+    .rp-bar + .rp-bar { margin-top: 5pt; }
+    .rp-bar-name { font-size: 9.5pt; }
+    .rp-bar-track { height: 9pt; background: var(--paper); border-radius: 999px; overflow: hidden; }
+    .rp-bar-fill { display: block; height: 100%; border-radius: 999px; }
+    .rp-bar-fill.rp-good { background: var(--green-soft); }
+    .rp-bar-fill.rp-fair { background: var(--gold); }
+    .rp-bar-fill.rp-poor { background: var(--rust); }
+    .rp-bar-val { text-align: right; font-weight: 700; font-size: 9.5pt; color: var(--green-ink); }
+    .rp-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+    .rp-table th { text-align: left; background: var(--green-ink); color: var(--gold-pale); font-weight: 600; padding: 4pt 6pt; }
+    .rp-table td { padding: 4pt 6pt; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .rp-table tbody tr:nth-child(even) td { background: var(--ivory); }
+    .rp-table tr { break-inside: avoid; }
+    .rp-table td:first-child { width: 22pt; color: var(--text-muted); }
+    .rp-table td:last-child { font-weight: 600; color: var(--green-ink); }
+    .rp-track p { font-size: 9.5pt; margin-bottom: 6pt; }
+    .rp-track .rp-table td { height: 18pt; }
+    .rp-track .rp-table td:first-child { width: 90pt; color: var(--text); }
+    .rp-track .rp-table td:nth-child(2) { width: 60pt; }
+    .rp-foot { margin-top: 14pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--text-muted); }
+    .rp-foot a { color: var(--green-soft); font-weight: 600; }
+  }
 </style>
 </head>
 <body>
@@ -914,6 +985,14 @@
 
         <p class="small">Note today's date and score, then retest in two to four weeks. This tool does not replace a medical assessment.</p>
 
+        <div class="pdf-box">
+          <label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>
+          <input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60">
+          <p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>
+          <button type="button" class="btn btn-gold" id="pdfBtn">Download PDF report</button>
+          <p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>
+        </div>
+
         <div class="result-actions">
           <button type="button" class="btn btn-gold" id="retakeBtn">Retake the test</button>
           <button type="button" class="btn btn-ghost" id="doneBtn">Return to the site</button>
@@ -944,6 +1023,9 @@
     var bandName  = document.getElementById("bandName");
     var bandAdvice= document.getElementById("bandAdvice");
     var listEl    = document.getElementById("breakdownList");
+    var pdfName   = document.getElementById("pdfName");
+    var pdfBtn    = document.getElementById("pdfBtn");
+    var last      = null; /* the latest result, for the PDF report */
     var current   = 0;
     var reduce    = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -998,6 +1080,8 @@
     }
     function reset() {
       form.reset();
+      pdfName.value = "";
+      last = null;
       resultEl.classList.remove("show");
       navWrap.style.display = "";
       current = 0;
@@ -1061,6 +1145,8 @@
       var score = Math.floor(totalWeighted / 20) + ((totalWeighted % 20) >= 10 ? 1 : 0);
       var band = bands.find(function (b) { return score >= b.min; });
 
+      last = { score: score, band: band, perQ: perQ, when: new Date() };
+
       scoreNum.textContent = score;
       dial.style.setProperty("--value", score);
       bandName.textContent = band.name;
@@ -1086,6 +1172,89 @@
       var rh = resultEl.querySelector("h3");
       if (rh) { rh.focus(); }
     }
+
+    /* PDF report. Built on the page and saved with the browser's own
+       "Save as PDF". The name box is read once, at save time. Nothing is
+       stored or sent anywhere. */
+    function esc(v) {
+      return String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+    function levelOf(score) { return score >= 70 ? "good" : score >= 60 ? "fair" : "poor"; }
+    function longDate(d) {
+      return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) +
+        " at " + d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function reportHtml(r, name) {
+      var lv = levelOf(r.score);
+      var c = 2 * Math.PI * 52;
+      var on = r.score / 100 * c;
+      var answers = slides.map(function (s) {
+        var input = s.querySelector("input:checked");
+        var label = input ? form.querySelector('label[for="' + input.id + '"]') : null;
+        return [s.querySelector(".q-title").textContent, label ? label.textContent : "Not answered"];
+      });
+      var url = location.href.split("#")[0];
+      return '<div class="rp-head"><span class="rp-mark">My<b>Knee</b>Score</span><span class="rp-kind">Knee score report</span></div>' +
+        '<h1 class="rp-title">Short Knee Score</h1>' +
+        '<div class="rp-meta">' +
+        '<div><span class="rp-k">Name</span><span class="rp-v">' + (name ? esc(name) : "Not given") + '</span></div>' +
+        '<div><span class="rp-k">Completed</span><span class="rp-v">' + esc(longDate(r.when)) + '</span></div>' +
+        '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + totalQ + ' of ' + totalQ + '</span></div></div>' +
+        '<div class="rp-score"><svg class="rp-ring" viewBox="0 0 120 120" aria-hidden="true">' +
+        '<circle class="rp-ring-track" cx="60" cy="60" r="52"></circle>' +
+        '<circle class="rp-ring-fill rp-' + lv + '" cx="60" cy="60" r="52" stroke-dasharray="' + on.toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 60 60)"></circle></svg>' +
+        '<div><p class="rp-big">' + r.score + '<small> out of 100</small></p>' +
+        '<p class="rp-chip rp-bg-' + lv + '">' + esc(r.band.name) + '</p>' +
+        '<p class="rp-dir">Higher score = better knee function</p></div>' +
+        '<div class="rp-key"><p class="rp-k">Colour key</p>' +
+        '<p><span class="rp-dot rp-bg-good"></span>Optimal 85 to 100, Good 70 to 84</p>' +
+        '<p><span class="rp-dot rp-bg-fair"></span>Fair: 60 to 69</p>' +
+        '<p><span class="rp-dot rp-bg-poor"></span>Pay attention: 0 to 59</p></div></div>' +
+        '<div class="rp-sec"><h2>What your score means</h2><p>' + esc(r.band.advice) + '</p></div>' +
+        '<div class="rp-sec"><h2>How your score breaks down (out of 100)</h2>' +
+        r.perQ.map(function (q) {
+          var ql = q.pct >= 70 ? "good" : q.pct >= 40 ? "fair" : "poor";
+          return '<div class="rp-bar"><span class="rp-bar-name">' + esc(q.topic) + '</span>' +
+            '<span class="rp-bar-track"><span class="rp-bar-fill rp-' + ql + '" style="width:' + q.pct + '%"></span></span>' +
+            '<span class="rp-bar-val">' + q.pct + '</span></div>';
+        }).join("") + '</div>' +
+        '<div class="rp-sec"><h2>Your answers</h2><table class="rp-table"><thead><tr><th>#</th><th>Question</th><th>Your answer</th></tr></thead><tbody>' +
+        answers.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
+        '</tbody></table></div>' +
+        '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Take the test again in two to four weeks and write your score here, or save a new report each time.</p>' +
+        '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
+        '<tr><td>' + esc(r.when.toLocaleDateString("en-GB")) + '</td><td>' + r.score + '</td><td>This report</td></tr>' +
+        '<tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div>' +
+        '<p class="rp-foot">Retake the test at <a href="' + esc(url) + '#quiz">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
+        'This report was made on your device. Nothing you entered was saved or sent. ' +
+        'A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.</p>';
+    }
+
+    pdfBtn.addEventListener("click", function () {
+      if (!last) { return; }
+      var el = document.getElementById("pdfReport");
+      if (!el) {
+        el = document.createElement("div");
+        el.id = "pdfReport";
+        el.className = "pdf-report";
+        el.setAttribute("aria-hidden", "true");
+        document.body.appendChild(el);
+      }
+      el.innerHTML = reportHtml(last, pdfName.value.trim());
+      var oldTitle = document.title;
+      /* The browser uses the title as the PDF file name */
+      document.title = "My Knee Score report - " + last.when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+      document.body.classList.add("print-report");
+      function done() {
+        document.body.classList.remove("print-report");
+        document.title = oldTitle;
+        el.innerHTML = "";
+        window.removeEventListener("afterprint", done);
+      }
+      window.addEventListener("afterprint", done);
+      window.print();
+    });
 
     [].forEach.call(document.querySelectorAll("[data-open-quiz]"), function (el) {
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });

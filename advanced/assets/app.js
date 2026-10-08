@@ -30,6 +30,133 @@
     }
   }
 
+  // ---------------------------------------------------------------
+  // PDF report. Built on the page and saved with the browser's own
+  // "Save as PDF". The name box is read once, at save time. Nothing is
+  // stored or sent anywhere.
+  // ---------------------------------------------------------------
+  function longDate(d) {
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) +
+      " at " + d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  }
+  // Colour level for a band label: green, gold or rust
+  function levelOf(label) {
+    if (/Excellent|Good/.test(label)) return "good";
+    if (/Fair/.test(label)) return "fair";
+    return "poor";
+  }
+  function levelOfPct(p) { return p >= 70 ? "good" : p >= 40 ? "fair" : "poor"; }
+
+  function pdfBoxHtml() {
+    var old = document.getElementById("pdfName");
+    return '<div class="pdf-box">' +
+      '<label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>' +
+      '<input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60" value="' + esc(old ? old.value : "") + '">' +
+      '<p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>' +
+      '<button type="button" class="btn btn-gold" data-act="pdf">Download PDF report</button>' +
+      '<p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>' +
+      '</div>';
+  }
+
+  function ringHtml(pct, level) {
+    var c = 2 * Math.PI * 52;
+    var on = Math.max(0, Math.min(100, pct)) / 100 * c;
+    return '<svg class="rp-ring" viewBox="0 0 120 120" aria-hidden="true">' +
+      '<circle class="rp-ring-track" cx="60" cy="60" r="52"></circle>' +
+      '<circle class="rp-ring-fill rp-' + level + '" cx="60" cy="60" r="52" stroke-dasharray="' + on.toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 60 60)"></circle></svg>';
+  }
+
+  function barRows(rows) {
+    return rows.map(function (b) {
+      var lv = levelOfPct(b.pct);
+      return '<div class="rp-bar"><span class="rp-bar-name">' + esc(b.label) + '</span>' +
+        '<span class="rp-bar-track"><span class="rp-bar-fill rp-' + lv + '" style="width:' + Math.max(0, Math.min(100, b.pct)) + '%"></span></span>' +
+        '<span class="rp-bar-val">' + esc(b.value) + '</span></div>';
+    }).join("");
+  }
+
+  // d: { score, max, pct, label, dir, key, meaning, answered, extras, barsTitle, bars, answers, context }
+  function reportHtml(d, name, when) {
+    var lv = levelOf(d.label);
+    var h = '<div class="rp-head"><span class="rp-mark">My<b>Knee</b>Score</span><span class="rp-kind">Knee score report</span></div>' +
+      '<h1 class="rp-title">' + esc(S.fullName) + (S.fullName.indexOf(S.acronym) > -1 ? '' : ' <em>(' + esc(S.acronym) + ')</em>') + '</h1>' +
+      '<div class="rp-meta">' +
+      '<div><span class="rp-k">Name</span><span class="rp-v">' + (name ? esc(name) : "Not given") + '</span></div>' +
+      '<div><span class="rp-k">Completed</span><span class="rp-v">' + esc(longDate(when)) + '</span></div>' +
+      '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + esc(d.answered) + '</span></div></div>' +
+      '<div class="rp-score">' + ringHtml(d.pct, lv) +
+      '<div class="rp-score-text"><p class="rp-big">' + d.score + '<small> out of ' + d.max + '</small></p>' +
+      '<p class="rp-chip rp-bg-' + lv + '">' + esc(d.label) + '</p>' +
+      '<p class="rp-dir">' + esc(d.dir) + '</p></div>' +
+      '<div class="rp-key"><p class="rp-k">Colour key</p>' + d.key.map(function (k) {
+        return '<p><span class="rp-dot rp-bg-' + k[0] + '"></span>' + esc(k[1]) + '</p>';
+      }).join("") + '</div></div>';
+    (d.extras || []).forEach(function (x) {
+      var xl = levelOf(x.label);
+      h += '<div class="rp-extra"><span class="rp-k">' + esc(x.name) + '</span><span class="rp-extra-num">' + x.score + '<small> out of ' + x.max + '</small></span>' +
+        '<span class="rp-chip rp-bg-' + xl + '">' + esc(x.label) + '</span></div>';
+    });
+    h += '<div class="rp-sec"><h2>What your score means</h2><p>' + esc(d.meaning) + '</p></div>';
+    if (d.bars && d.bars.length) {
+      h += '<div class="rp-sec"><h2>' + esc(d.barsTitle) + '</h2><div class="rp-bars">' + barRows(d.bars) + '</div></div>';
+    }
+    if (d.context && d.context.length) {
+      h += '<div class="rp-sec"><h2>About you (not scored)</h2><ul class="rp-list">' +
+        d.context.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join("") + '</ul></div>';
+    }
+    if (d.answers && d.answers.length) {
+      h += '<div class="rp-sec"><h2>Your answers</h2><table class="rp-table"><thead><tr><th>#</th><th>Question</th><th>Your answer</th></tr></thead><tbody>' +
+        d.answers.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
+        '</tbody></table></div>';
+    }
+    var url = location.href.split("#")[0];
+    h += '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Take the ' + esc(S.acronym) + ' again in 2 to 4 weeks and write your score here, or save a new report each time.</p>' +
+      '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
+      '<tr><td>' + esc(when.toLocaleDateString("en-GB")) + '</td><td>' + d.score + '</td><td>This report</td></tr>' +
+      '<tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div>' +
+      '<p class="rp-foot">Retake this score at <a href="' + esc(url) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
+      'This report was made on your device. Nothing you entered was saved or sent. ' +
+      'A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.</p>';
+    return h;
+  }
+
+  function savePdf(d) {
+    var input = document.getElementById("pdfName");
+    var name = input ? input.value.trim() : "";
+    var when = new Date();
+    var el = document.getElementById("pdfReport");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "pdfReport";
+      el.className = "pdf-report";
+      el.setAttribute("aria-hidden", "true");
+      document.body.appendChild(el);
+    }
+    el.innerHTML = reportHtml(d, name, when);
+    var oldTitle = document.title;
+    // The browser uses the title as the PDF file name
+    document.title = "My Knee Score report - " + S.acronym + " - " + when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    document.body.classList.add("print-report");
+    function done() {
+      document.body.classList.remove("print-report");
+      document.title = oldTitle;
+      el.innerHTML = "";
+      window.removeEventListener("afterprint", done);
+    }
+    window.addEventListener("afterprint", done);
+    window.print();
+  }
+
+  function bandKey(max, higher) {
+    if (max === 100 && higher) return [["good", "Good: 70 to 100"], ["fair", "Fair: 40 to 69"], ["poor", "Poor: under 40"]];
+    var g = higher ? Math.ceil(0.7 * max) : Math.floor(0.3 * max);
+    var f = higher ? Math.ceil(0.4 * max) : Math.floor(0.6 * max);
+    return higher
+      ? [["good", "Good: " + g + " to " + max], ["fair", "Fair: " + f + " to " + (g - 1)], ["poor", "Poor: under " + f]]
+      : [["good", "Good: 0 to " + g], ["fair", "Fair: " + (g + 1) + " to " + f], ["poor", "Poor: over " + f]];
+  }
+  var TOOL_KEY = [["good", "Excellent 85+, Good 70 to 84"], ["fair", "Fair: 60 to 69"], ["poor", "Poor 40 to 59, Very Poor under 40"]];
+
   if (S.mode === "quick") initQuiz();
   else if (S.mode === "sk11") initSK11();
   else if (S.mode === "pk7") initPK7();
@@ -221,6 +348,50 @@
       return out;
     }
 
+    function answerText(q) {
+      var v = answers[q.id];
+      if (v === undefined) return "Not answered";
+      for (var k = 0; k < q.options.length; k++) { if (q.options[k].value === v) return q.options[k].label; }
+      return String(v);
+    }
+
+    // Report data for the PDF. Section bars (LK32, FK43) use the same engine as the score.
+    function quickReport(r, parts, higher) {
+      var z = E.ragZone(r.score, S.scoringRange.max, higher);
+      var scoredIds = S.parts ? S.parts[0].ids : null;
+      var scoredQs = questions.filter(function (q) { return q.scored !== false && !q.intro; });
+      var bars = [];
+      if (S.parts) {
+        var order = [];
+        questions.forEach(function (q) {
+          if (q.section && scoredIds.indexOf(q.id) > -1 && order.indexOf(q.section) < 0) order.push(q.section);
+        });
+        order.forEach(function (sec) {
+          var qs = questions.filter(function (q) { return q.section === sec && scoredIds.indexOf(q.id) > -1; });
+          var a = {};
+          qs.forEach(function (q) { a[q.id] = answers[q.id]; });
+          var sr = E.quickScore(qs, a, { min: 0, max: 100 });
+          if (sr) bars.push({ label: sec, pct: sr.score, value: sr.score + "/100" });
+        });
+      }
+      return {
+        score: r.score, max: S.scoringRange.max,
+        pct: Math.max(0, Math.min(100, z.dialPosition)),
+        label: z.zone,
+        dir: higher ? "Higher score = better function" : "Lower score = better function",
+        key: bandKey(S.scoringRange.max, higher),
+        meaning: S.scoringInterpretation,
+        answered: r.answeredCount + " of " + r.totalQuestions,
+        extras: parts.slice(1).filter(function (p) { return p.r; }).map(function (p) {
+          return { name: p.label, score: p.r.score, max: S.scoringRange.max, label: E.ragZone(p.r.score, S.scoringRange.max, higher).zone };
+        }),
+        barsTitle: "Your score by section (out of 100)",
+        bars: bars,
+        context: S.parts ? contextLines() : [],
+        answers: scoredQs.map(function (q) { return [q.text, answerText(q)]; })
+      };
+    }
+
     function finish() {
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
@@ -276,6 +447,7 @@
       }
       html += '<div class="result-advice"><b>Reading your score</b>' + esc(S.scoringInterpretation) + '</div>' +
         '<p class="small">Note today\'s date and score, then retest to track change. This tool does not replace a medical assessment.</p>' +
+        (r ? pdfBoxHtml() : "") +
         '<div class="result-actions">' +
         '<button type="button" class="btn btn-gold" data-act="retake">Retake</button>' +
         (r ? '<button type="button" class="btn btn-ghost" data-act="copy">Copy result</button>' : "") +
@@ -287,6 +459,8 @@
       resultEl.querySelector('[data-act="print"]').addEventListener("click", function () { window.print(); });
       var c = resultEl.querySelector('[data-act="copy"]');
       if (c) c.addEventListener("click", function () { copyText(copy); });
+      var pdf = resultEl.querySelector('[data-act="pdf"]');
+      if (pdf) pdf.addEventListener("click", function () { savePdf(quickReport(r, parts, higher)); });
       app.scrollTop = 0;
       var h = resultEl.querySelector("h3");
       if (h) h.focus();
@@ -403,9 +577,24 @@
       document.getElementById("report").innerHTML = '<div class="report"><h3>SK11 report: ' + r.score + '/100 (' + esc(band) + ')</h3>' +
         '<table><thead><tr><th>Domain</th><th class="num">Answer</th><th class="num">Weight</th><th class="num">Points</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p class="note">SK11 = round(10 &times; sum of answer &times; weight). Fixed weights, renormalised over answered items. Bands: 85+ Excellent, 70 to 84 Good, 60 to 69 Fair, 40 to 59 Poor, under 40 Very Poor.</p>' +
+        pdfBoxHtml() +
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });
+      document.querySelector('#report [data-act="pdf"]').addEventListener("click", function () {
+        var b = E.scoreBand(r.score);
+        savePdf({
+          score: r.score, max: 100, pct: r.score, label: b.label,
+          dir: "Higher score = better function", key: TOOL_KEY,
+          meaning: b.description + ". " + (r.isIncomplete ? "Preliminary: answer at least " + threshold + " items for a valid score. " : "") + "This score has not yet been validated, so treat it as a guide.",
+          answered: r.answeredCount + " of " + r.totalQuestions,
+          barsTitle: "Your answers by area (0 = worst, 10 = best)",
+          bars: Q.filter(function (q) { return answers[q.id] !== null; }).map(function (q) {
+            return { label: q.domain, pct: answers[q.id] * 10, value: answers[q.id] + "/10" };
+          }),
+          answers: Q.map(function (q) { return [q.text, answers[q.id] !== null ? answers[q.id] + " out of 10" : "Not answered"]; })
+        });
+      });
     }
 
     render();
@@ -509,9 +698,25 @@
         '<table><thead><tr><th>Domain</th><th class="num">Answer</th><th class="num">Scaled</th><th class="num">Weight</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p class="note">PK7: mixed scales normalised to 0 to 100, then weighted.' + (custom ? " Custom weights in use." : " Equal weights.") +
         ' Bands: 85+ Excellent, 70 to 84 Good, 60 to 69 Fair, 40 to 59 Poor, under 40 Very Poor.</p>' +
+        pdfBoxHtml() +
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });
+      document.querySelector('#report [data-act="pdf"]').addEventListener("click", function () {
+        var b = E.scoreBand(r.score);
+        savePdf({
+          score: r.score, max: 100, pct: r.score, label: b.label,
+          dir: "Higher score = better function", key: TOOL_KEY,
+          meaning: b.description + ". " + (r.isIncomplete ? "Preliminary: answer at least " + threshold + " domains for a valid score. " : "") +
+            (custom ? "Custom clinician weights were used. " : "") + "This score has not yet been validated, so treat it as a guide.",
+          answered: r.answeredCount + " of " + r.totalQuestions,
+          barsTitle: "Your answers by domain (scaled to 100)",
+          bars: D.filter(function (d) { return answers[d.id] !== null; }).map(function (d) {
+            return { label: d.name, pct: answers[d.id] / d.maxValue * 100, value: answers[d.id] + "/" + d.maxValue };
+          }),
+          answers: D.map(function (d) { return [d.name + " (" + d.description.toLowerCase() + ")", answers[d.id] !== null ? answers[d.id] + " out of " + d.maxValue : "Not answered"]; })
+        });
+      });
     }
 
     render();
