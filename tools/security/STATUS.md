@@ -100,3 +100,6 @@ Not published: `tools/` is excluded in `_config.yml`.
 
 ## Log
 - 2026-10-08: First audit. F1, F2, F3, F5 fixed on branch. F4, F6, F7, F8 open.
+- 2026-10-08: One Advanced e2e run timed out on its first click while another
+  browser test shared the local server. A clean rerun passed 69 of 69 with 0
+  page errors. A direct probe of the same page showed no CSP errors.
