@@ -73,7 +73,8 @@ Not published: `tools/` is excluded in `_config.yml`.
 - Scoring: `verify-scoring.js` passes on all 9,765,625 answer sets.
 - Browser smoke test (Chromium, local server): 6 pages, 0 console errors,
   0 CSP violations, 0 requests to other hosts, fonts load, quiz scores 100.
-- Advanced e2e: see commit message for the result on this branch.
+- Advanced e2e (`tools/advanced/e2e.cjs`): 69 checks, 0 fails, 0 page errors
+  (so no CSP violations on the Advanced pages).
 - Live checks after merge: see "Next steps".
 
 ## Next steps for the owner
