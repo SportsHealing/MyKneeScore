@@ -126,8 +126,11 @@ function rangeText(s) {
 }
 
 // ---------- hub ----------
+// "Before you start" questions are not counted
+const count = s => s.mode === "quick" ? s.questionSet.filter(q => !q.intro).length : s.questions;
+
 function card(s) {
-  const n = s.mode === "quick" ? s.questionSet.length : s.questions;
+  const n = count(s);
   return `<a class="score-card" href="${esc(s.slug)}.html" data-cat="${esc(s.category)}">
           <span class="sc-acronym">${esc(s.acronym)}</span>
           <span class="sc-name">${esc(s.fullName)}</span>
@@ -204,7 +207,7 @@ function sourceLink(s) {
 }
 
 function scorePage(s) {
-  const n = s.mode === "quick" ? s.questionSet.length : s.questions;
+  const n = count(s);
   const start = s.mode === "quick"
     ? `<div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the ${esc(s.acronym)}</button><a class="btn btn-ghost" href="index.html">All scores</a></div>`
     : `<div class="hero-actions"><a class="btn btn-gold" href="#tool">Start the ${esc(s.acronym)}</a><a class="btn btn-ghost" href="index.html">All scores</a></div>`;

@@ -25,13 +25,18 @@ function context(id, text, labels, extra = {}) {
   return { id, section: "About you", text, scored: false, options: labels.map(label => ({ value: label, label })), ...extra };
 }
 
+// Asked first in both scores. Recorded with the result, not scored.
+const SINCE_INJURY = context(0, "How long is it since your knee injury or operation?", [
+  "Up to 1 week", "Up to 1 month", "Up to 6 months", "Up to 1 year", "More than 1 year", "No specific injury or operation",
+], { section: "Before you start", intro: true });
+
 const CORE = [
   scored(1, "Pain and symptoms", "How much pain do you have during normal daily activities?", SEVERITY),
   scored(2, "Pain and symptoms", "How much pain do you have walking on level ground?", SEVERITY),
   scored(3, "Pain and symptoms", "How much stiffness do you have after sitting or resting?", SEVERITY),
   scored(4, "Pain and symptoms", "How much swelling do you have after activity?", SEVERITY),
   scored(5, "Pain and symptoms", "How much aching or pain do you have the day after exercise or exertion?", SEVERITY),
-  scored(6, "Pain and symptoms", "How often have you needed pain relief for your knee?", ["Not at all", "Less than 1 day", "1-3 days", "4-6 days", "Everyday"]),
+  scored(6, "Pain and symptoms", "How often have you needed pain relief for your knee?", ["Not at all", "1 day a week", "1-3 days", "4-6 days", "Everyday"]),
   scored(7, "Sleep", "On how many nights did your knee make it hard to fall asleep?", NIGHTS),
   scored(8, "Sleep", "On how many nights did knee pain wake you?", NIGHTS),
   scored(9, "Sleep", "Overall, how much has your knee disturbed the quality of your sleep?", SEVERITY),
@@ -111,8 +116,9 @@ export const LOCAL_SCORES = [
     typicalUse: "Detailed baseline and follow-up assessment, rehab monitoring and return-to-sport planning.",
     strengths: ["Covers symptoms, sleep, function, sport, work and confidence in one questionnaire", "Same 0 to 4 answer scale throughout", "Free to use"],
     limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "Longer than the short scores (about 8 to 10 minutes)", "No MCID or normative data yet"],
-    scoringInterpretation: "0 = severe problems, 100 = no problems. Each answer counts 0 to 4, with 4 for the best answer. The total is shown out of 100. Not yet validated, so treat the result as a guide.",
-    questionSet: CORE,
+    scoringInterpretation: "0 = severe problems, 100 = no problems. Each answer counts 0 to 4, with 4 for the best answer. The total is shown out of 100. The time since injury or operation is recorded with your result, so you can compare scores over time, but it does not change the score. Not yet validated, so treat the result as a guide.",
+    questionSet: [SINCE_INJURY, ...CORE],
+    parts: [{ label: "Knee score", ids: CORE.map(q => q.id) }],
     ...SHARED,
   },
   {
@@ -129,8 +135,8 @@ export const LOCAL_SCORES = [
     typicalUse: "Detailed assessment that records female health factors alongside knee function, for discussion with a clinician.",
     strengths: ["Knee score is the same as the Long Knee Score, so results can be compared", "Records hormonal and female health factors that standard knee scores leave out", "Free to use"],
     limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "The longest score here (about 12 to 15 minutes)", "Questions 33 to 37 are recorded for context and do not change either score"],
-    scoringInterpretation: "Knee score: questions 1 to 32, 0 = severe problems, 100 = no problems. Female health score: questions 38 to 43, 0 = large impact, 100 = no impact. Questions 33 to 37 are recorded, not scored. Not yet validated, so treat the results as a guide.",
-    questionSet: [...CORE, ...FEMALE_EXTRA],
+    scoringInterpretation: "Knee score: questions 1 to 32, 0 = severe problems, 100 = no problems. Female health score: questions 38 to 43, 0 = large impact, 100 = no impact. Time since injury or operation and questions 33 to 37 are recorded with your result, not scored. Not yet validated, so treat the results as a guide.",
+    questionSet: [SINCE_INJURY, ...CORE, ...FEMALE_EXTRA],
     // Score parts: the headline score, then extra scores shown below it
     parts: [
       { label: "Knee score", ids: CORE.map(q => q.id) },

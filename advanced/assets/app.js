@@ -40,6 +40,8 @@
   function initQuiz() {
     var questions = S.questionSet;
     var total = questions.length;
+    // A "Before you start" question (LK32, FK43) is shown first and not numbered
+    var offset = questions[0] && questions[0].intro ? 1 : 0;
     var app = document.getElementById("quizApp");
     var body = document.getElementById("quizBody");
     var nav = document.getElementById("quizNav");
@@ -100,7 +102,7 @@
       var q = questions[i];
       var name = "q" + q.id;
       var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
-        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + ' &middot; Question ' + (i + 1) + '</p>';
+        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
       if (q.type === "fields") {
         html += '<div class="q-fields">';
         q.fields.forEach(function (f) {
@@ -130,7 +132,7 @@
       body.innerHTML = html;
 
       fill.style.width = (((i + (isAnswered(q) ? 1 : 0)) / total) * 100) + "%";
-      meta.textContent = "Question " + (i + 1) + " of " + total;
+      meta.textContent = q.intro ? q.section : "Question " + (i + 1 - offset) + " of " + (total - offset);
       backBtn.disabled = i === 0;
       var last = i === total - 1;
       nextBtn.textContent = last ? "See my score" : "Next";
@@ -207,7 +209,7 @@
           parts.push(answers[q.id]);
         }
         if (d.detail) parts.push(d.detail);
-        if (parts.length) out.push("Q" + q.id + ". " + q.text + " " + parts.join("; "));
+        if (parts.length) out.push((q.intro ? "" : "Q" + q.id + ". ") + q.text + " " + parts.join("; "));
       });
       return out;
     }

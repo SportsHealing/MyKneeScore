@@ -20,6 +20,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - `app.js` gained tick-box, date/number field and optional detail-box question types, used by FK43 only. Plain single-choice scores behave exactly as before.
 - Checked: rebuild from the current data was byte-identical before the change; all 20 existing score entries unchanged after it. Browser test 75/75. House style passes.
 - Scoring assumptions await owner confirmation (see chat).
+- 2026-10-08 owner changes: Q6 option "Less than 1 day" now "1 day a week". Q17 kept as written. New unscored "Before you start" question in both scores: time since injury or operation (up to 1 week / 1 month / 6 months / 1 year, more than 1 year, no specific injury). It is not numbered, not counted in the question totals, and shown with the result. LK32 now uses `parts` so only Q1 to 32 are scored. Browser test 75/75.
 
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.
