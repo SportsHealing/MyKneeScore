@@ -12,7 +12,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - The live site deploys from the `main` branch. A pushed branch is not live until it is merged.
 - Every parity and browser test passes (details below).
 
-## 2026-10-08: LK32 and FK43 added (branch `claude/friendly-ptolemy-5ygo6x`, not live until merged)
+## 2026-10-08: LK32 and FK43 added (branch `claude/friendly-ptolemy-5ygo6x`, owner approved going live)
 - Source: the owner's Word documents "Long Knee Score" (32 questions) and "Female Knee Score" (43 questions).
 - Defined in `tools/advanced/local-scores.mjs`. `build.mjs` appends them to the research export, so a rebuild keeps them.
 - Both use the generic engine, unchanged. Each scored item counts 0 to 4, 4 = best. Items the Word docs score "0 = best" are reversed. Options shown in document order.
@@ -22,6 +22,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - Scoring assumptions await owner confirmation (see chat).
 - 2026-10-08 owner changes: Q6 option "Less than 1 day" now "1 day a week". Q17 kept as written. New unscored "Before you start" question in both scores: time since injury or operation (up to 1 week / 1 month / 6 months / 1 year, more than 1 year, no specific injury). It is not numbered, not counted in the question totals, and shown with the result. LK32 now uses `parts` so only Q1 to 32 are scored. Browser test 75/75.
 - 2026-10-08 owner approved scoring and the names LK32 and FK43. Added a second unscored "Before you start" question: the period the patient is answering about (last week / month / 6 months / year, or since injury or operation). The choice is shown as "Thinking about: ..." on every question and recorded with the result. Browser test 75/75.
+- 2026-10-08 owner: questions that count days or nights (Q6, Q7, Q8, FK43 Q40) always ask about the last week, whatever period is chosen. Their wording now starts "In the last week" and their reminder line reads "the last week". Owner approved putting LK32 and FK43 live. Browser test 75/75.
 
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.

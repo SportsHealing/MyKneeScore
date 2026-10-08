@@ -106,8 +106,9 @@
       var name = "q" + q.id;
       var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
         '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
-      if (reminder && !q.intro && answers[reminder.id] !== undefined) {
-        html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(answers[reminder.id].toLowerCase()) + '</p>';
+      // A question with its own fixed period (night and day counts: the last week) shows that instead
+      if (reminder && !q.intro && (q.period || answers[reminder.id] !== undefined)) {
+        html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(q.period || answers[reminder.id].toLowerCase()) + '</p>';
       }
       if (q.type === "fields") {
         html += '<div class="q-fields">';

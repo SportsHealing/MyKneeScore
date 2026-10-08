@@ -14,9 +14,10 @@ const FREQUENCY = ["Never", "Rarely", "Sometimes", "Often", "Always"];
 const DIFFICULTY = ["No difficulty", "Slight", "Moderate", "Severe", "Unable"];
 
 // labels in document order; worstFirst = the document scores the first label 0 and it is the worst answer
-function scored(id, section, text, labels, worstFirst = false) {
+// extra: e.g. { period: "the last week" } for questions whose answers only make sense for one week
+function scored(id, section, text, labels, worstFirst = false, extra = {}) {
   return {
-    id, section, text,
+    id, section, text, ...extra,
     options: labels.map((label, i) => ({ value: String(worstFirst ? i : 4 - i), label })),
   };
 }
@@ -41,9 +42,9 @@ const CORE = [
   scored(3, "Pain and symptoms", "How much stiffness do you have after sitting or resting?", SEVERITY),
   scored(4, "Pain and symptoms", "How much swelling do you have after activity?", SEVERITY),
   scored(5, "Pain and symptoms", "How much aching or pain do you have the day after exercise or exertion?", SEVERITY),
-  scored(6, "Pain and symptoms", "How often have you needed pain relief for your knee?", ["Not at all", "1 day a week", "1-3 days", "4-6 days", "Everyday"]),
-  scored(7, "Sleep", "On how many nights did your knee make it hard to fall asleep?", NIGHTS),
-  scored(8, "Sleep", "On how many nights did knee pain wake you?", NIGHTS),
+  scored(6, "Pain and symptoms", "In the last week, how often have you needed pain relief for your knee?", ["Not at all", "1 day a week", "1-3 days", "4-6 days", "Everyday"], false, { period: "the last week" }),
+  scored(7, "Sleep", "In the last week, on how many nights did your knee make it hard to fall asleep?", NIGHTS, false, { period: "the last week" }),
+  scored(8, "Sleep", "In the last week, on how many nights did knee pain wake you?", NIGHTS, false, { period: "the last week" }),
   scored(9, "Sleep", "Overall, how much has your knee disturbed the quality of your sleep?", SEVERITY),
   scored(10, "Sleep", "How much has tiredness from knee-related poor sleep affected your daily activities, rehab or work?", SEVERITY),
   scored(11, "Stability", "How often has your knee given way or buckled?", FREQUENCY),
@@ -90,7 +91,7 @@ const FEMALE_EXTRA = [
   ], { type: "multi", exclusive: "None" }),
   scored(38, "Female health", "How much has fatigue or low energy limited your rehab or training?", SEVERITY),
   scored(39, "Female health", "How often have you leaked urine or had pelvic floor symptoms when running, jumping or landing?", FREQUENCY),
-  scored(40, "Female health", "On how many nights did hot flushes or night sweats disturb your sleep?", NIGHTS),
+  scored(40, "Female health", "In the last week, on how many nights did hot flushes or night sweats disturb your sleep?", NIGHTS, false, { period: "the last week" }),
   scored(41, "Female health", "How much aching or stiffness have you had in joints other than the injured/operated knee?", SEVERITY),
   scored(42, "Female health", "How much do your knee symptoms (pain, swelling, stiffness) change across your menstrual cycle?", SEVERITY),
   scored(43, "Female health", "How much period-related or hormonal symptoms (pain, heavy bleeding, mood) limited your rehab or sport?", SEVERITY),
