@@ -49,14 +49,25 @@
     var meta = document.getElementById("progressMeta");
     var resultEl = document.getElementById("result");
     var answers = {};
+    var details = {}; // free-text extras (detail boxes and date/number fields), never scored
     var current = 0;
     var timer = null;
 
+    // Optional and tick-box questions are used by FK43 only. Every other score uses plain single choice.
+    function isAnswered(q) {
+      if (q.optional) return true;
+      if (q.type === "multi") return !!answers[q.id] && answers[q.id].length > 0;
+      return answers[q.id] !== undefined;
+    }
+    // Auto-advance only when one click completes the question, as before
+    function autoAdvance(q) {
+      return !q.type && !q.detail;
+    }
     function allAnswered() {
-      return questions.every(function (q) { return answers[q.id] !== undefined; });
+      return questions.every(isAnswered);
     }
     function firstUnanswered() {
-      for (var i = 0; i < total; i++) { if (answers[questions[i].id] === undefined) return i; }
+      for (var i = 0; i < total; i++) { if (!isAnswered(questions[i])) return i; }
       return -1;
     }
 
@@ -77,6 +88,7 @@
     function reset() {
       clearTimeout(timer);
       answers = {};
+      details = {};
       resultEl.classList.remove("show");
       resultEl.innerHTML = "";
       nav.style.display = "";
@@ -88,34 +100,73 @@
       var q = questions[i];
       var name = "q" + q.id;
       var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
-        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + ' &middot; Question ' + (i + 1) + '</p>' +
-        '<div class="opts-stack" role="radiogroup" aria-label="' + esc(q.text) + '">';
-      q.options.forEach(function (o, k) {
-        var id = name + "-" + k;
-        var checked = answers[q.id] === o.value ? " checked" : "";
-        html += '<input type="radio" name="' + name + '" id="' + id + '" value="' + esc(o.value) + '"' + checked + '>' +
-          '<label for="' + id + '">' + esc(o.label) + '</label>';
-      });
-      html += '</div></div>';
+        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + ' &middot; Question ' + (i + 1) + '</p>';
+      if (q.type === "fields") {
+        html += '<div class="q-fields">';
+        q.fields.forEach(function (f) {
+          var fid = name + "-" + f.key;
+          var v = details[q.id] && details[q.id][f.key] ? details[q.id][f.key] : "";
+          html += '<div class="q-field"><label for="' + fid + '">' + esc(f.label) + '</label>' +
+            '<input type="' + (f.input === "number" ? 'number" min="1" max="99" inputmode="numeric' : esc(f.input)) + '" id="' + fid + '" data-field="' + esc(f.key) + '" value="' + esc(v) + '"></div>';
+        });
+        html += '<p class="q-hint">Optional. Leave blank if it does not apply.</p></div>';
+      } else {
+        var multi = q.type === "multi";
+        html += '<div class="opts-stack" role="' + (multi ? 'group' : 'radiogroup') + '" aria-label="' + esc(q.text) + '">';
+        q.options.forEach(function (o, k) {
+          var id = name + "-" + k;
+          var on = multi ? (answers[q.id] || []).indexOf(o.value) > -1 : answers[q.id] === o.value;
+          html += '<input type="' + (multi ? 'checkbox' : 'radio') + '" name="' + name + '" id="' + id + '" value="' + esc(o.value) + '"' + (on ? " checked" : "") + '>' +
+            '<label for="' + id + '">' + esc(o.label) + '</label>';
+        });
+        html += '</div>';
+        if (q.detail) {
+          var did = name + "-detail";
+          html += '<div class="q-field"><label for="' + did + '">' + esc(q.detail) + ' <span class="q-hint">(optional)</span></label>' +
+            '<input type="text" id="' + did + '" data-field="detail" maxlength="80" value="' + esc(details[q.id] && details[q.id].detail || "") + '"></div>';
+        }
+      }
+      html += '</div>';
       body.innerHTML = html;
 
-      fill.style.width = (((i + (answers[q.id] !== undefined ? 1 : 0)) / total) * 100) + "%";
+      fill.style.width = (((i + (isAnswered(q) ? 1 : 0)) / total) * 100) + "%";
       meta.textContent = "Question " + (i + 1) + " of " + total;
       backBtn.disabled = i === 0;
       var last = i === total - 1;
       nextBtn.textContent = last ? "See my score" : "Next";
-      nextBtn.disabled = answers[q.id] === undefined;
+      nextBtn.disabled = !isAnswered(q);
       var h = body.querySelector(".q-title");
       if (h) h.focus();
     }
 
+    body.addEventListener("input", function (e) {
+      var t = e.target;
+      if (!t || !t.hasAttribute("data-field")) return;
+      var q = questions[current];
+      details[q.id] = details[q.id] || {};
+      details[q.id][t.getAttribute("data-field")] = t.value.trim();
+    });
+
     body.addEventListener("change", function (e) {
       var t = e.target;
-      if (!t || t.type !== "radio") return;
+      if (!t || (t.type !== "radio" && t.type !== "checkbox")) return;
       var q = questions[current];
+      if (t.type === "checkbox") {
+        // "None" cannot be ticked alongside anything else
+        var boxes = [].slice.call(body.querySelectorAll('input[type="checkbox"]'));
+        if (t.checked && q.exclusive) {
+          boxes.forEach(function (b) {
+            if (b !== t && (t.value === q.exclusive || b.value === q.exclusive)) b.checked = false;
+          });
+        }
+        answers[q.id] = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+        nextBtn.disabled = !isAnswered(q);
+        return;
+      }
       answers[q.id] = t.value;
       nextBtn.disabled = false;
       fill.style.width = (((current + 1) / total) * 100) + "%";
+      if (!autoAdvance(q)) return;
       clearTimeout(timer);
       if (current < total - 1) {
         timer = setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
@@ -125,7 +176,7 @@
     });
 
     nextBtn.addEventListener("click", function () {
-      if (answers[questions[current].id] === undefined) return;
+      if (!isAnswered(questions[current])) return;
       clearTimeout(timer);
       if (current < total - 1) show(current + 1); else finish();
     });
@@ -141,18 +192,46 @@
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });
     });
 
+    // Answers to unscored questions, as plain text lines for the result and the copied text
+    function contextLines() {
+      var out = [];
+      questions.forEach(function (q) {
+        if (q.scored !== false) return;
+        var d = details[q.id] || {};
+        var parts = [];
+        if (q.type === "fields") {
+          q.fields.forEach(function (f) { if (d[f.key]) parts.push(f.label + ": " + d[f.key]); });
+        } else if (q.type === "multi") {
+          if (answers[q.id] && answers[q.id].length) parts.push(answers[q.id].join(", "));
+        } else if (answers[q.id] !== undefined) {
+          parts.push(answers[q.id]);
+        }
+        if (d.detail) parts.push(d.detail);
+        if (parts.length) out.push("Q" + q.id + ". " + q.text + " " + parts.join("; "));
+      });
+      return out;
+    }
+
     function finish() {
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
 
-      var r = E.quickScore(questions, answers, S.scoringRange);
+      // Scores with parts (FK43) score each part separately; the first part is the headline score
+      var parts = (S.parts || [{ ids: null }]).map(function (p) {
+        if (!p.ids) return { label: p.label, r: E.quickScore(questions, answers, S.scoringRange) };
+        var qs = questions.filter(function (q) { return p.ids.indexOf(q.id) > -1; });
+        var a = {};
+        qs.forEach(function (q) { if (answers[q.id] !== undefined) a[q.id] = answers[q.id]; });
+        return { label: p.label, r: E.quickScore(qs, a, S.scoringRange) };
+      });
+      var r = parts[0].r;
       body.innerHTML = "";
       nav.style.display = "none";
       fill.style.width = "100%";
       meta.textContent = "Complete";
 
       var higher = S.scoringDirection === "higher_better";
-      var html = '<h3 tabindex="-1">Your ' + esc(S.acronym) + ' score</h3>';
+      var html = '<h3 tabindex="-1">Your ' + esc(S.acronym) + ' ' + (S.parts ? esc(parts[0].label.toLowerCase()) : 'score') + '</h3>';
       var copy = "";
       if (r) {
         var z = E.ragZone(r.score, S.scoringRange.max, higher);
@@ -163,6 +242,26 @@
           '<p class="result-dir">' + (higher ? "Higher score = better function" : "Lower score = better function") + '</p>';
         copy = S.name + ": " + r.score + "/" + S.scoringRange.max + " (" + r.answeredCount + "/" + r.totalQuestions +
           " questions answered)\nCalculated: " + new Date().toLocaleString();
+        if (S.parts) {
+          copy = S.name + "\nCalculated: " + new Date().toLocaleString();
+          parts.forEach(function (p) {
+            if (!p.r) return;
+            var pz = E.ragZone(p.r.score, S.scoringRange.max, higher);
+            copy += "\n" + p.label + ": " + p.r.score + "/" + S.scoringRange.max + " (" + pz.zone + ")";
+          });
+          parts.slice(1).forEach(function (p) {
+            if (!p.r) return;
+            var pz = E.ragZone(p.r.score, S.scoringRange.max, higher);
+            html += '<div class="result-advice result-part"><b>' + esc(p.label) + '</b><span class="part-num">' + p.r.score +
+              '<small> out of ' + S.scoringRange.max + '</small></span> ' + esc(pz.zone) + '</div>';
+          });
+          var ctx = contextLines();
+          if (ctx.length) {
+            html += '<div class="result-advice"><b>About you (not scored)</b><ul class="ctx-list">' +
+              ctx.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join("") + '</ul></div>';
+            copy += "\n\nAbout you\n" + ctx.join("\n");
+          }
+        }
       } else {
         html += '<p class="result-advice">No score could be calculated. None of your answers count towards this score (for example, every item was marked as an activity you do not do).</p>';
       }

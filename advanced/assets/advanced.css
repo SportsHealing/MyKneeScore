@@ -202,6 +202,15 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 .opts-stack input:checked + label { background: var(--green-ink); border-color: var(--green-ink); color: var(--gold-pale); font-weight: 600; }
 .opts-stack input:focus-visible + label { outline: 3px solid var(--gold); outline-offset: 2px; }
 .q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.8rem; }
+/* Tick boxes, date and number fields (FK43 "About you" questions) */
+.opts-stack input[type="checkbox"]:checked + label::before { content: "\2713"; margin-right: 0.5rem; }
+.q-fields { display: grid; gap: 0.9rem; }
+.q-field { margin-top: 0.9rem; }
+.q-fields .q-field { margin-top: 0; }
+.q-field label { display: block; font-size: 0.92rem; font-weight: 600; color: var(--green-ink); margin-bottom: 0.35rem; }
+.q-field input { width: 100%; max-width: 22rem; font: inherit; color: var(--text); padding: 0.65rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+.q-field input:hover { border-color: var(--gold); }
+.q-hint { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
 
 /* Result */
 .result { display: none; background: var(--green-deep); color: var(--ivory); border-radius: 16px; padding: clamp(1.6rem, 4vw, 2.5rem); text-align: center; }
@@ -221,6 +230,10 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 .result-dir { font-size: 0.85rem; color: rgba(250,247,239,0.6); margin-top: 0.2rem; }
 .result-advice { max-width: 38em; margin: 1rem auto 0; color: rgba(250,247,239,0.88); text-align: left; background: rgba(250,247,239,0.06); border-radius: 12px; padding: 1rem 1.2rem; font-size: 0.95rem; }
 .result-advice b { display: block; color: var(--gold-pale); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.result-part .part-num { font-family: var(--display); font-size: 2rem; font-weight: 600; color: var(--ivory); margin-right: 0.4rem; }
+.result-part .part-num small { font-family: var(--body); font-size: 0.8rem; color: var(--gold-pale); }
+.ctx-list { margin: 0; padding-left: 1.1rem; }
+.ctx-list li { margin-top: 0.3rem; }
 .result .small { font-size: 0.85rem; color: rgba(250,247,239,0.55); margin-top: 1.2rem; }
 .result-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 1.5rem; }
 .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); background: var(--green-ink); color: var(--gold-pale); padding: 0.6rem 1.2rem; border-radius: 999px; font-size: 0.92rem; z-index: 80; }
