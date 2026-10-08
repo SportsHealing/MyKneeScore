@@ -46,6 +46,14 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const shown = await page.$eval("#result", el => { const d = el.querySelector(".dial-num"); return d ? parseInt(d.textContent, 10) : null; });
         checks++;
         if ((exp ? exp.score : null) !== shown) { fails++; console.log("MISMATCH", slug, run, exp && exp.score, shown, JSON.stringify(answers)); }
+        // PDF report: printing is stubbed, the report must show the same score
+        if (run === 0 && exp) {
+          await page.evaluate(() => { window.print = () => {}; });
+          await page.click('[data-act="pdf"]');
+          const rep = await page.$eval("#pdfReport .rp-big", el => parseInt(el.textContent, 10));
+          checks++;
+          if (rep !== exp.score) { fails++; console.log("PDF MISMATCH", slug, exp.score, rep); }
+        }
       }
     } else {
       await page.goto(BASE + slug + ".html");

@@ -297,10 +297,96 @@ footer a:hover { text-decoration: underline; }
   .progress-meta { order: 3; width: 100%; text-align: center; }
 }
 
+/* PDF report: name box on the result screen */
+.pdf-box { max-width: 26rem; margin: 1.4rem auto 0; text-align: left; }
+.pdf-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--green-ink); }
+.pdf-box input { width: 100%; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+.pdf-box input:hover { border-color: var(--gold); }
+.pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
+.pdf-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; }
+.pdf-opt { font-weight: 400; }
+.result .pdf-box label { color: var(--gold-pale); }
+.result .pdf-note { color: rgba(250,247,239,0.7); }
+
+/* PDF report: only shown when printing it */
+.pdf-report { display: none; }
+
 @media print {
   header, footer, .disclaimer, .hero-actions, .quiz-topbar, .q-nav, .result-actions, .live .btn, .filters { display: none !important; }
   .quiz-app { position: static; }
   body.quiz-open main { display: none; }
   .result, .live { background: #fff !important; color: #000 !important; border: 1px solid #000; }
   .result *, .live * { color: #000 !important; }
+}
+
+/* PDF report layout (printed with "Save as PDF") */
+@page report { size: A4; margin: 14mm 14mm 16mm; }
+@media print {
+  body.print-report { overflow: visible !important; background: #fff; }
+  body.print-report > *:not(.pdf-report) { display: none !important; }
+  body.print-report .pdf-report { display: block; page: report; }
+  .pdf-report, .pdf-report * { -webkit-print-color-adjust: exact; print-color-adjust: exact; color: var(--text); }
+  .pdf-report { font-family: var(--body); font-size: 10.5pt; line-height: 1.45; }
+  .rp-head { display: flex; justify-content: space-between; align-items: center; background: var(--green-deep); border-radius: 10px; padding: 10pt 14pt; }
+  .rp-head .rp-mark { font-family: var(--display); font-size: 18pt; font-weight: 600; color: var(--ivory); }
+  .rp-head .rp-mark b { color: var(--gold); font-weight: 600; }
+  .rp-head .rp-kind { font-size: 8.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); }
+  .rp-title { font-family: var(--display); font-size: 20pt; font-weight: 600; color: var(--green-ink); margin: 12pt 0 6pt; line-height: 1.15; }
+  .rp-title em { color: var(--gold); font-style: italic; }
+  .rp-meta { display: grid; grid-template-columns: 1.3fr 1.5fr 1fr; gap: 8pt; border: 1px solid var(--line); border-radius: 10px; padding: 8pt 12pt; background: var(--ivory); }
+  .rp-k { display: block; font-size: 7.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .rp-v { display: block; font-weight: 600; color: var(--green-ink); }
+  .rp-score { display: grid; grid-template-columns: 110pt 1fr auto; gap: 16pt; align-items: center; margin-top: 12pt; padding: 12pt 14pt; border: 1px solid var(--line); border-radius: 12px; break-inside: avoid; }
+  .rp-ring { width: 110pt; height: 110pt; }
+  .rp-ring circle { fill: none; stroke-width: 12; }
+  .rp-ring-track { stroke: var(--paper); }
+  .rp-ring-fill { stroke-linecap: round; }
+  .rp-ring-fill.rp-good { stroke: var(--green-soft); }
+  .rp-ring-fill.rp-fair { stroke: var(--gold); }
+  .rp-ring-fill.rp-poor { stroke: var(--warn); }
+  .rp-big { font-family: var(--display); font-size: 40pt; font-weight: 600; line-height: 1; color: var(--green-ink); }
+  .rp-big small { font-family: var(--body); font-size: 10pt; font-weight: 500; color: var(--muted); }
+  .rp-chip { display: inline-block; margin-top: 6pt; padding: 3pt 10pt; border-radius: 999px; font-weight: 700; font-size: 10pt; }
+  .rp-bg-good { background: var(--green-soft); }
+  .rp-bg-fair { background: var(--gold); }
+  .rp-bg-poor { background: var(--warn); }
+  .rp-chip.rp-bg-good, .rp-chip.rp-bg-poor { color: var(--ivory); }
+  .rp-chip.rp-bg-fair { color: var(--green-deep); }
+  .rp-dir { font-size: 9pt; color: var(--muted); margin-top: 4pt; }
+  .rp-key p { font-size: 9pt; margin-top: 3pt; display: flex; align-items: center; gap: 6pt; }
+  .rp-dot { display: inline-block; width: 9pt; height: 9pt; border-radius: 50%; }
+  .rp-extra { display: flex; align-items: center; gap: 12pt; margin-top: 8pt; padding: 8pt 14pt; border: 1px solid var(--line); border-radius: 10px; background: var(--ivory); break-inside: avoid; }
+  .rp-extra .rp-k { flex: 1; font-size: 8.5pt; }
+  .rp-extra-num { font-family: var(--display); font-size: 20pt; font-weight: 600; color: var(--green-ink); }
+  .rp-extra-num small { font-family: var(--body); font-size: 8.5pt; color: var(--muted); }
+  .rp-extra .rp-chip { margin-top: 0; }
+  .rp-sec { margin-top: 14pt; }
+  .pdf-report h1, .pdf-report h2, .pdf-report p { margin-left: 0; margin-right: 0; }
+  .pdf-report p { margin-bottom: 0; }
+  .rp-sec h2 { font-family: var(--display); font-size: 14pt; font-weight: 600; color: var(--green-ink); border-bottom: 2px solid var(--gold); padding-bottom: 3pt; margin-bottom: 6pt; break-after: avoid; }
+  .rp-bars { display: block; }
+  .rp-bar + .rp-bar { margin-top: 5pt; }
+  .rp-bar { display: grid; grid-template-columns: 120pt 1fr 44pt; gap: 10pt; align-items: center; break-inside: avoid; }
+  .rp-bar-name { font-size: 9.5pt; }
+  .rp-bar-track { height: 9pt; background: var(--paper); border-radius: 999px; overflow: hidden; }
+  .rp-bar-fill { display: block; height: 100%; border-radius: 999px; }
+  .rp-bar-fill.rp-good { background: var(--green-soft); }
+  .rp-bar-fill.rp-fair { background: var(--gold); }
+  .rp-bar-fill.rp-poor { background: var(--warn); }
+  .rp-bar-val { text-align: right; font-weight: 700; font-size: 9.5pt; color: var(--green-ink); }
+  .rp-list { padding-left: 14pt; margin: 0; }
+  .rp-list li { margin-top: 2pt; }
+  .rp-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  .rp-table th { text-align: left; background: var(--green-ink); color: var(--gold-pale); font-weight: 600; padding: 4pt 6pt; }
+  .rp-table td { padding: 4pt 6pt; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .rp-table tbody tr:nth-child(even) td { background: var(--ivory); }
+  .rp-table tr { break-inside: avoid; }
+  .rp-table td:first-child { width: 22pt; color: var(--muted); }
+  .rp-table td:last-child { font-weight: 600; color: var(--green-ink); }
+  .rp-track p { font-size: 9.5pt; margin-bottom: 6pt; }
+  .rp-track .rp-table td { height: 18pt; }
+  .rp-track .rp-table td:first-child { width: 90pt; color: var(--text); }
+  .rp-track .rp-table td:nth-child(2) { width: 60pt; }
+  .rp-foot { margin-top: 14pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--muted); }
+  .rp-foot a { color: var(--green-soft); font-weight: 600; }
 }

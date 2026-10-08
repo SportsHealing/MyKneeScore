@@ -24,6 +24,13 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - 2026-10-08 owner approved scoring and the names LK32 and FK43. Added a second unscored "Before you start" question: the period the patient is answering about (last week / month / 6 months / year, or since injury or operation). The choice is shown as "Thinking about: ..." on every question and recorded with the result. Browser test 75/75.
 - 2026-10-08 owner: questions that count days or nights (Q6, Q7, Q8, FK43 Q40) always ask about the last week, whatever period is chosen. Their wording now starts "In the last week" and their reminder line reads "the last week". Owner approved putting LK32 and FK43 live. Browser test 75/75.
 
+## 2026-10-08: PDF report on every score (branch `claude/friendly-ptolemy-5ygo6x`, awaiting owner approval)
+- Owner chose Option A: no library. "Download PDF report" builds a report on the page and opens the browser's own print dialog ("Save as PDF").
+- On every Advanced score (quick results, SK11 and PK7 reports) and the home page Short Knee Score.
+- Report: name (optional box, read once at save time, never stored; cleared on retake), date and time completed, score ring and colour band (green good, gold fair, rust poor), colour key, meaning, section or item bars, answers, FK43 extras and "About you", tracking table, link back to the score.
+- Advanced code in `app.js` and `advanced.css`; home page code in its own style and script blocks (tokens only). Existing Print buttons unchanged.
+- Checks: every report score recomputed from its listed answers; e2e now also checks the PDF score (95/95); house style and scoring sheet pass.
+
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.
 - Layout: one hub page linking to one page per score.
