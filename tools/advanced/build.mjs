@@ -111,7 +111,7 @@ const disclaimer = `<div class="disclaimer">
 const footer = `<footer>
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
-    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="#top">Back to top</a></p>
   </div>
 </footer>`;
 

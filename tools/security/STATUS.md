@@ -26,10 +26,10 @@ Not published: `tools/` is excluded in `_config.yml`.
 | F1 | Medium | Config | `https://mykneescore.com/tools/...` | Internal notes, build and test scripts were live on the public site | Fixed on branch |
 | F2 | Medium | Data protection | `<head>` of all 23 pages | Google Fonts sent every visitor's IP address to Google, on pages where users answer health questions | Fixed on branch |
 | F3 | Low | Headers | All pages | No Content Security Policy | Fixed on branch (meta tag) |
-| F4 | Low | Headers | GitHub Pages response headers | No HSTS, no `frame-ancestors`/X-Frame-Options, no `nosniff` | Open. Needs owner action |
+| F4 | Low | Headers | GitHub Pages response headers | No HSTS, no `frame-ancestors`/X-Frame-Options, no `nosniff` | Open. Risk accepted for now (see Next steps) |
 | F5 | Low | CI supply chain | `.github/workflows/checks.yml` | `playwright@latest`, actions on movable tags, default token permissions | Fixed on branch |
 | F6 | Low | Config | GitHub org settings | Custom domain not confirmed as verified in GitHub | Needs confirmation |
-| F7 | Low | Data protection | Site | No privacy notice page | Open. Needs owner text |
+| F7 | Low | Data protection | Site | No privacy notice page | Drafted on branch. Needs owner name and contact |
 | F8 | Low | Data protection | Git history | A contributor's personal Gmail address is in public commit metadata | Open. Owner choice |
 
 ### Evidence
@@ -67,6 +67,11 @@ Not published: `tools/` is excluded in `_config.yml`.
   match; no third party resources; `_config.yml` excludes internal files.
   Mutation tested: three deliberate breakages, three caught.
 - `CLAUDE.md`: security rules for future AI edits.
+- `privacy.html`: draft privacy notice, linked from every footer and listed in
+  `llms.txt`. Two `[TO CONFIRM]` placeholders: owner name and address, and a
+  contact email. The PR stays a draft until they are filled. (F7)
+- `anatomy.html` and `privacy.html`: footer links were dark green on dark
+  green. Added the `footer a` rule the home page already has.
 
 ## Verification
 - House style: 11 of 11 checks pass.
@@ -81,19 +86,39 @@ Not published: `tools/` is excluded in `_config.yml`.
 1. Merge the branch to `main`. Then check
    `https://mykneescore.com/tools/advanced/STATUS.md` returns 404 (allow 10
    minutes for cache).
-2. F6: GitHub, org **SportsHealing** > Settings > Pages > Verified domains >
-   add `mykneescore.com` and add the TXT record it gives you at your DNS host.
-3. F4 (optional): put Cloudflare (free plan) in front of GitHub Pages and add
-   response headers: `Strict-Transport-Security: max-age=31536000`,
-   `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`.
-4. F7: approve wording for a short privacy page. Suggested content: no
-   accounts, answers stay in your browser, no cookies, no analytics, host is
-   GitHub which keeps server logs, contact address.
-5. F8: in GitHub > Settings > Emails, turn on "Keep my email address private"
+2. F6, domain verification. DNS is on AWS Route 53.
+   - GitHub: org **SportsHealing** > Settings > Pages > Verified domains > Add
+     `mykneescore.com`. GitHub shows a TXT record name and value.
+   - Route 53: Hosted zones > `mykneescore.com` > Create record. Name:
+     `_github-pages-challenge-SportsHealing` (GitHub shows the exact name).
+     Type TXT. Value: the code in double quotes. Save, wait a few minutes,
+     click Verify in GitHub.
+3. CAA record (new, Low, hardening). Says which certificate authorities may
+   issue certificates for the domain. GitHub Pages uses Let's Encrypt.
+   - Route 53: Create record. Name blank. Type CAA. Value
+     `0 issue "letsencrypt.org"`.
+   - If you use AWS certificates (ACM) on any subdomain, add a second line
+     `0 issue "amazon.com"`. Otherwise those renewals would fail.
+4. Registrar (Squarespace Domains). Turn on 2-step verification for the
+   Squarespace account, check the domain lock is on, and check auto renew is
+   on. A lapsed or stolen domain is the biggest real risk to this site.
+5. F4, missing headers. Recommendation: accept for now. Risk is Low: HTTPS is
+   enforced, the CSP is in place, and there is nothing to clickjack.
+   - Cloudflare would need the nameservers moved off Route 53. Not worth it
+     for these headers alone.
+   - If you later want full headers on AWS: host the site on S3 plus
+     CloudFront, attach the managed `SecurityHeadersPolicy` response headers
+     policy, and deploy from GitHub Actions. This is a hosting move. Plan it
+     as its own piece of work.
+6. F7: fill in the two `[TO CONFIRM]` lines in `privacy.html`, then mark the
+   PR ready and merge.
+7. F8: in GitHub > Settings > Emails, turn on "Keep my email address private"
    and use the `noreply` address for future commits. Do not rewrite history.
 
 ## Not checked
-- DNS, registrar and email (SPF, DMARC) for the domain.
+- DNS records, registrar and email (SPF, DMARC). DNS lookups are blocked from
+  the audit environment. Owner confirmed DNS is Route 53 and the registrar is
+  Squarespace.
 - GitHub org security: 2FA, branch protection, who can push to `main`.
 - Private repo `SportsHealing/kneescore-research` and the sibling sites.
 - Anything not in this repo or on `mykneescore.com`.
@@ -103,3 +128,6 @@ Not published: `tools/` is excluded in `_config.yml`.
 - 2026-10-08: One Advanced e2e run timed out on its first click while another
   browser test shared the local server. A clean rerun passed 69 of 69 with 0
   page errors. A direct probe of the same page showed no CSP errors.
+- 2026-10-08: Privacy page drafted (F7). Route 53 and Squarespace steps added.
+  CAA record and registrar lock added as recommendations. F4 risk accepted for
+  now. Draft PR opened.

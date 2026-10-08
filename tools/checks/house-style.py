@@ -10,7 +10,7 @@ Exit code 0 if everything passes, 1 otherwise.
 """
 import base64, glob, hashlib, os, re, sys
 
-PAGES = ["index.html", "anatomy.html"]
+PAGES = ["index.html", "anatomy.html", "privacy.html"]
 TEXT_EXT = (".html", ".txt", ".md", ".css", ".js", ".mjs", ".cjs", ".yml", ".sh")
 SKIP_DIRS = {".git", "node_modules", ".github"}
 

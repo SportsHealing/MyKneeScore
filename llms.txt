@@ -24,6 +24,7 @@ hot swollen knee, warrant prompt medical review whatever the score says.
 
 - [Home and questionnaire](https://mykneescore.com/index.html): the landing page, the score bands, progress tracking, and the full ten question test in an overlay.
 - [Knee anatomy](https://mykneescore.com/anatomy.html): bones, ligaments and cartilage as plain language cards, with a labelled diagram and red flag guidance.
+- [Privacy](https://mykneescore.com/privacy.html): what happens to your data. Answers stay in the browser; no cookies, analytics or third party requests.
 - [Advanced scores](https://mykneescore.com/advanced/index.html): a hub of published knee outcome measures, each on its own page with a working calculator, interpretation, citation and licence. Reached from the top menu and a footer link; nothing on the home page promotes it.
 
 ## The Advanced section
