@@ -21,6 +21,7 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - Checked: rebuild from the current data was byte-identical before the change; all 20 existing score entries unchanged after it. Browser test 75/75. House style passes.
 - Scoring assumptions await owner confirmation (see chat).
 - 2026-10-08 owner changes: Q6 option "Less than 1 day" now "1 day a week". Q17 kept as written. New unscored "Before you start" question in both scores: time since injury or operation (up to 1 week / 1 month / 6 months / 1 year, more than 1 year, no specific injury). It is not numbered, not counted in the question totals, and shown with the result. LK32 now uses `parts` so only Q1 to 32 are scored. Browser test 75/75.
+- 2026-10-08 owner approved scoring and the names LK32 and FK43. Added a second unscored "Before you start" question: the period the patient is answering about (last week / month / 6 months / year, or since injury or operation). The choice is shown as "Thinking about: ..." on every question and recorded with the result. Browser test 75/75.
 
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.

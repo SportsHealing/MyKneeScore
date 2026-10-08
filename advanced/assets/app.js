@@ -40,8 +40,11 @@
   function initQuiz() {
     var questions = S.questionSet;
     var total = questions.length;
-    // A "Before you start" question (LK32, FK43) is shown first and not numbered
-    var offset = questions[0] && questions[0].intro ? 1 : 0;
+    // "Before you start" questions (LK32, FK43) come first and are not numbered
+    var offset = 0;
+    while (offset < total && questions[offset].intro) offset++;
+    // The answer to a "remind" question (the period being answered about) is shown on every later question
+    var reminder = questions.filter(function (q) { return q.remind; })[0];
     var app = document.getElementById("quizApp");
     var body = document.getElementById("quizBody");
     var nav = document.getElementById("quizNav");
@@ -103,6 +106,9 @@
       var name = "q" + q.id;
       var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
         '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
+      if (reminder && !q.intro && answers[reminder.id] !== undefined) {
+        html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(answers[reminder.id].toLowerCase()) + '</p>';
+      }
       if (q.type === "fields") {
         html += '<div class="q-fields">';
         q.fields.forEach(function (f) {
