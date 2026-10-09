@@ -1,0 +1,8 @@
+# GitHub Pages builds this site with Jekyll. Jekyll publishes every file it
+# does not exclude, so internal notes, build tools and test scripts must be
+# listed here or they go live at mykneescore.com/<path>.
+# tools/checks/house-style.py fails the build if one of these goes missing.
+exclude:
+  - tools
+  - CLAUDE.md
+  - README.md

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy | My Knee Score</title>
+<meta name="description" content="How My Knee Score handles your data: your answers stay in your browser and are never collected, stored or shared.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  :root {
+    --green-deep: #0e2b22;
+    --green-ink:  #16382d;
+    --green-soft: #23503f;
+    --sage:       #7c9284;
+    --gold:       #b58f47;
+    --gold-pale:  #e6d5ac;
+    --ivory:      #faf7ef;
+    --paper:      #f3efe3;
+    --text:       #22312a;
+    --line:       rgba(22, 56, 45, 0.16);
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+    /* Extended palette. Every colour used on the page is named here, so no
+       literal appears anywhere below. The RGB triplets exist so an alpha
+       variant does not need a second copy of the colour value. */
+    --white:            #fff;
+    --rust:             #8c4a2f;
+    --green-mist:       #a6c1b2;
+    --green-light:      #b6cdbf;
+    --bone:             #e9e2ce;
+    --bone-active:      #cfdbd0;
+    --bone-detail:      #c8cfc4;
+    --text-muted:       #45564c;
+    --text-muted-deep:  #3c4c43;
+    --text-soft:        #6b7a70;
+    --text-soft-deep:   #55665c;
+    --ivory-rgb:        250, 247, 239;
+    --gold-rgb:         181, 143, 71;
+    --gold-pale-rgb:    230, 213, 172;
+    --green-ink-rgb:    22, 56, 45;
+    --bone-rgb:         233, 226, 206;
+    --bone-active-rgb:  207, 219, 208;
+    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
+    --mask-opaque:      #000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  body {
+    font-family: var(--body);
+    font-size: clamp(1.0rem, 0.95rem + 0.3vw, 1.125rem);
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--ivory);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { width: min(1080px, 92%); margin-inline: auto; }
+
+  a { color: var(--green-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible + label {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .eyebrow {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.12; color: var(--green-ink); }
+  h1 { font-size: clamp(2.5rem, 1.8rem + 3.4vw, 4.4rem); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.9rem); }
+  h3 { font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.65rem); }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--green-deep);
+    color: var(--ivory);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.25);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+  }
+  .wordmark {
+    font-family: var(--body);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--ivory);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .wordmark span { color: var(--gold-pale); }
+  .nav ul { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); list-style: none; }
+  .nav ul a {
+    color: var(--ivory);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .nav ul a:hover { border-color: var(--gold); }
+  .nav .start-link {
+    color: var(--green-deep);
+    background: var(--gold-pale);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border-bottom: none;
+  }
+  .nav .start-link:hover { background: var(--white); border-bottom: none; }
+  @media (max-width: 1100px) {
+    .wordmark { font-size: 1.35rem; }
+    .nav ul { gap: clamp(0.6rem, 1.6vw, 1.1rem); }
+    .nav ul a { font-size: 0.95rem; white-space: nowrap; }
+    .nav .start-link { padding: 0.4rem 0.85rem; }
+  }
+  @media (max-width: 860px) {
+    .nav ul li:nth-child(3) { display: none; }
+  }
+  @media (max-width: 760px) {
+    .wordmark { font-size: 1.25rem; }
+    .nav ul { gap: 0.6rem; }
+    .nav ul a { font-size: 0.9rem; }
+  }
+  @media (max-width: 700px) {
+    .nav ul li:not(:last-child):not(.nav-adv) { display: none; }
+    .nav ul { gap: 0.9rem; }
+    .nav .nav-long { display: none; }
+  }
+  @media (max-width: 700px) {
+    .nav ul a { white-space: nowrap; }
+  }
+  @media (max-width: 440px) {
+    .nav { gap: 0.6rem; }
+    .wordmark { font-size: 1.25rem; }
+    .nav ul { gap: 0.7rem; }
+    .nav ul a { font-size: 0.95rem; }
+    .nav .start-link { padding: 0.4rem 0.75rem; }
+  }
+  @media (max-width: 350px) {
+    .wordmark { font-size: 1.1rem; }
+    .nav ul { gap: 0.5rem; }
+    .nav ul a { font-size: 0.88rem; }
+    .nav .start-link { padding: 0.35rem 0.6rem; }
+  }
+  .btn {
+    display: inline-block;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.7rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-gold { background: var(--gold); color: var(--green-deep); }
+  .btn-gold:hover { background: var(--gold-pale); }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: rgba(var(--ivory-rgb), 0.45); }
+  .btn-ghost:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
+  /* Disclaimer + footer */
+  .disclaimer {
+    background: var(--paper);
+    border-block: 1px solid var(--line);
+    padding: 2rem 0;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  footer {
+    background: var(--green-deep);
+    color: rgba(var(--ivory-rgb), 0.75);
+    padding: 2.2rem 0;
+    font-size: 0.9rem;
+  }
+  footer a { color: var(--gold-pale); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+  .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
+
+  /* ---------- Anatomy page: additions only ---------- */
+  html { scroll-padding-top: 90px; }
+  .nav ul a[aria-current="page"] { border-color: var(--gold); }
+
+  /* Hero */
+  .a-hero { background: var(--paper); border-bottom: 1px solid var(--line); padding: clamp(2.6rem, 6vw, 4.4rem) 0; }
+  .a-hero .lede { max-width: 40em; margin-top: 1rem; color: var(--text-muted-deep); }
+  .a-hero h1 em { font-style: italic; color: var(--gold); }
+
+  /* Jump bar */
+  .jump { border-bottom: 1px solid var(--line); background: var(--ivory); }
+  .jump-inner { display: flex; flex-wrap: wrap; gap: 0.6rem; padding: 0.85rem 0; }
+  .jump a {
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--green-ink);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .jump a:hover { background: var(--green-ink); color: var(--ivory); border-color: var(--green-ink); }
+
+  /* Section frame */
+  section.block { padding: clamp(2.6rem, 6vw, 4.2rem) 0; }
+  section.block + section.block { border-top: 1px solid var(--line); }
+  .block-head { max-width: 46em; margin-bottom: 2rem; }
+  .block-head p { margin-top: 0.7rem; color: var(--text-muted-deep); }
+
+  /* Diagram */
+  .map { background: var(--paper); }
+  .map-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .map-figure { background: var(--ivory); border: 1px solid var(--line); border-radius: 16px; padding: 1rem; }
+  .map-figure svg { width: 100%; height: auto; display: block; }
+  .map-note { font-size: 0.85rem; color: var(--text-soft-deep); margin-top: 0.6rem; text-align: center; }
+
+  .key { display: grid; gap: 0.5rem; }
+  .key h2 { margin-bottom: 0.4rem; }
+  .key > p { color: var(--text-muted-deep); margin-bottom: 0.7rem; }
+  .key-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-family: var(--body);
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .key-row:hover, .key-row.is-active { background: var(--ivory); border-color: var(--green-soft); }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid var(--green-ink); }
+  .sw-bone { background: var(--bone); }
+  .sw-lig { background: var(--gold); }
+  .sw-cart { background: var(--sage); }
+  .key-row b { font-weight: 600; }
+  .key-row small { color: var(--text-soft-deep); font-size: 0.85rem; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--sage);
+    border-radius: 16px;
+    padding: 1.5rem 1.6rem;
+    scroll-margin-top: 100px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card.is-active { border-left-color: var(--gold); box-shadow: 0 0 0 2px rgba(var(--gold-rgb), 0.35); }
+  .card .tag {
+    font-family: var(--body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .card h3 { margin: 0.3rem 0 0.5rem; }
+  .card .role { font-size: 0.97rem; color: var(--text-muted-deep); }
+  .card .sub {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 1.1rem 0 0.6rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+  .card ul { list-style: none; display: grid; gap: 0.5rem; }
+  .card li { position: relative; padding-left: 1.1rem; font-size: 0.95rem; }
+  .card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .card li b { font-weight: 600; color: var(--green-ink); }
+
+  /* Red flags */
+  .flags { background: var(--green-deep); color: var(--ivory); }
+  .flags h2 { color: var(--gold-pale); }
+  .flags > .wrap > p { color: rgba(var(--ivory-rgb), 0.85); max-width: 44em; margin-top: 0.8rem; }
+  .flag-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; margin-top: 1.6rem; }
+  .flag-list li {
+    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
+    border-radius: 16px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.95rem;
+    color: rgba(var(--ivory-rgb), 0.9);
+  }
+
+  /* Closing call to action */
+  .a-cta { text-align: center; }
+  .a-cta p { max-width: 34em; margin: 0.8rem auto 1.6rem; color: var(--text-muted-deep); }
+
+  /* Diagram parts */
+  .anat [data-part] { cursor: pointer; }
+  .anat .bone { fill: var(--bone); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .lig { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke 0.2s, stroke-width 0.2s; }
+  .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
+  .anat .patella { fill: rgba(var(--bone-rgb), 0.72); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .lead { stroke: rgba(var(--green-ink-rgb), 0.32); stroke-width: 1; }
+  .anat .bone-detail { fill: var(--bone-detail); stroke: var(--green-ink); stroke-width: 1; }
+  .anat .lbl { font-family: var(--body); font-size: 13px; font-weight: 600; fill: var(--text-muted-deep); transition: fill 0.2s; }
+  .anat [data-part]:hover .bone, .anat [data-part].is-active .bone { fill: var(--bone-active); }
+  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: rgba(var(--bone-active-rgb), 0.85); }
+  .anat [data-part]:hover .lig, .anat [data-part].is-active .lig { stroke: var(--green-soft); stroke-width: 11; }
+  .anat [data-part]:hover .cart, .anat [data-part].is-active .cart { fill: var(--green-soft); }
+  .anat [data-part]:hover .lbl, .anat [data-part].is-active .lbl { fill: var(--green-ink); font-weight: 700; }
+
+  /* Responsive */
+  @media (max-width: 860px) {
+    .map-grid { grid-template-columns: 1fr; }
+    .map-figure { max-width: 420px; margin-inline: auto; }
+  }
+
+  .prose { max-width: 46em; margin: 0; padding-left: 1.2rem; color: var(--text-muted-deep); }
+  .prose li + li { margin-top: 0.6rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="index.html">My<span>Knee</span>Score</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#meaning">Your score</a></li>
+        <li><a href="index.html#track">Track progress</a></li>
+        <li><a href="anatomy.html">Knee anatomy</a></li>
+        <li class="nav-adv"><a href="advanced/index.html">Advanced<span class="nav-long"> scores</span></a></li>
+        <li><a class="start-link" href="index.html#quiz">Start the test</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="a-hero">
+    <div class="wrap">
+      <p class="eyebrow">Privacy</p>
+      <h1>Your answers stay <em>on your device.</em></h1>
+      <p class="lede">We do not collect, store or share your answers or your score. This page explains what that means and the little that does happen when you visit.</p>
+    </div>
+  </section>
+
+  <section class="block" id="short">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">In short</p>
+        <h2>What we hold about you</h2>
+        <p>Nothing. There are no accounts, no sign up and no database.</p>
+      </div>
+      <ul class="prose">
+        <li>Your answers are scored inside your browser. They are never sent to us or anyone else.</li>
+        <li>Nothing is saved. Close or reload the page and your answers are gone. Note your score if you want to track it.</li>
+        <li>No cookies. No analytics. No advertising or tracking.</li>
+        <li>No fonts, scripts or images are loaded from other companies. Everything comes from this site.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="health">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Health information</p>
+        <h2>Why this matters</h2>
+        <p>The questions ask about your knee. Under UK data protection law that is health information, which deserves extra care. Our approach is simple: it never leaves your device, so we never hold it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="hosting">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Hosting</p>
+        <h2>What happens when you visit</h2>
+        <p>This site is hosted by GitHub Pages, a service of GitHub, Inc. in the United States. Like any web host, GitHub receives your IP address and basic request details, such as the page asked for and your browser type, so it can deliver the page and protect the service from abuse.</p>
+      </div>
+      <ul class="prose">
+        <li>GitHub does not receive your answers or your score. Those never leave your browser.</li>
+        <li>We do not have access to these server logs, and we do not use them.</li>
+        <li>GitHub handles this data under its own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">privacy statement</a>.</li>
+        <li>Our lawful basis for using a host is our legitimate interest in running a secure, working website.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="links">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Other sites</p>
+        <h2>Links you follow</h2>
+        <p>Some pages link to research papers on other sites. If you follow a link, that site's own privacy policy applies. We tell your browser not to pass on which of our pages you came from.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="rights">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Your rights</p>
+        <h2>Contact and complaints</h2>
+        <p>You have rights under UK GDPR, including to ask what data we hold about you. As we hold none, there is nothing to access or delete, but you are welcome to ask.</p>
+      </div>
+      <ul class="prose">
+        <li>Who runs this site: [TO CONFIRM: owner or company name and address].</li>
+        <li>Contact: [TO CONFIRM: email address for privacy questions].</li>
+        <li>You can complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener" target="_blank">ico.org.uk</a>.</li>
+        <li>If we ever change how the site works, for example to save your score history, we will update this page first.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>&copy; 2026 mykneescore.com</p>
+    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p class="foot-version">Page updated 8 October 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>

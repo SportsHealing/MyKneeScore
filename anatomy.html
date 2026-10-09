@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Knee Anatomy | My Knee Score</title>
 <meta name="description" content="The bones, ligaments and cartilage of the knee, what each one does, and what commonly goes wrong with it.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-h14Q4h/pfTbDLsYBTkQeVlfSfr+l2vUE/7JtMMEXiyE='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
   :root {
     --green-deep: #0e2b22;
@@ -198,6 +198,8 @@
     padding: 2.2rem 0;
     font-size: 0.9rem;
   }
+  footer a { color: var(--gold-pale); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
   .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
 
@@ -692,7 +694,7 @@
 <footer>
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
-    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="#top">Back to top</a></p>
     <p class="foot-version">Page updated 4 October 2026</p>
   </div>
 </footer>
