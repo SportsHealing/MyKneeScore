@@ -523,6 +523,12 @@
   .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
   .pdf-note { font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.7); margin-top: 0.35rem; }
   .pdf-opt { font-weight: 400; }
+  .mail-box { margin-top: 1.2rem; padding-top: 1.1rem; border-top: 1px solid rgba(var(--ivory-rgb), 0.2); }
+  .mail-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--gold-pale); }
+  .mail-box input { width: 100%; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+  .mail-box input:hover { border-color: var(--gold); }
+  .mail-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
+  .mail-msg:empty { display: none; }
 
   /* PDF report: only shown when printing it with "Save as PDF" */
   .pdf-report { display: none; }
@@ -994,6 +1000,13 @@
           <p class="pdf-note" id="pdfHistory" hidden></p>
           <button type="button" class="btn btn-gold" id="pdfBtn">Download PDF report</button>
           <p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>
+          <div class="mail-box">
+            <label for="mailTo">Email me a copy <span class="pdf-opt">(optional)</span></label>
+            <input type="email" id="mailTo" autocomplete="off" inputmode="email" spellcheck="false" maxlength="120" placeholder="you@example.com">
+            <button type="button" class="btn btn-ghost" id="mailBtn">Open my email app</button>
+            <p class="pdf-note mail-msg" id="mailMsg" role="status" aria-live="polite"></p>
+            <p class="pdf-note">Your email app opens with your results and your personal link for future tests. You press Send. Your address is not saved or sent to us.</p>
+          </div>
         </div>
 
         <div class="result-actions">
@@ -1028,6 +1041,9 @@
     var listEl    = document.getElementById("breakdownList");
     var pdfName   = document.getElementById("pdfName");
     var pdfBtn    = document.getElementById("pdfBtn");
+    var mailTo    = document.getElementById("mailTo");
+    var mailBtn   = document.getElementById("mailBtn");
+    var mailMsg   = document.getElementById("mailMsg");
     var last      = null; /* the latest result, for the PDF report */
     var current   = 0;
     var reduce    = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1084,6 +1100,8 @@
     function reset() {
       form.reset();
       pdfName.value = "";
+      mailTo.value = "";
+      mailMsg.textContent = "";
       last = null;
       resultEl.classList.remove("show");
       navWrap.style.display = "";
@@ -1276,6 +1294,42 @@
       ph.textContent = pastScores.length + " earlier score" + (pastScores.length === 1 ? "" : "s") + " from your PDF link will be added to this report.";
       ph.hidden = false;
     }
+
+    /* Email a copy: opens the patient's own email app with the results and their
+       personal link. Nothing passes through this site and the address is not kept. */
+    function mailText(r, name) {
+      var lines = ["My Knee Score results", "", "Short Knee Score"];
+      if (name) { lines.push("Name: " + name); }
+      lines.push("Completed: " + longDate(r.when));
+      lines.push("Score: " + r.score + " out of 100 (" + r.band.name + ")");
+      lines.push("", "How your score breaks down (out of 100):");
+      r.perQ.forEach(function (q) { lines.push("- " + q.topic + ": " + q.pct); });
+      lines.push("", "Your scores so far:");
+      pastScores.forEach(function (e) { lines.push("- " + ukDate(e.date) + ": " + e.score); });
+      lines.push("- " + r.when.toLocaleDateString("en-GB") + ": " + r.score + " (this test)");
+      lines.push("", "Your personal link for your next test. It keeps your scores so far, so use this link each time:",
+        retakeLink(r.score, r.when, "quiz&"),
+        "", "For a full copy with every answer, attach the PDF report you saved.",
+        "A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.",
+        "", "mykneescore.com");
+      return lines.join("\n");
+    }
+
+    mailBtn.addEventListener("click", function () {
+      if (!last) { return; }
+      var to = mailTo.value.trim();
+      if (!/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(to)) {
+        mailMsg.textContent = "Please enter a valid email address.";
+        mailTo.focus();
+        return;
+      }
+      var subject = "My Knee Score results - " + last.when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+      window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(mailText(last, pdfName.value.trim()));
+      /* One-off: the address is cleared straight away */
+      mailTo.value = "";
+      mailMsg.textContent = "Your email app should open now. Press Send to get your copy.";
+    });
 
     pdfBtn.addEventListener("click", function () {
       if (!last) { return; }

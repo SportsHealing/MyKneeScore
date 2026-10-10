@@ -97,7 +97,69 @@
       '<p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>' + historyNote() +
       '<button type="button" class="btn btn-gold" data-act="pdf">Download PDF report</button>' +
       '<p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>' +
+      mailBoxHtml() +
       '</div>';
+  }
+
+  // Email a copy: opens the patient's own email app with the results and their
+  // personal link. Nothing passes through this site and the address is not kept.
+  function mailBoxHtml() {
+    var old = document.getElementById("mailTo");
+    return '<div class="mail-box">' +
+      '<label for="mailTo">Email me a copy <span class="pdf-opt">(optional)</span></label>' +
+      '<input type="email" id="mailTo" autocomplete="off" inputmode="email" spellcheck="false" maxlength="120" placeholder="you@example.com" value="' + esc(old ? old.value : "") + '">' +
+      '<button type="button" class="btn ' + (S.mode === "quick" ? "btn-ghost" : "btn-ghost-green") + '" data-act="mail">Open my email app</button>' +
+      '<p class="pdf-note mail-msg" role="status" aria-live="polite"></p>' +
+      '<p class="pdf-note">Your email app opens with your results and your personal link for future tests. You press Send. Your address is not saved or sent to us.</p>' +
+      '</div>';
+  }
+
+  function mailText(d, name, when) {
+    var lines = ["My Knee Score results", "", S.fullName];
+    if (name) lines.push("Name: " + name);
+    lines.push("Completed: " + longDate(when));
+    lines.push("Score: " + d.score + " out of " + d.max + " (" + d.label + ")");
+    (d.extras || []).forEach(function (x) { lines.push(x.name + ": " + x.score + " out of " + x.max + " (" + x.label + ")"); });
+    if (d.bars && d.bars.length) {
+      lines.push("", d.barsTitle + ":");
+      d.bars.forEach(function (b) { lines.push("- " + b.label + ": " + b.value); });
+    }
+    lines.push("", "Your scores so far:");
+    pastScores.forEach(function (e) { lines.push("- " + ukDate(e.date) + ": " + e.score); });
+    lines.push("- " + when.toLocaleDateString("en-GB") + ": " + d.score + " (this test)");
+    lines.push("", "Your personal link for your next test. It keeps your scores so far, so use this link each time:",
+      retakeLink(d.score, when, ""),
+      "", "For a full copy with every answer, attach the PDF report you saved.",
+      "A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.",
+      "", "mykneescore.com");
+    return lines.join("\n");
+  }
+
+  function sendMail(d, box) {
+    var input = box.querySelector("#mailTo");
+    var msg = box.querySelector(".mail-msg");
+    var to = input.value.trim();
+    if (!/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(to)) {
+      msg.textContent = "Please enter a valid email address.";
+      input.focus();
+      return;
+    }
+    var nameEl = document.getElementById("pdfName");
+    var when = new Date();
+    var subject = "My Knee Score results - " + S.acronym + " - " + when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(mailText(d, nameEl ? nameEl.value.trim() : "", when));
+    // One-off: the address is cleared straight away
+    input.value = "";
+    msg.textContent = "Your email app should open now. Press Send to get your copy.";
+  }
+
+  // Wires the PDF and email buttons inside root. makeData builds the report data.
+  function bindReportButtons(root, makeData) {
+    var pdf = root.querySelector('[data-act="pdf"]');
+    if (pdf) pdf.addEventListener("click", function () { savePdf(makeData()); });
+    var mail = root.querySelector('[data-act="mail"]');
+    if (mail) mail.addEventListener("click", function () { sendMail(makeData(), root.querySelector(".mail-box")); });
   }
 
   function ringHtml(pct, level) {
@@ -501,8 +563,7 @@
       resultEl.querySelector('[data-act="print"]').addEventListener("click", function () { window.print(); });
       var c = resultEl.querySelector('[data-act="copy"]');
       if (c) c.addEventListener("click", function () { copyText(copy); });
-      var pdf = resultEl.querySelector('[data-act="pdf"]');
-      if (pdf) pdf.addEventListener("click", function () { savePdf(quickReport(r, parts, higher)); });
+      bindReportButtons(resultEl, function () { return quickReport(r, parts, higher); });
       app.scrollTop = 0;
       var h = resultEl.querySelector("h3");
       if (h) h.focus();
@@ -623,9 +684,9 @@
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });
-      document.querySelector('#report [data-act="pdf"]').addEventListener("click", function () {
+      bindReportButtons(document.getElementById("report"), function () {
         var b = E.scoreBand(r.score);
-        savePdf({
+        return {
           score: r.score, max: 100, pct: r.score, label: b.label,
           dir: "Higher score = better function", key: TOOL_KEY,
           meaning: b.description + ". " + (r.isIncomplete ? "Preliminary: answer at least " + threshold + " items for a valid score. " : "") + "This score has not yet been validated, so treat it as a guide.",
@@ -635,7 +696,7 @@
             return { label: q.domain, pct: answers[q.id] * 10, value: answers[q.id] + "/10" };
           }),
           answers: Q.map(function (q) { return [q.text, answers[q.id] !== null ? answers[q.id] + " out of 10" : "Not answered"]; })
-        });
+        };
       });
     }
 
@@ -744,20 +805,20 @@
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });
-      document.querySelector('#report [data-act="pdf"]').addEventListener("click", function () {
+      bindReportButtons(document.getElementById("report"), function () {
         var b = E.scoreBand(r.score);
-        savePdf({
+        return {
           score: r.score, max: 100, pct: r.score, label: b.label,
           dir: "Higher score = better function", key: TOOL_KEY,
           meaning: b.description + ". " + (r.isIncomplete ? "Preliminary: answer at least " + threshold + " domains for a valid score. " : "") +
             (custom ? "Custom clinician weights were used. " : "") + "This score has not yet been validated, so treat it as a guide.",
           answered: r.answeredCount + " of " + r.totalQuestions,
-          barsTitle: "Your answers by domain (scaled to 100)",
+          barsTitle: "Your answers by domain",
           bars: D.filter(function (d) { return answers[d.id] !== null; }).map(function (d) {
             return { label: d.name, pct: answers[d.id] / d.maxValue * 100, value: answers[d.id] + "/" + d.maxValue };
           }),
           answers: D.map(function (d) { return [d.name + " (" + d.description.toLowerCase() + ")", answers[d.id] !== null ? answers[d.id] + " out of " + d.maxValue : "Not answered"]; })
-        });
+        };
       });
     }
 
