@@ -306,6 +306,14 @@ footer a:hover { text-decoration: underline; }
 .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
 .pdf-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; }
 .pdf-opt { font-weight: 400; }
+.mail-box { margin-top: 1.2rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+.mail-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--green-ink); }
+.mail-box input { width: 100%; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+.mail-box input:hover { border-color: var(--gold); }
+.mail-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
+.mail-msg:empty { display: none; }
+.result .mail-box { border-top-color: rgba(250,247,239,0.2); }
+.result .mail-box label { color: var(--gold-pale); }
 .result .pdf-box label { color: var(--gold-pale); }
 .result .pdf-note { color: rgba(250,247,239,0.7); }
 

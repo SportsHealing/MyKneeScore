@@ -93,6 +93,20 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   checks++;
   if (hist.rows !== 3 || !/\?report=3#h=2026-09-01\.40,2026-09-15\.45,\d{4}-\d{2}-\d{2}\.\d+$/.test(hist.link)) { fails++; console.log("HISTORY MISMATCH", JSON.stringify(hist)); }
 
+  // Email a copy opens a mailto with the score and the personal link, then clears the address
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Page.enable");
+  let mailto = null;
+  cdp.on("Page.frameRequestedNavigation", e => { if (e.url.startsWith("mailto:")) mailto = e.url; });
+  await page.fill("#mailTo", "patient@example.com");
+  await page.click('[data-act="mail"]');
+  await page.waitForTimeout(300);
+  const body = mailto ? new URL(mailto).searchParams.get("body") : "";
+  checks++;
+  if (!mailto || !mailto.startsWith("mailto:patient@example.com?") || !/report=3#h=2026-09-01\.40,2026-09-15\.45,/.test(body) || await page.inputValue("#mailTo") !== "") {
+    fails++; console.log("MAIL MISMATCH", mailto);
+  }
+
   // hub filter
   await page.goto(BASE + "index.html");
   const total = await page.$$eval("#scoreGrid .score-card", c => c.length);

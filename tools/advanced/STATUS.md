@@ -37,6 +37,11 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - `?report=N` makes each link differ from the page it came from. Without it Chrome drops the link from the PDF (it had been dropping the home page link since launch).
 - Home page: `#quiz&h=...` still opens the test. Owner decisions: keep the Print button, keep 4 tracking rows, Q6 stays "last week".
 
+## 2026-10-10: Footer links and "Email me a copy"
+- Footer "Find me: chinmaygupte.com · sportshealing.com" on every website page (not in the PDF). Live via PR #8.
+- Owner chose Option A for email: the result screen has an "Email me a copy" box that opens the patient's own email app (mailto) with the score, breakdown, scores so far and the personal link (same as the PDF link). Nothing passes through the site; the address is cleared straight after and never kept (owner: one-off, do not keep addresses).
+- e2e checks the mailto (97/97).
+
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.
 - Layout: one hub page linking to one page per score.
