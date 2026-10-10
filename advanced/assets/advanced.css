@@ -290,6 +290,7 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 .disclaimer { background: var(--paper); border-block: 1px solid var(--line); padding: 2rem 0; font-size: 0.92rem; color: var(--muted); }
 footer { background: var(--green-deep); color: rgba(250,247,239,0.75); padding: 2.2rem 0; font-size: 0.9rem; }
 .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+.foot-find { flex-basis: 100%; margin: 0; font-size: 0.9rem; }
 footer a { color: var(--gold-pale); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 @media (max-width: 520px) {
