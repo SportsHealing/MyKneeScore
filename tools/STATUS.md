@@ -51,9 +51,10 @@ Update it at the end of every piece of work.
 | Item | State | Owner |
 |---|---|---|
 | Audit quick wins (footer links, SEO files, icons, share image, tap targets) | Live since 15 Oct (PR #10) | Done |
-| Analytics brief (Plausible, no cookies) | PDF sent to owner for Dinis | Dinis |
-| MyKneeScan referral tracking brief | PDF sent to owner for Jose | Jose |
-| Copy and wording review | PDF sent to owner for Dr Gupte | Dr Gupte |
+| Analytics brief (Plausible, no cookies), plus mailing list as a later decision | Owner forwarding PDF to Dinis | Dinis |
+| MyKneeScan referral tracking brief | Owner forwarding PDF to Jose | Jose |
+| Copy and wording review | Owner forwarding PDF to Dr Gupte | Dr Gupte |
+| Move status docs to a private repo | Waiting for owner to create the private repo | Owner, then Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -76,11 +77,13 @@ Update it at the end of every piece of work.
 ## Future ideas
 - Create mailing list to email users about new features.
   - Note: the site stores nothing today. A mailing list needs a sign up form and a mailing service. That is a server and data decision for Dinis, with UK GDPR consent wording.
+  - 2026-10-15: added to Dinis's brief as a decision for later.
 
 ## Open questions
-- Should this file move to a private repo so it is hidden on GitHub too?
+- Owner chose (15 Oct) to move this file to a private repo. Waiting for the repo to be created.
 
 ## Progress log
 - 2026-10-14: Audit delivered in chat.
 - 2026-10-15: Quick wins built on `claude/peaceful-babbage-ccebiu`. All checks pass (house style 9/9, scoring, browser 97/97). Owner approved going live. Three briefs produced as PDFs. This master status doc created.
 - 2026-10-15: PR #10 merged and live. Checked: robots.txt, sitemap.xml, favicon and share image load; tools/ and CLAUDE.md return 404 on the live site, as intended.
+- 2026-10-15: Owner decisions: status doc to go private; mailing list added to Dinis's list; owner forwards the three PDFs.
