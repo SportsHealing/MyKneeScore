@@ -179,3 +179,13 @@ Open. None of these block the deploy, but all affect what users are told.
   because it went stale the moment the home page shipped and was a public page
   showing an out of date questionnaire. CI added: house style, scoring and the
   Advanced browser test now run on every push.
+- 2026-10-15: Site wide quick wins from the audit (branch
+  `claude/peaceful-babbage-ccebiu`, awaiting owner approval). No scoring,
+  clinical or question wording touched. Footer on every page gains "Knee
+  anatomy" (phones could not reach it) and "Our sites" links to mykneescan.com
+  and kneelens.com (standing in for omkneehealth.com for now), tagged `utm_source=mykneescore`. Every page gains a
+  canonical link, favicon, Open Graph and Twitter card tags. New files:
+  `robots.txt`, `sitemap.xml` (25 pages), `favicon.svg`, `favicon-32.png`,
+  `apple-touch-icon.png`, `og-image.png`, `_config.yml` (hides `tools/` from
+  the live site). Footer links now 35px tall to tap; eyebrow labels 14px.
+  House style gains check 9: every page must be in the sitemap.

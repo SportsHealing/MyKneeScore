@@ -42,6 +42,11 @@ Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 - Owner chose Option A for email: the result screen has an "Email me a copy" box that opens the patient's own email app (mailto) with the score, breakdown, scores so far and the personal link (same as the PDF link). Nothing passes through the site; the address is cleared straight after and never kept (owner: one-off, do not keep addresses).
 - e2e checks the mailto (97/97).
 
+## 2026-10-15: SEO tags and footer (branch `claude/peaceful-babbage-ccebiu`, awaiting owner approval)
+- `build.mjs` `head()` now takes the page URL and writes canonical, favicon and Open Graph tags. The footer gains "Knee anatomy" and an "Our sites" row.
+- The generated pages were patched to match, because a rebuild needs the private research repo. A script recreated `head()` and `footer` from `build.mjs` and confirmed all 23 pages match what a rebuild would write. Scoring files untouched.
+- `advanced.css`: eyebrow 14px, tags 13px, footer and breadcrumb links taller to tap.
+
 ## Goal
 - Add an "Advanced" section to mykneescore.com with the knee scores from `SportsHealing/kneescore-research`.
 - Layout: one hub page linking to one page per score.
