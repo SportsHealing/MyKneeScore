@@ -118,6 +118,17 @@ for p in PAGES:
 if len(set(tuple(v) for v in navs.values())) > 1:
     fail("nav matches across pages", str(navs))
 
+# 9. A page missing from the sitemap is slower for search engines to find.
+check("sitemap lists every page", "incident: no sitemap until 2026-10-15")
+sitemap = read("sitemap.xml") if os.path.exists("sitemap.xml") else ""
+for p in text_files():
+    if not p.endswith(".html") or p.startswith("./tools/"):
+        continue
+    url = "https://mykneescore.com/" + p[2:]
+    url = re.sub(r'(^|/)index\.html$', r'\1', url)
+    if "<loc>%s</loc>" % url not in sitemap:
+        fail("sitemap lists every page", "%s is missing %s" % ("sitemap.xml", url))
+
 print()
 if failures:
     print("FAILED (%d of %d checks):" % (len(failures), checks_run))

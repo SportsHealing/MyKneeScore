@@ -73,7 +73,7 @@ fs.writeFileSync(
 );
 
 // ---------- shared chrome ----------
-function head(title, description) {
+function head(title, description, url) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,6 +81,20 @@ function head(title, description) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
+<link rel="canonical" href="${url}">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="My Knee Score">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${url}">
+<meta property="og:image" content="https://mykneescore.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="My Knee Score. Put a number on your knee.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -114,7 +128,8 @@ const disclaimer = `<div class="disclaimer">
 const footer = `<footer>
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
-    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="../anatomy.html">Knee anatomy</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://omkneehealth.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">omkneehealth.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
   </div>
 </footer>`;
@@ -144,7 +159,7 @@ const published = scores.filter(s => !s.own);
 const own = scores.filter(s => s.own);
 const cats = [...new Set(published.map(s => s.category))];
 
-const hub = `${head("Advanced knee scores | My Knee Score", "Clinically used knee questionnaires including KOOS, IKDC, Lysholm, Kujala and more. Answer online and get your score instantly.")}
+const hub = `${head("Advanced knee scores | My Knee Score", "Clinically used knee questionnaires including KOOS, IKDC, Lysholm, Kujala and more. Answer online and get your score instantly.", "https://mykneescore.com/advanced/")}
 <body>
 ${header(true)}
 <main id="top">
@@ -227,7 +242,7 @@ function scorePage(s) {
     </div>
   </section>`;
 
-  return `${head(`${s.acronym} | ${s.fullName} | My Knee Score`, `Take the ${s.fullName} (${s.acronym}) online. ${n} questions, ${s.completionTime}. Get your score instantly.`)}
+  return `${head(`${s.acronym} | ${s.fullName} | My Knee Score`, `Take the ${s.fullName} (${s.acronym}) online. ${n} questions, ${s.completionTime}. Get your score instantly.`, `https://mykneescore.com/advanced/${s.slug}.html`)}
 <body data-score="${esc(s.slug)}">
 ${header(false)}
 <main id="top">

@@ -1,0 +1,6 @@
+# GitHub Pages settings.
+# tools/ holds the build scripts, tests and status docs. They are for the team,
+# not for visitors, so they are left out of the published site.
+# To publish them again, delete the "tools" line below.
+exclude:
+  - tools

@@ -40,10 +40,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border-radius: 2px;
 }
 .eyebrow {
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em;
+  font-size: 0.875rem; font-weight: 600; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--gold);
 }
-.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(181,143,71,0.5); }
+.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(181,143,71,0.5); display: inline-block; padding: 0.3rem 0; }
 h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.12; color: var(--green-ink); }
 h1 { font-size: clamp(2.2rem, 1.6rem + 2.8vw, 3.8rem); letter-spacing: -0.01em; }
 h2 { font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.9rem); }
@@ -158,7 +158,7 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 .sc-name { font-weight: 600; font-size: 0.98rem; line-height: 1.4; }
 .sc-meta { font-size: 0.88rem; color: var(--muted); }
 .sc-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; padding-top: 0.6rem; }
-.tag { font-size: 0.74rem; letter-spacing: 0.04em; border-radius: 999px; padding: 0.15rem 0.6rem; background: var(--paper); border: 1px solid var(--line); color: var(--muted); }
+.tag { font-size: 0.82rem; letter-spacing: 0.04em; border-radius: 999px; padding: 0.15rem 0.6rem; background: var(--paper); border: 1px solid var(--line); color: var(--muted); }
 .tag-warn { color: var(--warn); border-color: rgba(140,74,47,0.35); }
 .coming { margin-top: 1.6rem; font-size: 0.95rem; color: var(--muted); }
 
@@ -291,7 +291,7 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 footer { background: var(--green-deep); color: rgba(250,247,239,0.75); padding: 2.2rem 0; font-size: 0.9rem; }
 .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
 .foot-find { flex-basis: 100%; margin: 0; font-size: 0.9rem; }
-footer a { color: var(--gold-pale); text-decoration: none; }
+footer a { color: var(--gold-pale); text-decoration: none; display: inline-block; padding: 0.35rem 0; }
 footer a:hover { text-decoration: underline; }
 @media (max-width: 520px) {
   .quiz-topbar-inner { flex-wrap: wrap; }
