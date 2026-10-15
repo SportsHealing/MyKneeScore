@@ -54,7 +54,8 @@ Update it at the end of every piece of work.
 | Analytics brief (Plausible, no cookies), plus mailing list as a later decision | Owner forwarding PDF to Dinis | Dinis |
 | MyKneeScan referral tracking brief | Owner forwarding PDF to Jose | Jose |
 | Copy and wording review | Owner forwarding PDF to Dr Gupte | Dr Gupte |
-| Move status docs to a private repo | Waiting for owner to create the private repo | Owner, then Claude |
+| Move status docs to a private repo | Owner will create the repo in due course | Owner, then Claude |
+| Score dial redesign and anatomy footer link colour | Preview sent, awaiting approval | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -87,3 +88,4 @@ Update it at the end of every piece of work.
 - 2026-10-15: Quick wins built on `claude/peaceful-babbage-ccebiu`. All checks pass (house style 9/9, scoring, browser 97/97). Owner approved going live. Three briefs produced as PDFs. This master status doc created.
 - 2026-10-15: PR #10 merged and live. Checked: robots.txt, sitemap.xml, favicon and share image load; tools/ and CLAUDE.md return 404 on the live site, as intended.
 - 2026-10-15: Owner decisions: status doc to go private; mailing list added to Dinis's list; owner forwards the three PDFs.
+- 2026-10-15: Score dial (home hero, home result, every Advanced dial) redrawn as an SVG arc: even thickness, rounded ends, solid gold, smooth fill unless reduced motion is set. Old ring was an ellipse, so it was thicker at the top. Unused `--mask-opaque` token removed from both `:root` blocks. Anatomy footer links set to ivory; they were dark green on dark green. Awaiting approval.

@@ -56,8 +56,6 @@
     --green-ink-rgb:    22, 56, 45;
     --bone-rgb:         233, 226, 206;
     --bone-active-rgb:  207, 219, 208;
-    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
-    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -215,7 +213,8 @@
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
   .foot-find { flex-basis: 100%; margin: 0; font-size: 0.9rem; }
   .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
-  footer a { display: inline-block; padding: 0.35rem 0; }
+  footer a { color: var(--ivory); display: inline-block; padding: 0.35rem 0; }
+  footer a:hover { color: var(--gold-pale); }
 
   /* ---------- Anatomy page: additions only ---------- */
   html { scroll-padding-top: 90px; }

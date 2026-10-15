@@ -9,6 +9,9 @@
   var S = window.MKS_SCORES && window.MKS_SCORES[slug];
   if (!E || !S) return;
 
+  // Score arc shared by every dial. Styled in advanced.css.
+  var DIAL_ARC = '<svg class="dial-arc" viewBox="0 0 200 110" aria-hidden="true"><path class="dial-track" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/><path class="dial-fill" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/></svg>';
+
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function esc(v) {
@@ -520,7 +523,7 @@
       if (r) {
         var z = E.ragZone(r.score, S.scoringRange.max, higher);
         var pos = Math.max(0, Math.min(100, z.dialPosition));
-        html += '<div class="dial" style="--value:' + pos + ';"><div class="dial-num">' + r.score +
+        html += '<div class="dial" style="--value:' + pos + ';">' + DIAL_ARC + '<div class="dial-num">' + r.score +
           '<small>out of ' + S.scoringRange.max + '</small></div></div>' +
           '<p class="result-band">' + esc(z.zone) + ' knee function</p>' +
           '<p class="result-dir">' + (higher ? "Higher score = better function" : "Lower score = better function") + '</p>';
@@ -586,7 +589,7 @@
   function liveHtml() {
     return '<aside class="live" aria-live="polite">' +
       '<p class="eyebrow">Your score</p>' +
-      '<div class="dial" id="liveDial" style="--value:0;"><div class="dial-num"><span id="liveNum">0</span><small>out of 100</small></div></div>' +
+      '<div class="dial" id="liveDial" style="--value:0;">' + DIAL_ARC + '<div class="dial-num"><span id="liveNum">0</span><small>out of 100</small></div></div>' +
       '<span class="live-score" id="liveNumMobile">0</span>' +
       '<p class="live-band" id="liveBand">Not started</p>' +
       '<p class="live-status" id="liveStatus"></p>' +
