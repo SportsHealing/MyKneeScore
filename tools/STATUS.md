@@ -50,7 +50,7 @@ Update it at the end of every piece of work.
 ## In progress
 | Item | State | Owner |
 |---|---|---|
-| Audit quick wins (footer links, SEO files, icons, share image, tap targets) | Approved. Going live via pull request. | Claude |
+| Audit quick wins (footer links, SEO files, icons, share image, tap targets) | Live since 15 Oct (PR #10) | Done |
 | Analytics brief (Plausible, no cookies) | PDF sent to owner for Dinis | Dinis |
 | MyKneeScan referral tracking brief | PDF sent to owner for Jose | Jose |
 | Copy and wording review | PDF sent to owner for Dr Gupte | Dr Gupte |
@@ -83,3 +83,4 @@ Update it at the end of every piece of work.
 ## Progress log
 - 2026-10-14: Audit delivered in chat.
 - 2026-10-15: Quick wins built on `claude/peaceful-babbage-ccebiu`. All checks pass (house style 9/9, scoring, browser 97/97). Owner approved going live. Three briefs produced as PDFs. This master status doc created.
+- 2026-10-15: PR #10 merged and live. Checked: robots.txt, sitemap.xml, favicon and share image load; tools/ and CLAUDE.md return 404 on the live site, as intended.
