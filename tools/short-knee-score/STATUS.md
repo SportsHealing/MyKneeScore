@@ -183,7 +183,7 @@ Open. None of these block the deploy, but all affect what users are told.
   `claude/peaceful-babbage-ccebiu`, awaiting owner approval). No scoring,
   clinical or question wording touched. Footer on every page gains "Knee
   anatomy" (phones could not reach it) and "Our sites" links to mykneescan.com
-  and omkneehealth.com, tagged `utm_source=mykneescore`. Every page gains a
+  and kneelens.com (standing in for omkneehealth.com for now), tagged `utm_source=mykneescore`. Every page gains a
   canonical link, favicon, Open Graph and Twitter card tags. New files:
   `robots.txt`, `sitemap.xml` (25 pages), `favicon.svg`, `favicon-32.png`,
   `apple-touch-icon.png`, `og-image.png`, `_config.yml` (hides `tools/` from
