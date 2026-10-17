@@ -56,8 +56,6 @@
     --green-ink-rgb:    22, 56, 45;
     --bone-rgb:         233, 226, 206;
     --bone-active-rgb:  207, 219, 208;
-    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
-    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -238,23 +236,17 @@
     aspect-ratio: 2 / 1.1;
     margin: 0.5rem auto 0;
     position: relative;
-    overflow: hidden;
   }
-  .dial::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 -100% 0;
-    border-radius: 50%;
-    background: conic-gradient(
-      from 270deg,
-      var(--gold) 0deg,
-      var(--gold-pale) calc(var(--value) * 1.8deg),
-      rgba(var(--ivory-rgb), 0.14) calc(var(--value) * 1.8deg),
-      rgba(var(--ivory-rgb), 0.14) 180deg,
-      transparent 180deg
-    );
-    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
-            mask: radial-gradient(circle at 50% 50%, transparent 58%, var(--mask-opaque) 59%);
+  /* The arc is an SVG path, so the ring has one even thickness and rounded
+     ends. pathLength="100" lets the score (0 to 100) be the dash length. */
+  .dial-arc { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dial-arc path { fill: none; stroke-width: 11; stroke-linecap: round; }
+  .dial-track { stroke: rgba(var(--ivory-rgb), 0.14); }
+  /* The 200 gap stops the dash repeating at the far end. The opacity hides
+     the round end cap when the score is 0. */
+  .dial-fill { stroke: var(--gold); stroke-dasharray: var(--value) 200; stroke-opacity: clamp(0, calc(var(--value) * 100), 1); }
+  @media (prefers-reduced-motion: no-preference) {
+    .dial-fill { transition: stroke-dasharray 0.8s ease; }
   }
   .dial-num {
     position: absolute;
@@ -644,6 +636,7 @@
       <div class="dial-card">
         <p class="eyebrow">Example result</p>
         <div class="dial" style="--value: 76;">
+          <svg class="dial-arc" viewBox="0 0 200 110" aria-hidden="true"><path class="dial-track" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/><path class="dial-fill" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/></svg>
           <div class="dial-num">76<small>out of 100</small></div>
         </div>
         <p class="dial-caption">A score of 76 suggests mild symptoms. Most people at this level improve with targeted exercise.</p>
@@ -828,7 +821,7 @@
     <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="anatomy.html">Knee anatomy</a> · <a href="advanced/index.html">Advanced scores</a> · <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
-    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 15 October 2026</p>
+    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 17 October 2026</p>
   </div>
 </footer>
 
@@ -996,6 +989,7 @@
       <div class="result" id="result" aria-live="polite">
         <h3 tabindex="-1">Your knee score</h3>
         <div class="dial" id="resultDial" style="--value: 0;">
+          <svg class="dial-arc" viewBox="0 0 200 110" aria-hidden="true"><path class="dial-track" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/><path class="dial-fill" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/></svg>
           <div class="dial-num"><span id="scoreNum">0</span><small>out of 100</small></div>
         </div>
         <p class="result-band" id="bandName"></p>

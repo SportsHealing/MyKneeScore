@@ -56,8 +56,6 @@
     --green-ink-rgb:    22, 56, 45;
     --bone-rgb:         233, 226, 206;
     --bone-active-rgb:  207, 219, 208;
-    /* Mask operand, not a design colour. Supplies full alpha to the dial mask. */
-    --mask-opaque:      #000;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -215,7 +213,8 @@
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
   .foot-find { flex-basis: 100%; margin: 0; font-size: 0.9rem; }
   .foot-version { flex-basis: 100%; margin: 0; font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.55); }
-  footer a { display: inline-block; padding: 0.35rem 0; }
+  footer a { color: var(--gold-pale); text-decoration: none; display: inline-block; padding: 0.35rem 0; }
+  footer a:hover { text-decoration: underline; }
 
   /* ---------- Anatomy page: additions only ---------- */
   html { scroll-padding-top: 90px; }
@@ -711,7 +710,7 @@
     <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
-    <p class="foot-version">Page updated 15 October 2026</p>
+    <p class="foot-version">Page updated 17 October 2026</p>
   </div>
 </footer>
 
