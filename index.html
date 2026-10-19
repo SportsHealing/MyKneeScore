@@ -19,6 +19,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="My Knee Score. Put a number on your knee.">
 <meta name="twitter:card" content="summary_large_image">
+<script>
+  // Embed mode (?embed=1): the page shows only the questionnaire, for an iFrame
+  // on a sister site. Set before the page draws, so the site header never flashes.
+  if (/[?&]embed=1(&|$)/.test(location.search)) { document.documentElement.classList.add("embed"); }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -446,6 +451,8 @@
     cursor: pointer;
   }
   .quiz-exit:hover { border-color: var(--gold-pale); color: var(--gold-pale); }
+  /* Embed mode: there is no page behind the test, so no Exit button. */
+  .embed .quiz-exit { visibility: hidden; }
   .progress-track { flex: 1; height: 8px; background: rgba(var(--ivory-rgb), 0.18); border-radius: 999px; overflow: hidden; }
   .progress-fill { height: 100%; width: 8.3%; background: var(--gold); border-radius: 999px; transition: width 0.3s ease; }
   .progress-meta { flex: none; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-pale); font-weight: 600; white-space: nowrap; }
@@ -821,7 +828,7 @@
     <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="anatomy.html">Knee anatomy</a> · <a href="advanced/index.html">Advanced scores</a> · <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
-    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 17 October 2026</p>
+    <p class="foot-version">Short Knee Score v2.0 &middot; page updated 19 October 2026</p>
   </div>
 </footer>
 
@@ -1095,16 +1102,31 @@
     function groupName(i) { return slides[i].querySelector("input").name; }
     function answered(i)  { return !!form.querySelector('input[name="' + groupName(i) + '"]:checked'); }
 
+    var embed = document.documentElement.classList.contains("embed");
+
+    // The address bar shows #quiz while the test is open, so the link can be
+    // copied and shared. Any history (h=...) in the address is kept.
+    function setQuizHash(on) {
+      var parts = window.location.hash.replace(/^#/, "").split("&").filter(function (p) { return p && p !== "quiz"; });
+      if (on) { parts.unshift("quiz"); }
+      var next = parts.length ? "#" + parts.join("&") : "";
+      if (next !== window.location.hash && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search + next);
+      }
+    }
     function open() {
       app.hidden = false;
       app.classList.add("open");
       document.body.style.overflow = "hidden";
+      setQuizHash(true);
       reset();
     }
     function close() {
+      if (embed) { return; }
       app.classList.remove("open");
       app.hidden = true;
       document.body.style.overflow = "";
+      setQuizHash(false);
     }
     function reset() {
       form.reset();
@@ -1369,7 +1391,7 @@
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });
     });
 
-    if (/^#quiz(&|$)/.test(window.location.hash)) { open(); }
+    if (embed || /^#quiz(&|$)/.test(window.location.hash)) { open(); }
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && app.classList.contains("open")) { close(); }

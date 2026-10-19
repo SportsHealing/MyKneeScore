@@ -400,3 +400,9 @@ footer a:hover { text-decoration: underline; }
   .rp-foot { margin-top: 14pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--muted); }
   .rp-foot a { color: var(--green-soft); font-weight: 600; }
 }
+
+/* Embed mode (?embed=1): only the test shows, for an iFrame on a sister site.
+   Quick scores open their questionnaire full screen. SK11 and PK7 show the
+   calculator and the disclaimer. There is no page behind, so no Exit button. */
+.embed body > header, .embed body > footer, .embed .hero, .embed .about { display: none; }
+.embed .quiz-exit { visibility: hidden; }

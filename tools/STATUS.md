@@ -17,6 +17,7 @@ Update it at the end of every piece of work.
 | `tools/STATUS.md` (this file) | The whole site: goals, open work, decisions, ideas |
 | `tools/short-knee-score/STATUS.md` | Home page Short Knee Score in detail |
 | `tools/advanced/STATUS.md` | Advanced scores section in detail |
+| `tools/EMBED.md` | Every test's share link and iFrame embed link |
 
 ## How to continue in a new chat
 1. Run `git status && git branch -a && git log --oneline -5`.
@@ -55,7 +56,8 @@ Update it at the end of every piece of work.
 | MyKneeScan referral tracking brief | Owner forwarding PDF to Jose | Jose |
 | Copy and wording review | Owner forwarding PDF to Dr Gupte | Dr Gupte |
 | Move status docs to a private repo | Owner will create the repo in due course | Owner, then Claude |
-| Score dial redesign and anatomy footer link colour | Approved 17 Oct. Going live. | Claude |
+| Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
+| Own link and iFrame embed for every test (`tools/EMBED.md`) | Preview sent, awaiting approval | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -90,3 +92,5 @@ Update it at the end of every piece of work.
 - 2026-10-15: Owner decisions: status doc to go private; mailing list added to Dinis's list; owner forwards the three PDFs.
 - 2026-10-15: Score dial (home hero, home result, every Advanced dial) redrawn as an SVG arc: even thickness, rounded ends, solid gold, smooth fill unless reduced motion is set. Old ring was an ellipse, so it was thicker at the top. Unused `--mask-opaque` token removed from both `:root` blocks. Anatomy footer links were dark green on dark green.
 - 2026-10-17: Owner approved the dial and chose pale gold for the anatomy footer links, matching every other page. Going live.
+- 2026-10-17: PR #11 merged and live.
+- 2026-10-19: Every test now has its own link. `#quiz` opens the questionnaire and shows in the address bar while it is open. `?embed=1` shows only the test, for iFrames on sister sites. List of all 23 links in `tools/EMBED.md`. Awaiting approval.
