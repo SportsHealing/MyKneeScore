@@ -12,6 +12,20 @@
   // Score arc shared by every dial. Styled in advanced.css.
   var DIAL_ARC = '<svg class="dial-arc" viewBox="0 0 200 110" aria-hidden="true"><path class="dial-track" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/><path class="dial-fill" d="M 16 100 A 84 84 0 0 1 184 100" pathLength="100"/></svg>';
 
+  // Embed mode (?embed=1), set by a script in the page head: only the test shows
+  var embed = document.documentElement.classList.contains("embed");
+
+  // The address bar shows #quiz while the test is open, so the link can be
+  // copied and shared. Any history (h=...) in the address is kept.
+  function setQuizHash(on) {
+    var parts = window.location.hash.replace(/^#/, "").split("&").filter(function (p) { return p && p !== "quiz"; });
+    if (on) parts.unshift("quiz");
+    var next = parts.length ? "#" + parts.join("&") : "";
+    if (next !== window.location.hash && window.history.replaceState) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search + next);
+    }
+  }
+
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function esc(v) {
@@ -315,9 +329,12 @@
       app.classList.add("open");
       document.body.style.overflow = "hidden";
       document.body.classList.add("quiz-open");
+      setQuizHash(true);
       reset();
     }
     function close() {
+      if (embed) return;
+      setQuizHash(false);
       clearTimeout(timer);
       app.classList.remove("open");
       app.hidden = true;
@@ -434,6 +451,8 @@
     [].forEach.call(document.querySelectorAll("[data-open-quiz]"), function (el) {
       el.addEventListener("click", function (e) { e.preventDefault(); open(); });
     });
+    // A link ending #quiz, or embed mode, opens the questionnaire straight away
+    if (embed || /^#quiz(&|$)/.test(window.location.hash)) open();
 
     // Answers to unscored questions, as plain text lines for the result and the copied text
     function contextLines() {
