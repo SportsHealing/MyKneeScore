@@ -288,7 +288,7 @@
   function initQuiz() {
     var questions = S.questionSet;
     var total = questions.length;
-    // "Before you start" questions (LK32, FK43) come first and are not numbered
+    // "Before you start" questions (LK32, FK21) come first and are not numbered
     var offset = 0;
     while (offset < total && questions[offset].intro) offset++;
     // The answer to a "remind" question (the period being answered about) is shown on every later question
@@ -306,7 +306,7 @@
     var current = 0;
     var timer = null;
 
-    // Optional and tick-box questions are used by FK43 only. Every other score uses plain single choice.
+    // Optional and tick-box questions are used by FK21 only. Every other score uses plain single choice.
     function isAnswered(q) {
       if (q.optional) return true;
       if (q.type === "multi") return !!answers[q.id] && answers[q.id].length > 0;
@@ -481,7 +481,7 @@
       return String(v);
     }
 
-    // Report data for the PDF. Section bars (LK32, FK43) use the same engine as the score.
+    // Report data for the PDF. Section bars (LK32, FK21) use the same engine as the score.
     function quickReport(r, parts, higher) {
       var z = E.ragZone(r.score, S.scoringRange.max, higher);
       var scoredIds = S.parts ? S.parts[0].ids : null;
@@ -522,7 +522,7 @@
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
 
-      // Scores with parts (FK43) score each part separately; the first part is the headline score
+      // Scores with parts (FK21) score each part separately; the first part is the headline score
       var parts = (S.parts || [{ ids: null }]).map(function (p) {
         if (!p.ids) return { label: p.label, r: E.quickScore(questions, answers, S.scoringRange) };
         var qs = questions.filter(function (q) { return p.ids.indexOf(q.id) > -1; });

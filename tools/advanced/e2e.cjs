@@ -21,7 +21,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const answers = {};
         for (let i = 0; i < s.questionSet.length; i++) {
           const q = s.questionSet[i];
-          // FK43 context questions: date/number fields, tick boxes, choice plus detail box. Not scored.
+          // FK21 context questions: date/number fields, tick boxes, choice plus detail box. Not scored.
           if (q.type === "fields") { await page.fill(`#q${q.id}-${q.fields[0].key}`, "2026-09-20"); await page.click("#nextBtn"); continue; }
           if (q.type === "multi") { await page.click(`label[for="q${q.id}-0"]`); await page.click(`label[for="q${q.id}-1"]`); await page.click("#nextBtn"); continue; }
           if (q.detail) { await page.click(`label[for="q${q.id}-0"]`); await page.fill(`#q${q.id}-detail`, "test"); await page.click("#nextBtn"); continue; }
@@ -39,7 +39,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
           }
         }
         await page.waitForSelector("#result.show", { timeout: 4000 });
-        // Scores with parts (FK43): the dial shows the first part only
+        // Scores with parts (FK21): the dial shows the first part only
         const ids = s.parts ? s.parts[0].ids : null;
         const qs = ids ? s.questionSet.filter(q => ids.includes(q.id)) : s.questionSet;
         const exp = engine.quickScore(qs, Object.fromEntries(Object.entries(answers).filter(([id]) => !ids || ids.includes(Number(id)))), s.scoringRange);

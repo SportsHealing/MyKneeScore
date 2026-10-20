@@ -57,6 +57,7 @@ Update it at the end of every piece of work.
 | Copy and wording review | Owner forwarding PDF to Dr Gupte | Dr Gupte |
 | Move status docs to a private repo | Owner will create the repo in due course | Owner, then Claude |
 | Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
+| Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Preview sent, awaiting approval | Claude |
 | Own link and iFrame embed for every test (`tools/EMBED.md`) | Preview sent, awaiting approval | Claude |
 
 ## Decisions log
@@ -94,3 +95,4 @@ Update it at the end of every piece of work.
 - 2026-10-17: Owner approved the dial and chose pale gold for the anatomy footer links, matching every other page. Going live.
 - 2026-10-17: PR #11 merged and live.
 - 2026-10-19: Every test now has its own link. `#quiz` opens the questionnaire and shows in the address bar while it is open. `?embed=1` shows only the test, for iFrames on sister sites. List of all 23 links in `tools/EMBED.md`. Awaiting approval.
+- 2026-10-20: FK43 replaced by FK21 from the owner's new Word document. `fk43.html` forwards to `fk21.html`. Sitemap, EMBED.md and llms.txt updated. Awaiting approval.

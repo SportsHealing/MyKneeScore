@@ -31,6 +31,10 @@ SK11 and PK7 are calculators shown on the page itself, so their Page and Test li
 
 Nothing is stored or sent, inside a frame or not. The PDF report and Email me a copy work as on the site.
 
+## Moved tests
+
+Old FK43 links (page, `#quiz` and `?embed=1`) forward to FK21 automatically, so existing embeds keep working. Update them to the FK21 links when convenient.
+
 ## Every test
 
 | Test | Page | Test link (share) | Embed link (iFrame) |
@@ -41,7 +45,7 @@ Nothing is stored or sent, inside a frame or not. The PDF report and Email me a 
 | BPII: Banff Patella Instability Instrument | https://mykneescore.com/advanced/bpii.html | https://mykneescore.com/advanced/bpii.html#quiz | https://mykneescore.com/advanced/bpii.html?embed=1 |
 | CKRS: Cincinnati Knee Rating System | https://mykneescore.com/advanced/cincinnati.html | https://mykneescore.com/advanced/cincinnati.html#quiz | https://mykneescore.com/advanced/cincinnati.html?embed=1 |
 | FJS-12: Forgotten Joint Score | https://mykneescore.com/advanced/fjs-12.html | https://mykneescore.com/advanced/fjs-12.html#quiz | https://mykneescore.com/advanced/fjs-12.html?embed=1 |
-| FK43: mykneescore Female Knee Score - FK43 | https://mykneescore.com/advanced/fk43.html | https://mykneescore.com/advanced/fk43.html#quiz | https://mykneescore.com/advanced/fk43.html?embed=1 |
+| FK21: mykneescore Female Knee Score - FK21 | https://mykneescore.com/advanced/fk21.html | https://mykneescore.com/advanced/fk21.html#quiz | https://mykneescore.com/advanced/fk21.html?embed=1 |
 | IKDC: International Knee Documentation Committee Subjective Knee Evaluation Form | https://mykneescore.com/advanced/ikdc.html | https://mykneescore.com/advanced/ikdc.html#quiz | https://mykneescore.com/advanced/ikdc.html?embed=1 |
 | KOOS: Knee Injury and Osteoarthritis Outcome Score | https://mykneescore.com/advanced/koos.html | https://mykneescore.com/advanced/koos.html#quiz | https://mykneescore.com/advanced/koos.html?embed=1 |
 | KOOS-JR: KOOS for Joint Replacement | https://mykneescore.com/advanced/koos-jr.html | https://mykneescore.com/advanced/koos-jr.html#quiz | https://mykneescore.com/advanced/koos-jr.html?embed=1 |
