@@ -18,7 +18,10 @@ const DIFFICULTY = ["No difficulty", "Slight", "Moderate", "Severe", "Unable"];
 function scored(id, section, text, labels, worstFirst = false, extra = {}) {
   return {
     id, section, text, ...extra,
-    options: labels.map((label, i) => ({ value: String(worstFirst ? i : 4 - i), label })),
+    // Shown from 0 (worst) to 4 (best), as in the owner's 2026-10-20 Word documents.
+    // The value for each answer is unchanged.
+    options: labels.map((label, i) => ({ value: String(worstFirst ? i : 4 - i), label }))
+      .sort((a, b) => Number(a.value) - Number(b.value)),
   };
 }
 
