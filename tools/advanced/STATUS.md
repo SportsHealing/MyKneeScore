@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
+## 2026-10-20: LK32 and FK21 answers shown worst to best
+- Owner sent updated Word documents listing every scored answer from 0 (worst) to 4 (best).
+- Score values were already the same (best answer = 4), so no score changes. Checked: no wording or value differences; 1,000+ random answer sets score the same before and after.
+- Only the display order changed: 27 LK32 and 13 FK21 questions now show the worst answer first. Done in `scored()` in `local-scores.mjs`.
+- LK32 Q6 keeps "1 day a week" (owner decision of 2026-10-08); the new document still says "Less than 1 day". Raised with the owner.
+
 ## 2026-10-20: FK43 replaced by FK21 (owner approved, Dr Gupte sign-off confirmed by owner, live)
 - Source: owner's Word document "Female Knee Score" version 2 (21 questions).
 - Q1 to 10: knee questions taken word for word from LK32 (LK32 Q1, 4, 9, 11, 16, 24, 26, 29, 31, 32). Knee score = Q1 to 10.
