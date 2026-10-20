@@ -98,4 +98,4 @@ Update it at the end of every piece of work.
 - 2026-10-19: Every test now has its own link. `#quiz` opens the questionnaire and shows in the address bar while it is open. `?embed=1` shows only the test, for iFrames on sister sites. List of all 23 links in `tools/EMBED.md`. Awaiting approval.
 - 2026-10-20: FK43 replaced by FK21 from the owner's new Word document. `fk43.html` forwards to `fk21.html`. Sitemap, EMBED.md and llms.txt updated. Awaiting approval.
 - 2026-10-20: Owner approved FK21 and the name, and confirmed Dr Gupte signed off. Asked for sister-site embeds to be updated (backlog item 10). Going live.
-- 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Awaiting approval.
+- 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".
