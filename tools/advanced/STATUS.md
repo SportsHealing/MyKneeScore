@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
-## 2026-10-20: FK43 replaced by FK21 (branch `claude/friendly-ptolemy-5ygo6x`, awaiting owner approval)
+## 2026-10-20: FK43 replaced by FK21 (owner approved, Dr Gupte sign-off confirmed by owner, live)
 - Source: owner's Word document "Female Knee Score" version 2 (21 questions).
 - Q1 to 10: knee questions taken word for word from LK32 (LK32 Q1, 4, 9, 11, 16, 24, 26, 29, 31, 32). Knee score = Q1 to 10.
 - Q11 to 15: the same unscored "About you" questions as FK43 Q33 to 37. Q16 to 21: the same female health questions as FK43 Q38 to 43 (female health score). Q18 keeps "In the last week".
