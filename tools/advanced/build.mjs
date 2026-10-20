@@ -26,6 +26,11 @@ const DEDICATED = { sk11: "sk11", pk7: "pk7" };
 // Friendlier file names where the research id differs from the public name
 const SLUGS = { ks6: "ks5" };
 
+// Old page addresses that now forward to a replacement score. Shared links,
+// iFrame embeds and #quiz links keep working. Earlier scores in a personal
+// link (#h=...) are dropped, because the old and new scores are not comparable.
+const REDIRECTS = { fk43: "fk21" };
+
 // Our own instruments, shown in their own group on the hub
 const OWN = new Set(["sk11", "pk7", "ks6", ...LOCAL_SCORES.map(s => s.id)]);
 
@@ -325,13 +330,43 @@ function quizShell(s) {
 }
 
 // Remove pages for scores that are no longer published (e.g. newly excluded)
-const keep = new Set(["index.html", ...scores.map(s => `${s.slug}.html`)]);
+const keep = new Set(["index.html", ...scores.map(s => `${s.slug}.html`), ...Object.keys(REDIRECTS).map(f => `${f}.html`)]);
 for (const f of fs.readdirSync(OUT)) {
   if (f.endsWith(".html") && !keep.has(f)) fs.unlinkSync(path.join(OUT, f));
 }
 
 for (const s of scores) {
   fs.writeFileSync(path.join(OUT, `${s.slug}.html`), scorePage(s));
+}
+
+function redirectPage(to) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page moved | My Knee Score</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://mykneescore.com/advanced/${to}.html">
+<script>
+  // Forward to the replacement score, keeping embed mode and #quiz
+  (function () {
+    var q = /[?&]embed=1(&|$)/.test(location.search) ? "?embed=1" : "";
+    var h = /^#quiz(&|$)/.test(location.hash) ? "#quiz" : "";
+    location.replace("${to}.html" + q + h);
+  })();
+</script>
+<meta http-equiv="refresh" content="0; url=${to}.html">
+<link rel="stylesheet" href="assets/advanced.css">
+</head>
+<body>
+<main class="wrap"><p>This score has moved. <a href="${to}.html">Go to the new page</a>.</p></main>
+</body>
+</html>
+`;
+}
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  fs.writeFileSync(path.join(OUT, `${from}.html`), redirectPage(to));
 }
 
 console.log(`Built ${scores.length} score pages from kneescore-research@${commit}. Excluded: ${Object.keys(EXCLUDED).join(", ")}`);

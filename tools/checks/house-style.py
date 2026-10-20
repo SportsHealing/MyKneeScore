@@ -124,6 +124,8 @@ sitemap = read("sitemap.xml") if os.path.exists("sitemap.xml") else ""
 for p in text_files():
     if not p.endswith(".html") or p.startswith("./tools/"):
         continue
+    if 'name="robots" content="noindex"' in read(p):
+        continue  # forwarding pages for moved scores stay out of the sitemap
     url = "https://mykneescore.com/" + p[2:]
     url = re.sub(r'(^|/)index\.html$', r'\1', url)
     if "<loc>%s</loc>" % url not in sitemap:

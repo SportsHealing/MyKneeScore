@@ -33,7 +33,7 @@ the calculators from the kneescore-research project, with the arithmetic
 unchanged and checked by a parity test against the originals. Most scores use
 a generic engine; SK11 and PK7 use their own weighted engines. The Oxford Knee
 Score and WOMAC are held back pending licence permission. Two of our own
-scores, the Long Knee Score (LK32) and Female Knee Score (FK43), are not in
+scores, the Long Knee Score (LK32) and Female Knee Score (FK21, which replaced FK43 on 2026-10-20), are not in
 kneescore-research; they are defined in tools/advanced/local-scores.mjs and use
 the generic engine.
 
