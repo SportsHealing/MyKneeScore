@@ -59,7 +59,7 @@ Update it at the end of every piece of work.
 | Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
 | Own link and iFrame embed for every test (`tools/EMBED.md`) | Live since 19 Oct (PR #12) | Done |
 | Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Live 20 Oct. Owner approved; owner confirmed Dr Gupte signed off | Done |
-| Remove "Email me a copy"; compact the Short Knee Score breakdown | Preview sent, awaiting approval | Claude |
+| Remove "Email me a copy"; compact the Short Knee Score breakdown | Approved 21 Oct. Going live. | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -103,3 +103,4 @@ Update it at the end of every piece of work.
 - 2026-10-20: Owner approved FK21 and the name, and confirmed Dr Gupte signed off. Asked for sister-site embeds to be updated (backlog item 10). Going live.
 - 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".
 - 2026-10-21: Owner asked to remove "Email me a copy" from every result (to be rebuilt better later) and to compact the Short Knee Score breakdown for iFrames. Breakdown now two columns with thin bars. Result on a phone 1647px to 1172px tall. "Return to the site" hidden in embed mode. e2e mail check replaced by a check that the email box stays gone. Awaiting approval.
+- 2026-10-21: Owner approved going live, including removal on the Advanced scores.
