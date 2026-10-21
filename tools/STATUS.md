@@ -59,6 +59,7 @@ Update it at the end of every piece of work.
 | Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
 | Own link and iFrame embed for every test (`tools/EMBED.md`) | Live since 19 Oct (PR #12) | Done |
 | Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Live 20 Oct. Owner approved; owner confirmed Dr Gupte signed off | Done |
+| Remove "Email me a copy"; compact the Short Knee Score breakdown | Preview sent, awaiting approval | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -80,6 +81,7 @@ Update it at the end of every piece of work.
 | 10 | Update any FK43 iFrame embeds or links on sister sites to the FK21 links in `tools/EMBED.md` (old links forward, so nothing is broken) | Dinis, Jose |
 
 ## Future ideas
+- Rebuild "Email me a copy" in a better form (removed 21 Oct as clunky).
 - Create mailing list to email users about new features.
   - Note: the site stores nothing today. A mailing list needs a sign up form and a mailing service. That is a server and data decision for Dinis, with UK GDPR consent wording.
   - 2026-10-15: added to Dinis's brief as a decision for later.
@@ -100,3 +102,4 @@ Update it at the end of every piece of work.
 - 2026-10-20: FK43 replaced by FK21 from the owner's new Word document. `fk43.html` forwards to `fk21.html`. Sitemap, EMBED.md and llms.txt updated. Awaiting approval.
 - 2026-10-20: Owner approved FK21 and the name, and confirmed Dr Gupte signed off. Asked for sister-site embeds to be updated (backlog item 10). Going live.
 - 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".
+- 2026-10-21: Owner asked to remove "Email me a copy" from every result (to be rebuilt better later) and to compact the Short Knee Score breakdown for iFrames. Breakdown now two columns with thin bars. Result on a phone 1647px to 1172px tall. "Return to the site" hidden in embed mode. e2e mail check replaced by a check that the email box stays gone. Awaiting approval.
