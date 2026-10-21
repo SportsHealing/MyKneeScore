@@ -58,6 +58,7 @@ Update it at the end of every piece of work.
 | Move status docs to a private repo | Owner will create the repo in due course | Owner, then Claude |
 | Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
 | Own link and iFrame embed for every test (`tools/EMBED.md`) | Live since 19 Oct (PR #12) | Done |
+| Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Live 20 Oct. Owner approved; owner confirmed Dr Gupte signed off | Done |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -76,6 +77,7 @@ Update it at the end of every piece of work.
 | 7 | Shared design token file | Dinis |
 | 8 | "1 questions" grammar on the SANE page (generator copy) | Small fix |
 | 9 | Phone menu: consider a menu button so every page is in the header | Owner |
+| 10 | Update any FK43 iFrame embeds or links on sister sites to the FK21 links in `tools/EMBED.md` (old links forward, so nothing is broken) | Dinis, Jose |
 
 ## Future ideas
 - Create mailing list to email users about new features.
@@ -94,4 +96,10 @@ Update it at the end of every piece of work.
 - 2026-10-17: Owner approved the dial and chose pale gold for the anatomy footer links, matching every other page. Going live.
 - 2026-10-17: PR #11 merged and live.
 - 2026-10-19: Every test now has its own link. `#quiz` opens the questionnaire and shows in the address bar while it is open. `?embed=1` shows only the test, for iFrames on sister sites. List of all 23 links in `tools/EMBED.md`. Awaiting approval.
+<<<<<<< HEAD
 - 2026-10-19: PR #12 merged and live. Checked the live home page, KOOS page and app.js carry the new code.
+=======
+- 2026-10-20: FK43 r- 2026-10-19: PR #12 merged and live. Checked the live home page, KOOS page and app.js carry the new code.
+- 2026-10-20: FK43 replaced by FK21 from the owner's new Word document. `fk43.html` forwards to `fk21.html`. Sitemap, EMBED.md and llms.txt updated. Awaiting approval.
+- 2026-10-20: Owner approved FK21 and the name, and confirmed Dr Gupte signed off. Asked for sister-site embeds to be updated (backlog item 10). Going live.
+- 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".

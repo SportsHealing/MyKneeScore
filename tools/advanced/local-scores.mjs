@@ -18,7 +18,10 @@ const DIFFICULTY = ["No difficulty", "Slight", "Moderate", "Severe", "Unable"];
 function scored(id, section, text, labels, worstFirst = false, extra = {}) {
   return {
     id, section, text, ...extra,
-    options: labels.map((label, i) => ({ value: String(worstFirst ? i : 4 - i), label })),
+    // Shown from 0 (worst) to 4 (best), as in the owner's 2026-10-20 Word documents.
+    // The value for each answer is unchanged.
+    options: labels.map((label, i) => ({ value: String(worstFirst ? i : 4 - i), label }))
+      .sort((a, b) => Number(a.value) - Number(b.value)),
   };
 }
 
@@ -97,6 +100,14 @@ const FEMALE_EXTRA = [
   scored(43, "Female health", "How much period-related or hormonal symptoms (pain, heavy bleeding, mood) limited your rehab or sport?", SEVERITY),
 ];
 
+// Female Knee Score FK21 ("Female Knee Score" Word document, version 2, 2026-10-20).
+// Its 10 knee questions are taken word for word from the Long Knee Score, renumbered 1 to 10.
+// Its last 11 questions are the same female health questions as before, renumbered 11 to 21.
+const FK_FROM_LK32 = [1, 4, 9, 11, 16, 24, 26, 29, 31, 32];
+const FK_CORE = FK_FROM_LK32.map((lk, i) => ({ ...CORE.find(q => q.id === lk), id: i + 1 }));
+const FK_EXTRA = FEMALE_EXTRA.map(q => ({ ...q, id: q.id - 22 }));
+const FK_SECTIONS = ["Pain and symptoms", "Sleep", "Stability", "Daily function", "Sport function", "Activity level", "Confidence", "Global"];
+
 const SHARED = {
   category: "General Knee",
   scoringRange: { min: 0, max: 100 },
@@ -128,25 +139,25 @@ export const LOCAL_SCORES = [
     ...SHARED,
   },
   {
-    id: "fk43",
-    name: "FK43 (Female Knee)",
-    fullName: "mykneescore Female Knee Score - FK43",
-    acronym: "FK43",
-    questions: 43,
-    completionTime: "12-15 min",
-    subscales: [...SECTIONS, "About you (not scored)", "Female health"],
-    description: "The 32 Long Knee Score questions plus 11 questions on hormonal status and female health. Gives a knee score out of 100 and a separate female health score.",
-    whatItMeasures: "The full Long Knee Score (pain, sleep, stability, daily function, sport, activity, work, confidence and overall function), plus hormonal status, contraception, HRT, related conditions, fatigue, pelvic floor symptoms, night sweats, other joint symptoms and changes across the menstrual cycle.",
+    id: "fk21",
+    name: "FK21 (Female Knee)",
+    fullName: "mykneescore Female Knee Score - FK21",
+    acronym: "FK21",
+    questions: 21,
+    completionTime: "6-8 min",
+    subscales: [...FK_SECTIONS, "About you (not scored)", "Female health"],
+    description: "10 key knee questions plus 11 questions on hormonal status and female health. Gives a knee score out of 100 and a separate female health score.",
+    whatItMeasures: "Pain, swelling, sleep, stability, stairs, landing and changing direction, activity level, confidence and overall knee function, plus hormonal status, contraception, HRT, related conditions, fatigue, pelvic floor symptoms, night sweats, other joint symptoms and changes across the menstrual cycle.",
     whoItsFor: "Women and girls with a knee problem, especially during rehab or return to sport, where hormonal and female health factors may affect recovery.",
-    typicalUse: "Detailed assessment that records female health factors alongside knee function, for discussion with a clinician.",
-    strengths: ["Knee score is the same as the Long Knee Score, so results can be compared", "Records hormonal and female health factors that standard knee scores leave out", "Free to use"],
-    limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "The longest score here (about 12 to 15 minutes)", "Questions 33 to 37 are recorded for context and do not change either score"],
-    scoringInterpretation: "Knee score: questions 1 to 32, 0 = severe problems, 100 = no problems. Female health score: questions 38 to 43, 0 = large impact, 100 = no impact. Time since injury or operation, the period you answered about, and questions 33 to 37 are recorded with your result, not scored. Not yet validated, so treat the results as a guide.",
-    questionSet: [SINCE_INJURY, PERIOD, ...CORE, ...FEMALE_EXTRA],
+    typicalUse: "Assessment that records female health factors alongside knee function, for discussion with a clinician.",
+    strengths: ["Knee questions are taken word for word from the Long Knee Score (LK32)", "Records hormonal and female health factors that standard knee scores leave out", "Free to use"],
+    limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "The knee score uses 10 questions, so it is less detailed than the Long Knee Score", "Questions 11 to 15 are recorded for context and do not change either score"],
+    scoringInterpretation: "Knee score: questions 1 to 10, 0 = severe problems, 100 = no problems. Female health score: questions 16 to 21, 0 = large impact, 100 = no impact. Time since injury or operation, the period you answered about, and questions 11 to 15 are recorded with your result, not scored. Not yet validated, so treat the results as a guide.",
+    questionSet: [SINCE_INJURY, PERIOD, ...FK_CORE, ...FK_EXTRA],
     // Score parts: the headline score, then extra scores shown below it
     parts: [
-      { label: "Knee score", ids: CORE.map(q => q.id) },
-      { label: "Female health score", ids: FEMALE_EXTRA.filter(q => q.scored !== false).map(q => q.id) },
+      { label: "Knee score", ids: FK_CORE.map(q => q.id) },
+      { label: "Female health score", ids: FK_EXTRA.filter(q => q.scored !== false).map(q => q.id) },
     ],
     ...SHARED,
   },
