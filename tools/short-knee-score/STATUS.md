@@ -189,3 +189,4 @@ Open. None of these block the deploy, but all affect what users are told.
   `apple-touch-icon.png`, `og-image.png`, `_config.yml` (hides `tools/` from
   the live site). Footer links now 35px tall to tap; eyebrow labels 14px.
   House style gains check 9: every page must be in the sitemap.
+- 2026-10-23: "Pay attention" (0 to 59) advice now reads: "This is affecting your daily life quite significantly. You may require a specialist review and possibly some imaging such as an MRI scan." Same text in the result, the PDF and the band guide on the home page. Scoring unchanged.

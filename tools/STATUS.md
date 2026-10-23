@@ -106,3 +106,4 @@ Update it at the end of every piece of work.
 - 2026-10-21: Owner approved going live, including removal on the Advanced scores.
 - 2026-10-23: Scores under 60 now show "Consider a clinical review that may result in a knee scan." with a mykneescan.com link (utm_campaign=result), on screen and in the PDF. Home Short Knee Score and every Advanced score out of 100 where higher is better. Not Norwich, Tegner or Marx. Awaiting approval and Dr Gupte sign-off.
 - 2026-10-23: Owner approved the prompt and confirmed Dr Gupte signed off. Norwich (lower is better) now shows it over 40. Tegner and Marx stay without it. Going live.
+- 2026-10-23: "Pay attention" (0 to 59) advice changed to the owner's wording on the result screen, PDF and band guide. Awaiting approval and Dr Gupte sign-off.
