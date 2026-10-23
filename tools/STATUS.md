@@ -69,7 +69,7 @@ Update it at the end of every piece of work.
 ## Audit backlog (from 2026-10-14 audit)
 | # | Item | Needs |
 |---|---|---|
-| 1 | MyKneeScan next step on Fair and Pay attention results | Dr Gupte wording |
+| 1 | MyKneeScan next step on results under 60: live 23 Oct with the owner's wording; Dr Gupte signed off | Done |
 | 2 | Fix copy left over from v1 (sleep, night pain, "by category") | Dr Gupte |
 | 3 | Align Good band advice between bands section and result | Dr Gupte |
 | 4 | One time frame: "past four weeks" vs "today" in Q10 | Dr Gupte |
@@ -104,3 +104,5 @@ Update it at the end of every piece of work.
 - 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".
 - 2026-10-21: Owner asked to remove "Email me a copy" from every result (to be rebuilt better later) and to compact the Short Knee Score breakdown for iFrames. Breakdown now two columns with thin bars. Result on a phone 1647px to 1172px tall. "Return to the site" hidden in embed mode. e2e mail check replaced by a check that the email box stays gone. Awaiting approval.
 - 2026-10-21: Owner approved going live, including removal on the Advanced scores.
+- 2026-10-23: Scores under 60 now show "Consider a clinical review that may result in a knee scan." with a mykneescan.com link (utm_campaign=result), on screen and in the PDF. Home Short Knee Score and every Advanced score out of 100 where higher is better. Not Norwich, Tegner or Marx. Awaiting approval and Dr Gupte sign-off.
+- 2026-10-23: Owner approved the prompt and confirmed Dr Gupte signed off. Norwich (lower is better) now shows it over 40. Tegner and Marx stay without it. Going live.
