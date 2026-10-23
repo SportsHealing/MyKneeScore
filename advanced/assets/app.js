@@ -223,12 +223,14 @@
       ? [["good", "Good: " + g + " to " + max], ["fair", "Fair: " + f + " to " + (g - 1)], ["poor", "Poor: under " + f]]
       : [["good", "Good: 0 to " + g], ["fair", "Fair: " + (g + 1) + " to " + f], ["poor", "Poor: over " + f]];
   }
-  // Clinical review prompt for a score under 60. Only for scores out of 100 where
-  // higher is better; Norwich, Tegner and Marx use other scales and never show it.
+  // Clinical review prompt for a poor score out of 100: under 60 where higher is
+  // better, over 40 where lower is better (Norwich). Tegner and Marx are activity
+  // levels on other scales and never show it.
   var SCAN_URL = "https://mykneescan.com/?utm_source=mykneescore&utm_medium=referral&utm_campaign=result";
   var SCAN_TEXT = "Consider a clinical review that may result in a knee scan.";
   function needsScan(score) {
-    return S.scoringRange.max === 100 && S.scoringDirection === "higher_better" && score < 60;
+    if (S.scoringRange.max !== 100) return false;
+    return S.scoringDirection === "higher_better" ? score < 60 : score > 40;
   }
   function scanHtml(score) {
     return needsScan(score) ? '<p class="scan-note">' + SCAN_TEXT +
