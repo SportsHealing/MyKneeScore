@@ -484,6 +484,10 @@
   .result .dial { margin-top: 1rem; }
   .result-band { font-family: var(--display); font-size: 1.6rem; margin-top: 1rem; color: var(--ivory); }
   .result-advice { max-width: 38em; margin: 0.8rem auto 0; color: rgba(var(--ivory-rgb), 0.88); }
+  /* Clinical review prompt, scores under 60 */
+  .scan-note { max-width: 38em; margin: 1.2rem auto 0; text-align: left; border: 1px solid var(--gold); border-left-width: 4px; border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.98rem; font-weight: 500; color: var(--ivory); background: rgba(var(--ivory-rgb), 0.06); }
+  .scan-note[hidden] { display: none; }
+  .scan-note a { color: var(--gold-pale); font-weight: 700; text-decoration: underline; }
   .result .small { font-size: 0.85rem; color: rgba(var(--ivory-rgb), 0.55); margin-top: 1.4rem; }
 
   /* Category breakdown */
@@ -600,6 +604,8 @@
     .rp-track .rp-table td { height: 18pt; }
     .rp-track .rp-table td:first-child { width: 90pt; color: var(--text); }
     .rp-track .rp-table td:nth-child(2) { width: 60pt; }
+    .rp-scan { margin-top: 10pt; padding: 8pt 12pt; border: 1px solid var(--gold); border-left-width: 4pt; border-radius: 8px; background: var(--ivory); font-weight: 600; color: var(--green-ink); break-inside: avoid; }
+    .rp-scan a { color: var(--green-soft); font-weight: 700; }
     .rp-foot { margin-top: 14pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--text-muted); }
     .rp-foot a { color: var(--green-soft); font-weight: 600; }
   }
@@ -999,6 +1005,7 @@
         </div>
         <p class="result-band" id="bandName"></p>
         <p class="result-advice" id="bandAdvice"></p>
+        <p class="scan-note" id="scanNote" hidden>Consider a clinical review that may result in a knee scan. <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=result" target="_blank" rel="noopener">mykneescan.com</a></p>
 
         <div class="breakdown">
           <p class="breakdown-title">How your score breaks down</p>
@@ -1045,6 +1052,7 @@
     var dial      = document.getElementById("resultDial");
     var bandName  = document.getElementById("bandName");
     var bandAdvice= document.getElementById("bandAdvice");
+    var scanNote  = document.getElementById("scanNote");
     var listEl    = document.getElementById("breakdownList");
     var pdfName   = document.getElementById("pdfName");
     var pdfBtn    = document.getElementById("pdfBtn");
@@ -1189,6 +1197,7 @@
       dial.style.setProperty("--value", score);
       bandName.textContent = band.name;
       bandAdvice.textContent = band.advice;
+      scanNote.hidden = score >= 60;
 
       listEl.innerHTML = "";
       perQ.forEach(function (r) {
@@ -1287,6 +1296,7 @@
         '<p><span class="rp-dot rp-bg-fair"></span>Fair: 60 to 69</p>' +
         '<p><span class="rp-dot rp-bg-poor"></span>Pay attention: 0 to 59</p></div></div>' +
         '<div class="rp-sec"><h2>What your score means</h2><p>' + esc(r.band.advice) + '</p></div>' +
+        (r.score < 60 ? '<p class="rp-scan">Consider a clinical review that may result in a knee scan. <a href="https://mykneescan.com/?utm_source=mykneescore&utm_medium=referral&utm_campaign=result">mykneescan.com</a></p>' : '') +
         '<div class="rp-sec"><h2>How your score breaks down (out of 100)</h2>' +
         r.perQ.map(function (q) {
           var ql = q.pct >= 70 ? "good" : q.pct >= 40 ? "fair" : "poor";

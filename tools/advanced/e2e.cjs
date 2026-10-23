@@ -46,6 +46,11 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const shown = await page.$eval("#result", el => { const d = el.querySelector(".dial-num"); return d ? parseInt(d.textContent, 10) : null; });
         checks++;
         if ((exp ? exp.score : null) !== shown) { fails++; console.log("MISMATCH", slug, run, exp && exp.score, shown, JSON.stringify(answers)); }
+        // Clinical review prompt: only for 0 to 100, higher is better scores under 60
+        const wantScan = !!exp && s.scoringRange.max === 100 && s.scoringDirection === "higher_better" && exp.score < 60;
+        const hasScan = !!(await page.$("#result .scan-note"));
+        checks++;
+        if (wantScan !== hasScan) { fails++; console.log("SCAN PROMPT MISMATCH", slug, exp && exp.score, hasScan); }
         // PDF report: printing is stubbed, the report must show the same score
         if (run === 0 && exp) {
           await page.evaluate(() => { window.print = () => {}; });
