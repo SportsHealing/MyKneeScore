@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
+## 2026-10-23: Clinical review prompt under 60 (owner approved, Dr Gupte signed off, live)
+- Owner's wording: "Consider a clinical review that may result in a knee scan." with a link to mykneescan.com (`utm_campaign=result`, same tracking style as the footer).
+- Shown when the score is under 60, on the result screen and in the PDF. For SK11 and PK7, in the report section.
+- Only for scores out of 100 (`needsScan()` in `app.js`): under 60 where higher is better, over 40 for Norwich where lower is better (owner decision). Tegner (0 to 10) and Marx (0 to 16) are activity levels and never show it (owner decision). FK21 uses its knee score.
+- e2e checks the prompt on every quick score.
+
 ## 2026-10-20: LK32 and FK21 answers shown worst to best
 - Owner sent updated Word documents listing every scored answer from 0 (worst) to 4 (best).
 - Score values were already the same (best answer = 4), so no score changes. Checked: no wording or value differences; 1,000+ random answer sets score the same before and after.

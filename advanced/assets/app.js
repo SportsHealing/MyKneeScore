@@ -162,6 +162,9 @@
         '<span class="rp-chip rp-bg-' + xl + '">' + esc(x.label) + '</span></div>';
     });
     h += '<div class="rp-sec"><h2>What your score means</h2><p>' + esc(d.meaning) + '</p></div>';
+    if (needsScan(d.score)) {
+      h += '<p class="rp-scan">' + SCAN_TEXT + ' <a href="' + SCAN_URL + '">mykneescan.com</a></p>';
+    }
     if (d.bars && d.bars.length) {
       h += '<div class="rp-sec"><h2>' + esc(d.barsTitle) + '</h2><div class="rp-bars">' + barRows(d.bars) + '</div></div>';
     }
@@ -220,6 +223,20 @@
       ? [["good", "Good: " + g + " to " + max], ["fair", "Fair: " + f + " to " + (g - 1)], ["poor", "Poor: under " + f]]
       : [["good", "Good: 0 to " + g], ["fair", "Fair: " + (g + 1) + " to " + f], ["poor", "Poor: over " + f]];
   }
+  // Clinical review prompt for a poor score out of 100: under 60 where higher is
+  // better, over 40 where lower is better (Norwich). Tegner and Marx are activity
+  // levels on other scales and never show it.
+  var SCAN_URL = "https://mykneescan.com/?utm_source=mykneescore&utm_medium=referral&utm_campaign=result";
+  var SCAN_TEXT = "Consider a clinical review that may result in a knee scan.";
+  function needsScan(score) {
+    if (S.scoringRange.max !== 100) return false;
+    return S.scoringDirection === "higher_better" ? score < 60 : score > 40;
+  }
+  function scanHtml(score) {
+    return needsScan(score) ? '<p class="scan-note">' + SCAN_TEXT +
+      ' <a href="' + SCAN_URL + '" target="_blank" rel="noopener">mykneescan.com</a></p>' : "";
+  }
+
   var TOOL_KEY = [["good", "Excellent 85+, Good 70 to 84"], ["fair", "Fair: 60 to 69"], ["poor", "Poor 40 to 59, Very Poor under 40"]];
 
   if (S.mode === "quick") initQuiz();
@@ -489,7 +506,8 @@
         html += '<div class="dial" style="--value:' + pos + ';">' + DIAL_ARC + '<div class="dial-num">' + r.score +
           '<small>out of ' + S.scoringRange.max + '</small></div></div>' +
           '<p class="result-band">' + esc(z.zone) + ' knee function</p>' +
-          '<p class="result-dir">' + (higher ? "Higher score = better function" : "Lower score = better function") + '</p>';
+          '<p class="result-dir">' + (higher ? "Higher score = better function" : "Lower score = better function") + '</p>' +
+          scanHtml(r.score);
         copy = S.name + ": " + r.score + "/" + S.scoringRange.max + " (" + r.answeredCount + "/" + r.totalQuestions +
           " questions answered)\nCalculated: " + new Date().toLocaleString();
         if (S.parts) {
@@ -646,7 +664,7 @@
       document.getElementById("report").innerHTML = '<div class="report"><h3>SK11 report: ' + r.score + '/100 (' + esc(band) + ')</h3>' +
         '<table><thead><tr><th>Domain</th><th class="num">Answer</th><th class="num">Weight</th><th class="num">Points</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p class="note">SK11 = round(10 &times; sum of answer &times; weight). Fixed weights, renormalised over answered items. Bands: 85+ Excellent, 70 to 84 Good, 60 to 69 Fair, 40 to 59 Poor, under 40 Very Poor.</p>' +
-        pdfBoxHtml() +
+        scanHtml(r.score) + pdfBoxHtml() +
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });
@@ -767,7 +785,7 @@
         '<table><thead><tr><th>Domain</th><th class="num">Answer</th><th class="num">Scaled</th><th class="num">Weight</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p class="note">PK7: mixed scales normalised to 0 to 100, then weighted.' + (custom ? " Custom weights in use." : " Equal weights.") +
         ' Bands: 85+ Excellent, 70 to 84 Good, 60 to 69 Fair, 40 to 59 Poor, under 40 Very Poor.</p>' +
-        pdfBoxHtml() +
+        scanHtml(r.score) + pdfBoxHtml() +
         '<div class="result-actions"><button type="button" class="btn btn-green btn-sm" id="copyRep">Copy result</button><button type="button" class="btn btn-ghost-green btn-sm" id="printRep">Print</button></div></div>';
       document.getElementById("copyRep").addEventListener("click", function () { copyText(text); });
       document.getElementById("printRep").addEventListener("click", function () { window.print(); });

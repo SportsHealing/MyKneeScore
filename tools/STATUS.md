@@ -69,7 +69,7 @@ Update it at the end of every piece of work.
 ## Audit backlog (from 2026-10-14 audit)
 | # | Item | Needs |
 |---|---|---|
-| 1 | MyKneeScan next step on Fair and Pay attention results | Dr Gupte wording |
+| 1 | MyKneeScan next step on results under 60: live 23 Oct with the owner's wording; Dr Gupte signed off | Done |
 | 2 | Fix copy left over from v1 (sleep, night pain, "by category") | Dr Gupte |
 | 3 | Align Good band advice between bands section and result | Dr Gupte |
 | 4 | One time frame: "past four weeks" vs "today" in Q10 | Dr Gupte |
@@ -87,7 +87,11 @@ Update it at the end of every piece of work.
   - 2026-10-15: added to Dinis's brief as a decision for later.
 
 ## Open questions
+Questions waiting on the owner. Resume any of these when the owner asks. Remove a line once it is answered.
 - Owner chose (15 Oct) to move this file to a private repo. Waiting for the repo to be created.
+- Phone test (asked 21 Oct): someone to try "Download PDF report" on an iPhone with a test inside a sister site's iFrame. Browsers can limit printing inside frames. Claude cannot test a real phone.
+- First sister site (asked 21 Oct): which site embeds a test first? Attach its repo to the chat and Claude can add the iFrame (links in `tools/EMBED.md`).
+- Eyebrow label font (asked 26 Oct): owner trying designs. Three options proposed: Jost, Marcellus, Cormorant SC. Waiting for a choice before any change.
 
 ## Progress log
 - 2026-10-14: Audit delivered in chat.
@@ -105,3 +109,7 @@ Update it at the end of every piece of work.
 - 2026-10-21: Owner asked to remove "Email me a copy" from every result (to be rebuilt better later) and to compact the Short Knee Score breakdown for iFrames. Breakdown now two columns with thin bars. Result on a phone 1647px to 1172px tall. "Return to the site" hidden in embed mode. e2e mail check replaced by a check that the email box stays gone. Awaiting approval.
 - 2026-10-21: Owner approved going live, including removal on the Advanced scores.
 - 2026-10-21: PR #15 merged and live. Checked the live home page and app.js: no email box, new two column breakdown.
+- 2026-10-23: Scores under 60 now show "Consider a clinical review that may result in a knee scan." with a mykneescan.com link (utm_campaign=result), on screen and in the PDF. Home Short Knee Score and every Advanced score out of 100 where higher is better. Not Norwich, Tegner or Marx. Awaiting approval and Dr Gupte sign-off.
+- 2026-10-23: Owner approved the prompt and confirmed Dr Gupte signed off. Norwich (lower is better) now shows it over 40. Tegner and Marx stay without it. Going live.
+- 2026-10-23: "Pay attention" (0 to 59) advice changed to the owner's wording on the result screen, PDF and band guide. Owner approved, including the band guide card, and confirmed Dr Gupte signed off. Going live.
+- 2026-10-26: Owner asked for open questions to live in this file so they can be resumed later. Added to Open questions. Three eyebrow label fonts proposed with previews; nothing changed on the site.
