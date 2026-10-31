@@ -61,7 +61,7 @@ Update it at the end of every piece of work.
 | Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Live 20 Oct. Owner approved; owner confirmed Dr Gupte signed off | Done |
 | Remove "Email me a copy"; compact the Short Knee Score breakdown | Live since 21 Oct (PR #15) | Done |
 | Eyebrow label font: owner to choose Jost, Marcellus or Cormorant SC (previews sent 26 Oct). To do. | Paused 31 Oct at owner's request | Owner, then Claude |
-| Knee scan note: even border on both sides (screen and PDF, home and Advanced) | Preview sent, awaiting approval | Claude |
+| Knee scan note: even border on both sides (screen and PDF, home and Advanced) | Approved 31 Oct. Going live. | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -116,3 +116,4 @@ Questions waiting on the owner. Resume any of these when the owner asks. Remove 
 - 2026-10-23: "Pay attention" (0 to 59) advice changed to the owner's wording on the result screen, PDF and band guide. Owner approved, including the band guide card, and confirmed Dr Gupte signed off. Going live.
 - 2026-10-26: Owner asked for open questions to live in this file so they can be resumed later. Added to Open questions. Three eyebrow label fonts proposed with previews; nothing changed on the site.
 - 2026-10-31: Owner paused the font choice (now a to do in In progress). Knee scan note had a 4px gold left edge and a 1px right edge. Now 1px gold all round, on screen and in the PDF, home and Advanced. No other result box had a one sided border. Awaiting approval.
+- 2026-10-31: Owner approved the even scan note border going live.
