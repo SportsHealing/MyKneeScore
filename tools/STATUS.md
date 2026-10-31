@@ -59,7 +59,9 @@ Update it at the end of every piece of work.
 | Score dial redesign and anatomy footer link colour | Live since 17 Oct (PR #11) | Done |
 | Own link and iFrame embed for every test (`tools/EMBED.md`) | Live since 19 Oct (PR #12) | Done |
 | Female Knee Score: FK43 replaced by the 21 question FK21, old link forwards | Live 20 Oct. Owner approved; owner confirmed Dr Gupte signed off | Done |
-| Remove "Email me a copy"; compact the Short Knee Score breakdown | Approved 21 Oct. Going live. | Claude |
+| Remove "Email me a copy"; compact the Short Knee Score breakdown | Live since 21 Oct (PR #15) | Done |
+| Eyebrow label font: owner to choose Jost, Marcellus or Cormorant SC (previews sent 26 Oct). To do. | Paused 31 Oct at owner's request | Owner, then Claude |
+| Knee scan note: even border on both sides (screen and PDF, home and Advanced) | Approved 31 Oct. Going live. | Claude |
 
 ## Decisions log
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
@@ -87,7 +89,11 @@ Update it at the end of every piece of work.
   - 2026-10-15: added to Dinis's brief as a decision for later.
 
 ## Open questions
+Questions waiting on the owner. Resume any of these when the owner asks. Remove a line once it is answered.
 - Owner chose (15 Oct) to move this file to a private repo. Waiting for the repo to be created.
+- Phone test (asked 21 Oct): someone to try "Download PDF report" on an iPhone with a test inside a sister site's iFrame. Browsers can limit printing inside frames. Claude cannot test a real phone.
+- First sister site (asked 21 Oct): which site embeds a test first? Attach its repo to the chat and Claude can add the iFrame (links in `tools/EMBED.md`).
+- Eyebrow label font (asked 26 Oct): owner trying designs. Three options proposed: Jost, Marcellus, Cormorant SC. Waiting for a choice before any change.
 
 ## Progress log
 - 2026-10-14: Audit delivered in chat.
@@ -104,6 +110,10 @@ Update it at the end of every piece of work.
 - 2026-10-20: LK32 and FK21 answers now shown worst (0) to best (4), as in the owner's updated documents. Scores unchanged. Owner approved going live and chose to keep LK32 Q6 as "1 day a week".
 - 2026-10-21: Owner asked to remove "Email me a copy" from every result (to be rebuilt better later) and to compact the Short Knee Score breakdown for iFrames. Breakdown now two columns with thin bars. Result on a phone 1647px to 1172px tall. "Return to the site" hidden in embed mode. e2e mail check replaced by a check that the email box stays gone. Awaiting approval.
 - 2026-10-21: Owner approved going live, including removal on the Advanced scores.
+- 2026-10-21: PR #15 merged and live. Checked the live home page and app.js: no email box, new two column breakdown.
 - 2026-10-23: Scores under 60 now show "Consider a clinical review that may result in a knee scan." with a mykneescan.com link (utm_campaign=result), on screen and in the PDF. Home Short Knee Score and every Advanced score out of 100 where higher is better. Not Norwich, Tegner or Marx. Awaiting approval and Dr Gupte sign-off.
 - 2026-10-23: Owner approved the prompt and confirmed Dr Gupte signed off. Norwich (lower is better) now shows it over 40. Tegner and Marx stay without it. Going live.
 - 2026-10-23: "Pay attention" (0 to 59) advice changed to the owner's wording on the result screen, PDF and band guide. Owner approved, including the band guide card, and confirmed Dr Gupte signed off. Going live.
+- 2026-10-26: Owner asked for open questions to live in this file so they can be resumed later. Added to Open questions. Three eyebrow label fonts proposed with previews; nothing changed on the site.
+- 2026-10-31: Owner paused the font choice (now a to do in In progress). Knee scan note had a 4px gold left edge and a 1px right edge. Now 1px gold all round, on screen and in the PDF, home and Advanced. No other result box had a one sided border. Awaiting approval.
+- 2026-10-31: Owner approved the even scan note border going live.
