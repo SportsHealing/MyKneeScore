@@ -24,6 +24,8 @@ hot swollen knee, warrant prompt medical review whatever the score says.
 
 - [Home and questionnaire](https://mykneescore.com/index.html): the landing page, the score bands, progress tracking, and the full ten question test in an overlay.
 - [Knee anatomy](https://mykneescore.com/anatomy.html): bones, ligaments and cartilage as plain language cards, with a labelled diagram and red flag guidance.
+- [Track your progress](https://mykneescore.com/track-progress.html): how the PDF or email personal link builds a history of scores over time, how to read the trend, and what the Short Knee Score bands mean.
+- [Female Knee Score](https://mykneescore.com/female-knee-score.html): why the Female Knee Score (FK21) matters for female athletes and patients, what it asks, and a link to start it.
 - [Advanced scores](https://mykneescore.com/advanced/index.html): a hub of published knee outcome measures, each on its own page with a working calculator, interpretation, citation and licence. Reached from the top menu and a footer link; nothing on the home page promotes it.
 
 ## The Advanced section
@@ -44,7 +46,7 @@ tools/advanced/.
 ## Conventions
 
 - Static files served from GitHub Pages.
-- The home and anatomy pages are self contained: CSS in a style block, JS in a
+- The home, anatomy, track progress and female knee score pages are self contained: CSS in a style block, JS in a
   script block, no build step. Every colour is a token in their `:root` block,
   with no colour literals elsewhere.
 - The Advanced pages do not follow those two rules. They share a stylesheet and

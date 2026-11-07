@@ -150,6 +150,10 @@
     .nav ul a { font-size: 0.95rem; white-space: nowrap; }
     .nav .start-link { padding: 0.4rem 0.85rem; }
   }
+  /* "How it works" makes way for "Female Knee Score" on tablets */
+  @media (max-width: 920px) {
+    .nav ul li:nth-child(1) { display: none; }
+  }
   @media (max-width: 860px) {
     .nav ul li:nth-child(3) { display: none; }
   }
@@ -380,8 +384,8 @@
     <nav aria-label="Main">
       <ul>
         <li><a href="index.html#how">How it works</a></li>
-        <li><a href="index.html#meaning">Your score</a></li>
-        <li><a href="index.html#track">Track progress</a></li>
+        <li><a href="female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="track-progress.html">Track progress</a></li>
         <li><a href="anatomy.html" aria-current="page">Knee anatomy</a></li>
         <li class="nav-adv"><a href="advanced/index.html">Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="index.html#quiz">Start the test</a></li>
