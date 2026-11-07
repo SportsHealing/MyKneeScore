@@ -22,7 +22,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         for (let i = 0; i < s.questionSet.length; i++) {
           const q = s.questionSet[i];
           // FK21 context questions: date/number fields, tick boxes, choice plus detail box. Not scored.
-          if (q.type === "fields") { await page.fill(`#q${q.id}-${q.fields[0].key}`, "2026-09-20"); await page.click("#nextBtn"); continue; }
+          if (q.type === "fields") { await page.fill(`#q${q.id}-${q.fields[0].key}`, q.fields[0].input === "number" ? "45" : "2026-09-20"); await page.click("#nextBtn"); continue; }
           if (q.type === "multi") { await page.click(`label[for="q${q.id}-0"]`); await page.click(`label[for="q${q.id}-1"]`); await page.click("#nextBtn"); continue; }
           if (q.detail) { await page.click(`label[for="q${q.id}-0"]`); await page.fill(`#q${q.id}-detail`, "test"); await page.click("#nextBtn"); continue; }
           const k = Math.floor(rand() * q.options.length);
@@ -51,6 +51,12 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const hasScan = !!(await page.$("#result .scan-note"));
         checks++;
         if (wantScan !== hasScan) { fails++; console.log("SCAN PROMPT MISMATCH", slug, exp && exp.score, hasScan); }
+        // Our own scores end with About you (age, sex): both must reach the result
+        if (s.questionSet.some(q => q.outro)) {
+          const about = await page.$eval("#result", el => el.textContent);
+          checks++;
+          if (!/Age in years: 45/.test(about) || !/Are you male or female\? (Male|Female|Prefer not to say)/.test(about)) { fails++; console.log("ABOUT YOU MISSING", slug); }
+        }
         // Every result offers both PDF and email
         if (run === 0 && exp) {
           checks++;

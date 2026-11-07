@@ -312,6 +312,11 @@ footer a:hover { text-decoration: underline; }
 .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
 .pdf-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; }
 .pdf-opt { font-weight: 400; }
+/* About you (age and sex) on My Knee Score tools, not scored */
+.about-label { display: block; font-weight: 600; color: var(--green-ink); margin: 0.9rem 0 0.4rem; }
+.about-age { width: 8rem; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+.about-age:hover { border-color: var(--gold); }
+.q-opt-hint { margin-top: 0.6rem; }
 .keep-title { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--green-soft); margin-bottom: 0.6rem; }
 .pdf-box label.keep-mail { margin-top: 1.1rem; }
 .keep-row { display: flex; gap: 0.5rem; align-items: stretch; }

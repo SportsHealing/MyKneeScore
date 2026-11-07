@@ -118,6 +118,17 @@ const SHARED = {
   citation: "mykneescore development team. 2026. Awaiting validation.",
 };
 
+// Asked at the end of every My Knee Score questionnaire (owner, 2026-11-07).
+// Recorded with the result, never scored, and not numbered.
+export const ABOUT_YOU = [
+  { id: "age", section: "About you", outro: true, scored: false, optional: true, type: "fields",
+    text: "What is your age?", hint: "Optional. Leave blank if you prefer not to say.",
+    fields: [{ key: "age", label: "Age in years", input: "number", min: 1, max: 120 }] },
+  { id: "sex", section: "About you", outro: true, scored: false, optional: true,
+    text: "Are you male or female?", hint: "Optional. You can skip this question.",
+    options: ["Male", "Female", "Prefer not to say"].map(label => ({ value: label, label })) },
+];
+
 export const LOCAL_SCORES = [
   {
     id: "lk32",
@@ -134,7 +145,7 @@ export const LOCAL_SCORES = [
     strengths: ["Covers symptoms, sleep, function, sport, work and confidence in one questionnaire", "Same 0 to 4 answer scale throughout", "Free to use"],
     limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "Longer than the short scores (about 8 to 10 minutes)", "No MCID or normative data yet"],
     scoringInterpretation: "0 = severe problems, 100 = no problems. Each answer counts 0 to 4, with 4 for the best answer. The total is shown out of 100. The time since injury or operation, and the period you answered about, are recorded with your result so you can compare scores over time. They do not change the score. Not yet validated, so treat the result as a guide.",
-    questionSet: [SINCE_INJURY, PERIOD, ...CORE],
+    questionSet: [SINCE_INJURY, PERIOD, ...CORE, ...ABOUT_YOU],
     parts: [{ label: "Knee score", ids: CORE.map(q => q.id) }],
     ...SHARED,
   },
@@ -153,7 +164,7 @@ export const LOCAL_SCORES = [
     strengths: ["Knee questions are taken word for word from the Long Knee Score (LK32)", "Records hormonal and female health factors that standard knee scores leave out", "Free to use"],
     limitations: ["Awaiting validation: no published reliability, validity or responsiveness data yet", "The knee score uses 10 questions, so it is less detailed than the Long Knee Score", "Questions 11 to 15 are recorded for context and do not change either score"],
     scoringInterpretation: "Knee score: questions 1 to 10, 0 = severe problems, 100 = no problems. Female health score: questions 16 to 21, 0 = large impact, 100 = no impact. Time since injury or operation, the period you answered about, and questions 11 to 15 are recorded with your result, not scored. Not yet validated, so treat the results as a guide.",
-    questionSet: [SINCE_INJURY, PERIOD, ...FK_CORE, ...FK_EXTRA],
+    questionSet: [SINCE_INJURY, PERIOD, ...FK_CORE, ...FK_EXTRA, ...ABOUT_YOU],
     // Score parts: the headline score, then extra scores shown below it
     parts: [
       { label: "Knee score", ids: FK_CORE.map(q => q.id) },
