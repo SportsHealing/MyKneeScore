@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Female Knee Score | My Knee Score</title>
-<meta name="description" content="The Female Knee Score (FK21): a knee questionnaire for women and girls that adds the hormonal and female health factors standard knee scores leave out.">
+<meta name="description" content="The Female Knee Score (FK21) for women and girls, and what research shows about female ACL injuries: higher injury rates, a slower return to sport and the factors behind them.">
 <link rel="canonical" href="https://mykneescore.com/female-knee-score.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="My Knee Score">
 <meta property="og:title" content="Female Knee Score | My Knee Score">
-<meta property="og:description" content="The Female Knee Score (FK21): a knee questionnaire for women and girls that adds the hormonal and female health factors standard knee scores leave out.">
+<meta property="og:description" content="The Female Knee Score (FK21) for women and girls, and what research shows about female ACL injuries: higher injury rates, a slower return to sport and the factors behind them.">
 <meta property="og:url" content="https://mykneescore.com/female-knee-score.html">
 <meta property="og:image" content="https://mykneescore.com/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -443,6 +443,12 @@
   .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
   .note-list + .note-list { margin-top: 1.6rem; }
+  .source-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 1.2rem; max-width: 46em; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.6rem; }
+  .stat { background: var(--green-deep); border-radius: 14px; padding: 1.2rem 1.3rem; display: grid; gap: 0.35rem; }
+  .stat-num { font-family: var(--display); font-size: 2.4rem; font-weight: 600; line-height: 1; color: var(--gold-pale); }
+  .stat-text { color: var(--ivory); font-size: 0.95rem; }
+  .tile a, .note-list a { color: var(--green-soft); font-weight: 600; }
   .tile { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.2rem 1.3rem; }
   .tile h3 { font-family: var(--display); font-size: 1.35rem; color: var(--green-ink); margin-bottom: 0.5rem; }
   .tile p, .tile li { color: var(--text-muted-deep); font-size: 0.96rem; }
@@ -453,6 +459,22 @@
   .track .note-list li { color: rgba(var(--ivory-rgb), 0.85); }
   .track .note-list b { color: var(--gold-pale); }
 
+
+  /* Phone menu button: every page link in a dropdown */
+  .nav-toggle { display: none; }
+  @media (max-width: 700px) {
+    .nav { position: relative; }
+    .nav > nav { margin-left: auto; }
+    .nav ul li.nav-adv { display: none; }
+    .nav-toggle { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 2.6rem; height: 2.4rem; padding: 0 0.62rem; background: transparent; border: 1px solid rgba(var(--gold-pale-rgb), 0.45); border-radius: 10px; cursor: pointer; flex: none; }
+    .nav-toggle span { display: block; height: 2px; background: var(--ivory); border-radius: 2px; }
+    .nav-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .nav.open ul { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--green-deep); border-top: 1px solid rgba(var(--gold-pale-rgb), 0.25); padding: 0.3rem 0 1rem; z-index: 30; }
+    .nav.open ul li { display: block !important; }
+    .nav.open ul a { display: block; padding: 0.85rem 0.2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.15); }
+    .nav.open ul .nav-long { display: inline; }
+    .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
+  }
 </style>
 </head>
 <body>
@@ -461,7 +483,7 @@
   <div class="wrap nav">
     <a class="wordmark" href="index.html">My<span>Knee</span>Score</a>
     <nav aria-label="Main">
-      <ul>
+      <ul id="mainMenu">
         <li><a href="index.html#how">How it works</a></li>
         <li><a href="female-knee-score.html" aria-current="page">Female Knee Score</a></li>
         <li><a href="track-progress.html">Track progress</a></li>
@@ -470,8 +492,26 @@
         <li><a class="start-link" href="index.html#quiz">Start the test</a></li>
       </ul>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>
 
 <main id="top">
 
@@ -500,7 +540,49 @@
     </div>
   </section>
 
+
+  <section class="block research" id="research">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Female ACL injuries: what the research shows</p>
+        <h2>More injuries, and a slower return to sport</h2>
+        <p>Our systematic review and meta-analysis pooled 25 studies of 7,183 athletes (2,892 female, 4,291 male) after ACL reconstruction.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-num">2 to 8&times;</span><span class="stat-text">more likely to tear the ACL than male athletes</span></div>
+        <div class="stat"><span class="stat-num">28%</span><span class="stat-text">lower odds of returning to sport within two years of ACL reconstruction</span></div>
+        <div class="stat"><span class="stat-num">55 to 65%</span><span class="stat-text">of all athletes return to their pre-injury level of sport</span></div>
+      </div>
+      <ul class="note-list">
+        <li><b>The gap is in the first two years.</b> Female athletes were less likely to have returned to sport at 12 months and up to 24 months. In the longer term, return rates were similar for women and men.</li>
+        <li><b>Re-tear rates and time to return were similar.</b> So the gap is likely driven by factors that can be changed, such as rehabilitation, confidence and support, alongside biological differences.</li>
+        <li><b>That makes the first two years the time to watch.</b> Female-specific rehabilitation and psychological support matter most in this window.</li>
+      </ul>
+      <p class="source-note">Source: our systematic review and meta-analysis, "Sex disparities in return to sport after ACL reconstruction". The injury rate and the overall return to sport figure come from published studies cited in the review.</p>
+    </div>
+  </section>
+
   <section class="block paper-bg">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Why women are at higher risk</p>
+        <h2>Six factors behind the gap</h2>
+      </div>
+      <div class="two-col">
+        <div class="tile"><h3>Anatomy</h3><p>Women tend to have a narrower notch in the thigh bone where the ACL sits, and an ACL with a 20 to 30% smaller cross-section. A wider pelvis angles the knee inwards. Genetic factors are thought to contribute to around 69% of ACL ruptures.</p></div>
+        <div class="tile"><h3>Movement and muscle control</h3><p>Women more often land with the knee collapsing inwards and less trunk control. They tend to rely on the quadriceps more than the hamstrings, which protect the ACL. The hamstrings can take 50 to 180 milliseconds to react; the ACL can fail in 40 to 105.</p></div>
+        <div class="tile"><h3>Confidence and fear</h3><p>Female athletes report more fear of re-injury and score lower on psychological readiness to return. This is one of the key reasons for lower return to sport. You can measure it with the <a href="advanced/acl-rsi.html">ACL-RSI</a>.</p></div>
+        <div class="tile"><h3>Hormones</h3><p>Oestrogen increases ligament laxity. ACL tear risk appears highest in the late follicular and ovulatory phases of the cycle. Some studies suggest combined oral contraceptives, which smooth these peaks, may lower ACL injury risk.</p></div>
+        <div class="tile"><h3>Pitches and boots</h3><p>Female athletes often train on lower quality and artificial pitches, where ACL injuries are reported to be about 50% more likely than on natural grass. Most football boots are designed around male feet and loading.</p></div>
+        <div class="tile"><h3>Surgery choices</h3><p>In women, hamstring grafts have been linked with a higher failure rate than patellar tendon grafts, and grafts wider than 8 mm do better. Adding a lateral extra-articular tenodesis lowers re-tear risk in elite athletes.</p></div>
+      </div>
+      <ul class="note-list">
+        <li><b>How FK21 helps.</b> It tracks your confidence, landing and pivoting, and symptoms across your cycle, so you and your clinician can see your trend through the critical first two years. <a href="track-progress.html">How tracking works</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
     <div class="wrap">
       <div class="block-head">
         <p class="eyebrow">What it asks</p>
@@ -514,7 +596,7 @@
     </div>
   </section>
 
-  <section class="block">
+  <section class="block paper-bg">
     <div class="wrap">
       <div class="block-head">
         <p class="eyebrow">Who should complete it</p>
@@ -551,7 +633,7 @@
 <footer>
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
-    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="track-progress.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
     <p class="foot-version">Page updated 7 November 2026</p>

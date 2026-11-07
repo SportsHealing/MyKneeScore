@@ -79,7 +79,7 @@ Update it at the end of every piece of work.
 | 6 | Cookie free analytics on both sites | Dinis, Jose |
 | 7 | Shared design token file | Dinis |
 | 8 | "1 questions" grammar on the SANE page (generator copy) | Small fix |
-| 9 | Phone menu: consider a menu button so every page is in the header | Owner |
+| 9 | Phone menu: menu button with every page, live 7 Nov | Done |
 | 10 | Update any FK43 iFrame embeds or links on sister sites to the FK21 links in `tools/EMBED.md` (old links forward, so nothing is broken) | Dinis, Jose |
 
 ## Future ideas
@@ -122,3 +122,4 @@ Questions waiting on the owner. Resume any of these when the owner asks. Remove 
 - 2026-11-07: Owner asked for age and sex questions at the end of all six of our own scores (home Short Knee Score, SK11, PK7, KS5, LK32, FK21, FK21 included). "What is your age?" (typed, optional, 1 to 120) and "Are you male or female?" (Male, Female, Prefer not to say). Not scored or numbered; shown on the result, PDF and email. Home: a separate About you step after Q10, so the 10 scored slides and scoring check are unchanged. KS5 gets them via build.mjs. e2e 188/188. Awaiting approval.
 - 2026-11-07: Owner made the sex question skippable too (both About you questions now optional, with "Optional. You can skip this question."), confirmed Dr Gupte signed off, and approved going live.
 - 2026-11-07: Owner asked for "Your score" and "Track progress" to become separate pages, with "Female Knee Score" in the menu. New self-contained pages `track-progress.html` (four steps of the personal link, reading the trend, the score bands) and `female-knee-score.html` (why it matters, what FK21 asks, who should complete it). Menu on every page now: How it works, Female Knee Score, Track progress, Knee anatomy, Advanced, Start the test. "How it works" hidden at 920px and below so the menu fits; checked 300 to 1400px. Home page sections unchanged. House style checks now cover the two new pages; sitemap and llms.txt updated. e2e 188/188. Female page has clinical claims: awaiting approval and Dr Gupte sign-off.
+- 2026-11-07: Owner confirmed Dr Gupte signed off the Female Knee Score page. Added a research section from the owner's systematic review "Sex disparities in return to sport after ACL reconstruction" (25 studies, 7,183 athletes; about 28% lower odds of return to sport within two years; six factors: anatomy, movement control, confidence, hormones, pitches and boots, surgery choices). Phone menu button with every page on all pages. Home "What the number means" and "Track progress" sections removed (owner); they live on track-progress.html. Footer "Score guide" links now point there. Width check 300 to 1400px: no wraps or sideways scroll. e2e 188/188. Owner approved going live.

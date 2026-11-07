@@ -424,3 +424,19 @@ footer a:hover { text-decoration: underline; }
    calculator and the disclaimer. There is no page behind, so no Exit button. */
 .embed body > header, .embed body > footer, .embed .hero, .embed .about { display: none; }
 .embed .quiz-exit { visibility: hidden; }
+
+/* Phone menu button: every page link in a dropdown */
+.nav-toggle { display: none; }
+@media (max-width: 700px) {
+  .nav { position: relative; }
+  .nav > nav { margin-left: auto; }
+  .nav ul li.nav-adv { display: none; }
+  .nav-toggle { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 2.6rem; height: 2.4rem; padding: 0 0.62rem; background: transparent; border: 1px solid rgba(230, 213, 172, 0.45); border-radius: 10px; cursor: pointer; flex: none; }
+  .nav-toggle span { display: block; height: 2px; background: var(--ivory); border-radius: 2px; }
+  .nav-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .nav.open ul { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--green-deep); border-top: 1px solid rgba(230, 213, 172, 0.25); padding: 0.3rem 0 1rem; z-index: 30; }
+  .nav.open ul li { display: block !important; }
+  .nav.open ul a { display: block; padding: 0.85rem 0.2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(230, 213, 172, 0.15); }
+  .nav.open ul .nav-long { display: inline; }
+  .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
+}
