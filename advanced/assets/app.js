@@ -108,19 +108,69 @@
 
   function pdfBoxHtml() {
     var old = document.getElementById("pdfName");
+    var oldMail = document.getElementById("mailTo");
+    // One compact panel: name, PDF, then email on one line. Email opens the
+    // patient's own email app; nothing passes through this site.
     return '<div class="pdf-box">' +
-      '<label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>' +
-      '<input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60" value="' + esc(old ? old.value : "") + '">' +
-      '<p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>' + historyNote() +
-      '<button type="button" class="btn btn-gold" data-act="pdf">Download PDF report</button>' +
-      '<p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>' +
+      '<p class="keep-title">Keep your results</p>' +
+      '<label for="pdfName">Your name <span class="pdf-opt">(optional, shown on the PDF)</span></label>' +
+      '<input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60" value="' + esc(old ? old.value : "") + '">' + historyNote() +
+      '<button type="button" class="btn btn-gold" data-act="pdf">Download PDF</button>' +
+      '<label for="mailTo" class="keep-mail">Or email them to yourself</label>' +
+      '<div class="keep-row"><input type="email" id="mailTo" autocomplete="off" inputmode="email" spellcheck="false" maxlength="120" placeholder="you@example.com" value="' + esc(oldMail ? oldMail.value : "") + '">' +
+      '<button type="button" class="btn ' + (S.mode === "quick" ? "btn-ghost" : "btn-ghost-green") + '" data-act="mail">Send</button></div>' +
+      '<p class="pdf-note mail-msg" role="status" aria-live="polite"></p>' +
+      '<p class="pdf-note">Nothing you type is saved or sent to us. PDF: choose "Save as PDF" (iPhone: Share, then Save to Files). Email: your own email app opens with your results and personal link, ready to send.</p>' +
       '</div>';
   }
 
-  // Wires the PDF button inside root. makeData builds the report data.
+  function mailText(d, name, when) {
+    var lines = ["My Knee Score results", "", S.fullName];
+    if (name) lines.push("Name: " + name);
+    lines.push("Completed: " + longDate(when));
+    lines.push("Score: " + d.score + " out of " + d.max + " (" + d.label + ")");
+    (d.extras || []).forEach(function (x) { lines.push(x.name + ": " + x.score + " out of " + x.max + " (" + x.label + ")"); });
+    if (d.bars && d.bars.length) {
+      lines.push("", d.barsTitle + ":");
+      d.bars.forEach(function (b) { lines.push("- " + b.label + ": " + b.value); });
+    }
+    lines.push("", "Your scores so far:");
+    pastScores.forEach(function (e) { lines.push("- " + ukDate(e.date) + ": " + e.score); });
+    lines.push("- " + when.toLocaleDateString("en-GB") + ": " + d.score + " (this test)");
+    lines.push("", "Your personal link for your next test. It keeps your scores so far, so use this link each time:",
+      retakeLink(d.score, when, ""),
+      "", "For a full copy with every answer, attach the PDF report you saved.",
+      "A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.",
+      "", "mykneescore.com");
+    return lines.join("\n");
+  }
+
+  function sendMail(d, box) {
+    var input = box.querySelector("#mailTo");
+    var msg = box.querySelector(".mail-msg");
+    var to = input.value.trim();
+    if (!/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(to)) {
+      msg.textContent = "Please enter a valid email address.";
+      input.focus();
+      return;
+    }
+    var nameEl = document.getElementById("pdfName");
+    var when = new Date();
+    var subject = "My Knee Score results - " + S.acronym + " - " + when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(mailText(d, nameEl ? nameEl.value.trim() : "", when));
+    // One-off: the address is cleared straight away
+    input.value = "";
+    msg.textContent = "Your email app should open now. Press Send to get your copy.";
+  }
+
+
+  // Wires the PDF and email buttons inside root. makeData builds the report data.
   function bindReportButtons(root, makeData) {
     var pdf = root.querySelector('[data-act="pdf"]');
     if (pdf) pdf.addEventListener("click", function () { savePdf(makeData()); });
+    var mail = root.querySelector('[data-act="mail"]');
+    if (mail) mail.addEventListener("click", function () { sendMail(makeData(), root.querySelector(".pdf-box")); });
   }
 
   function ringHtml(pct, level) {

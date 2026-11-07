@@ -312,6 +312,13 @@ footer a:hover { text-decoration: underline; }
 .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
 .pdf-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; }
 .pdf-opt { font-weight: 400; }
+.keep-title { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--green-soft); margin-bottom: 0.6rem; }
+.pdf-box label.keep-mail { margin-top: 1.1rem; }
+.keep-row { display: flex; gap: 0.5rem; align-items: stretch; }
+.keep-row input { flex: 1; min-width: 0; }
+.pdf-box .keep-row .btn { width: auto; margin-top: 0; flex: none; padding-inline: 1.3rem; }
+.mail-msg:empty { display: none; }
+.result .keep-title { color: var(--gold-pale); }
 .result .pdf-box label { color: var(--gold-pale); }
 .result .pdf-note { color: rgba(250,247,239,0.7); }
 
