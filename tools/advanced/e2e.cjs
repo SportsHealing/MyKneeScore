@@ -51,6 +51,11 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const hasScan = !!(await page.$("#result .scan-note"));
         checks++;
         if (wantScan !== hasScan) { fails++; console.log("SCAN PROMPT MISMATCH", slug, exp && exp.score, hasScan); }
+        // Every result offers both PDF and email
+        if (run === 0 && exp) {
+          checks++;
+          if (!(await page.$('#result [data-act="pdf"]')) || !(await page.$('#result [data-act="mail"]')) || !(await page.$("#result #mailTo"))) { fails++; console.log("PDF OR EMAIL MISSING", slug); }
+        }
         // PDF report: printing is stubbed, the report must show the same score
         if (run === 0 && exp) {
           await page.evaluate(() => { window.print = () => {}; });
@@ -82,6 +87,8 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
       }
       await page.click("#reportBtn");
       await page.waitForSelector(".report");
+      checks++;
+      if (!(await page.$('#report [data-act="pdf"]')) || !(await page.$('#report [data-act="mail"]'))) { fails++; console.log("PDF OR EMAIL MISSING", slug); }
     }
   }
   // Earlier scores in the PDF link are listed in the next report, and passed on
@@ -98,9 +105,19 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   checks++;
   if (hist.rows !== 3 || !/\?report=3#h=2026-09-01\.40,2026-09-15\.45,\d{4}-\d{2}-\d{2}\.\d+$/.test(hist.link)) { fails++; console.log("HISTORY MISMATCH", JSON.stringify(hist)); }
 
-  // Email a copy was removed on 21 Oct 2026 (owner: to be rebuilt later). Check it stays gone.
+  // Email to myself opens a mailto with the score and the personal link, then clears the address
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Page.enable");
+  let mailto = null;
+  cdp.on("Page.frameRequestedNavigation", e => { if (e.url.startsWith("mailto:")) mailto = e.url; });
+  await page.fill("#mailTo", "patient@example.com");
+  await page.click('[data-act="mail"]');
+  await page.waitForTimeout(300);
+  const body = mailto ? new URL(mailto).searchParams.get("body") : "";
   checks++;
-  if (await page.$("#mailTo") || await page.$('[data-act="mail"]')) { fails++; console.log("EMAIL BOX STILL SHOWN"); }
+  if (!mailto || !mailto.startsWith("mailto:patient@example.com?") || !/report=3#h=2026-09-01\.40,2026-09-15\.45,/.test(body) || await page.inputValue("#mailTo") !== "") {
+    fails++; console.log("MAIL MISMATCH", mailto);
+  }
 
   // hub filter
   await page.goto(BASE + "index.html");

@@ -83,7 +83,7 @@ Update it at the end of every piece of work.
 | 10 | Update any FK43 iFrame embeds or links on sister sites to the FK21 links in `tools/EMBED.md` (old links forward, so nothing is broken) | Dinis, Jose |
 
 ## Future ideas
-- Rebuild "Email me a copy" in a better form (removed 21 Oct as clunky).
+- Rebuild "Email me a copy" in a better form (removed 21 Oct as clunky). Rebuilt 7 Nov as a compact "Keep your results" panel; awaiting approval.
 - Create mailing list to email users about new features.
   - Note: the site stores nothing today. A mailing list needs a sign up form and a mailing service. That is a server and data decision for Dinis, with UK GDPR consent wording.
   - 2026-10-15: added to Dinis's brief as a decision for later.
@@ -117,3 +117,4 @@ Questions waiting on the owner. Resume any of these when the owner asks. Remove 
 - 2026-10-26: Owner asked for open questions to live in this file so they can be resumed later. Added to Open questions. Three eyebrow label fonts proposed with previews; nothing changed on the site.
 - 2026-10-31: Owner paused the font choice (now a to do in In progress). Knee scan note had a 4px gold left edge and a 1px right edge. Now 1px gold all round, on screen and in the PDF, home and Advanced. No other result box had a one sided border. Awaiting approval.
 - 2026-10-31: Owner approved the even scan note border going live.
+- 2026-11-07: Owner asked for email and PDF on every score. Rebuilt as one compact "Keep your results" panel on every result: name, Download PDF, then email and Send on one line, one short note. Email still opens the patient's own email app (owner's Option A; nothing stored or sent to us). e2e now checks every score offers both (179/179). Awaiting approval.
