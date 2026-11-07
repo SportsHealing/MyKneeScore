@@ -150,6 +150,10 @@
     .nav ul a { font-size: 0.95rem; white-space: nowrap; }
     .nav .start-link { padding: 0.4rem 0.85rem; }
   }
+  /* "How it works" makes way for "Female Knee Score" on tablets */
+  @media (max-width: 920px) {
+    .nav ul li:nth-child(1) { display: none; }
+  }
   @media (max-width: 860px) {
     .nav ul li:nth-child(3) { display: none; }
   }
@@ -370,6 +374,22 @@
     .map-figure { max-width: 420px; margin-inline: auto; }
   }
 
+
+  /* Phone menu button: every page link in a dropdown */
+  .nav-toggle { display: none; }
+  @media (max-width: 700px) {
+    .nav { position: relative; }
+    .nav > nav { margin-left: auto; }
+    .nav ul li.nav-adv { display: none; }
+    .nav-toggle { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 2.6rem; height: 2.4rem; padding: 0 0.62rem; background: transparent; border: 1px solid rgba(var(--gold-pale-rgb), 0.45); border-radius: 10px; cursor: pointer; flex: none; }
+    .nav-toggle span { display: block; height: 2px; background: var(--ivory); border-radius: 2px; }
+    .nav-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .nav.open ul { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--green-deep); border-top: 1px solid rgba(var(--gold-pale-rgb), 0.25); padding: 0.3rem 0 1rem; z-index: 30; }
+    .nav.open ul li { display: block !important; }
+    .nav.open ul a { display: block; padding: 0.85rem 0.2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.15); }
+    .nav.open ul .nav-long { display: inline; }
+    .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
+  }
 </style>
 </head>
 <body>
@@ -378,17 +398,35 @@
   <div class="wrap nav">
     <a class="wordmark" href="index.html">My<span>Knee</span>Score</a>
     <nav aria-label="Main">
-      <ul>
+      <ul id="mainMenu">
         <li><a href="index.html#how">How it works</a></li>
-        <li><a href="index.html#meaning">Your score</a></li>
-        <li><a href="index.html#track">Track progress</a></li>
+        <li><a href="female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="track-progress.html">Track progress</a></li>
         <li><a href="anatomy.html" aria-current="page">Knee anatomy</a></li>
         <li class="nav-adv"><a href="advanced/index.html">Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="index.html#quiz">Start the test</a></li>
       </ul>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>
 
 <main id="top">
 
@@ -707,7 +745,7 @@
 <footer>
   <div class="wrap foot">
     <p>&copy; 2026 mykneescore.com</p>
-    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="index.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p><a href="index.html#quiz">Take the test</a> &middot; <a href="track-progress.html#meaning">Score guide</a> &middot; <a href="advanced/index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
     <p class="foot-version">Page updated 17 October 2026</p>

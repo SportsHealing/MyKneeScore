@@ -126,16 +126,35 @@ function header(current) {
   <div class="wrap nav">
     <a class="wordmark" href="../index.html">My<span>Knee</span>Score</a>
     <nav aria-label="Main">
-      <ul>
+      <ul id="mainMenu">
         <li><a href="../index.html#how">How it works</a></li>
-        <li><a href="../index.html#meaning">Your score</a></li>
+        <li><a href="../female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="../track-progress.html">Track progress</a></li>
         <li><a href="../anatomy.html">Knee anatomy</a></li>
         <li class="nav-adv"><a href="index.html"${current ? ' aria-current="page"' : ""}>Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="../index.html#quiz">Start the test</a></li>
       </ul>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
-</header>`;
+</header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>`;
 }
 
 const disclaimer = `<div class="disclaimer">
