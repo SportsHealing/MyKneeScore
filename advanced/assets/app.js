@@ -129,6 +129,7 @@
     if (name) lines.push("Name: " + name);
     lines.push("Completed: " + longDate(when));
     lines.push("Score: " + d.score + " out of " + d.max + " (" + d.label + ")");
+    if (d.context && d.context.length) { lines.push("", "About you:"); d.context.forEach(function (c) { lines.push("- " + c); }); }
     (d.extras || []).forEach(function (x) { lines.push(x.name + ": " + x.score + " out of " + x.max + " (" + x.label + ")"); });
     if (d.bars && d.bars.length) {
       lines.push("", d.barsTitle + ":");
@@ -302,6 +303,8 @@
     // "Before you start" questions (LK32, FK21) come first and are not numbered
     var offset = 0;
     while (offset < total && questions[offset].intro) offset++;
+    // "About you" questions (age, sex) come last and are not numbered either
+    var outros = questions.filter(function (q) { return q.outro; }).length;
     // The answer to a "remind" question (the period being answered about) is shown on every later question
     var reminder = questions.filter(function (q) { return q.remind; })[0];
     var app = document.getElementById("quizApp");
@@ -367,9 +370,9 @@
       var q = questions[i];
       var name = "q" + q.id;
       var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
-        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
+        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro || q.outro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
       // A question with its own fixed period (night and day counts: the last week) shows that instead
-      if (reminder && !q.intro && (q.period || answers[reminder.id] !== undefined)) {
+      if (reminder && !q.intro && !q.outro && (q.period || answers[reminder.id] !== undefined)) {
         html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(q.period || answers[reminder.id].toLowerCase()) + '</p>';
       }
       if (q.type === "fields") {
@@ -378,9 +381,9 @@
           var fid = name + "-" + f.key;
           var v = details[q.id] && details[q.id][f.key] ? details[q.id][f.key] : "";
           html += '<div class="q-field"><label for="' + fid + '">' + esc(f.label) + '</label>' +
-            '<input type="' + (f.input === "number" ? 'number" min="1" max="99" inputmode="numeric' : esc(f.input)) + '" id="' + fid + '" data-field="' + esc(f.key) + '" value="' + esc(v) + '"></div>';
+            '<input type="' + (f.input === "number" ? 'number" min="' + (f.min || 1) + '" max="' + (f.max || 99) + '" inputmode="numeric' : esc(f.input)) + '" id="' + fid + '" data-field="' + esc(f.key) + '" value="' + esc(v) + '"></div>';
         });
-        html += '<p class="q-hint">Optional. Leave blank if it does not apply.</p></div>';
+        html += '<p class="q-hint">' + esc(q.hint || "Optional. Leave blank if it does not apply.") + '</p></div>';
       } else {
         var multi = q.type === "multi";
         html += '<div class="opts-stack" role="' + (multi ? 'group' : 'radiogroup') + '" aria-label="' + esc(q.text) + '">';
@@ -401,7 +404,7 @@
       body.innerHTML = html;
 
       fill.style.width = (((i + (isAnswered(q) ? 1 : 0)) / total) * 100) + "%";
-      meta.textContent = q.intro ? q.section : "Question " + (i + 1 - offset) + " of " + (total - offset);
+      meta.textContent = q.intro || q.outro ? q.section : "Question " + (i + 1 - offset) + " of " + (total - offset - outros);
       backBtn.disabled = i === 0;
       var last = i === total - 1;
       nextBtn.textContent = last ? "See my score" : "Next";
@@ -473,14 +476,19 @@
         var d = details[q.id] || {};
         var parts = [];
         if (q.type === "fields") {
-          q.fields.forEach(function (f) { if (d[f.key]) parts.push(f.label + ": " + d[f.key]); });
+          q.fields.forEach(function (f) {
+            var v = d[f.key];
+            // Number fields (age) only count inside their range, e.g. 1 to 120
+            if (v && f.input === "number" && !(/^\d+$/.test(v) && +v >= (f.min || 0) && +v <= (f.max || 999))) v = "";
+            if (v) parts.push(f.label + ": " + v);
+          });
         } else if (q.type === "multi") {
           if (answers[q.id] && answers[q.id].length) parts.push(answers[q.id].join(", "));
         } else if (answers[q.id] !== undefined) {
           parts.push(answers[q.id]);
         }
         if (d.detail) parts.push(d.detail);
-        if (parts.length) out.push((q.intro ? "" : "Q" + q.id + ". ") + q.text + " " + parts.join("; "));
+        if (parts.length) out.push((q.intro || q.outro ? "" : "Q" + q.id + ". ") + q.text + " " + parts.join("; "));
       });
       return out;
     }
@@ -641,6 +649,29 @@
     document.getElementById("reportBtn").disabled = answered === 0;
   }
 
+  // About you card for SK11 and PK7 (owner, 2026-11-07): age and sex, not scored
+  function aboutToolHtml() {
+    var h = '<div class="item about-item"><div class="item-head"><span class="item-num" aria-hidden="true">+</span><div>' +
+      '<p class="item-text">About you</p><p class="item-sub">Not scored. Recorded on your report.</p></div></div>' +
+      '<label class="about-label" for="toolAge">What is your age?</label>' +
+      '<input class="about-age" type="number" id="toolAge" min="1" max="120" inputmode="numeric" autocomplete="off">' +
+      '<p class="q-hint">Optional. Leave blank if you prefer not to say.</p>' +
+      '<p class="about-label" id="toolSexLabel">Are you male or female?</p>' +
+      '<div class="opts-stack" role="radiogroup" aria-labelledby="toolSexLabel">';
+    ["Male", "Female", "Prefer not to say"].forEach(function (o, k) {
+      h += '<input type="radio" name="toolSex" id="toolSex-' + k + '" value="' + o + '"><label for="toolSex-' + k + '">' + o + '</label>';
+    });
+    return h + '</div></div>';
+  }
+  function toolContext() {
+    var out = [];
+    var age = (document.getElementById("toolAge") || {}).value || "";
+    if (/^\d{1,3}$/.test(age.trim()) && +age >= 1 && +age <= 120) out.push("What is your age? Age in years: " + age.trim());
+    var sex = document.querySelector('input[name="toolSex"]:checked');
+    if (sex) out.push("Are you male or female? " + sex.value);
+    return out;
+  }
+
   function pct(x) { return (x * 100).toFixed(1) + "%"; }
 
   // ---------------------------------------------------------------
@@ -661,7 +692,7 @@
           '<p class="item-text">' + esc(q.text) + '</p><p class="item-sub">' + esc(q.domain) + ' &middot; 0 = worst, 10 = best</p></div></div>' +
           scaleHtml("sk" + q.id, 10, answers[q.id]) + '</div>';
       });
-      h += '<div id="report"></div></div>' + liveHtml();
+      h += aboutToolHtml() + '<div id="report"></div></div>' + liveHtml();
       root.innerHTML = h;
       bind();
       refresh();
@@ -677,7 +708,7 @@
     }
     root.addEventListener("change", function (e) {
       var t = e.target;
-      if (!t || t.type !== "radio") return;
+      if (!t || t.type !== "radio" || t.name === "toolSex") return;
       var id = Number(t.name.slice(2));
       answers[id] = Number(t.value);
       document.getElementById("item" + id).classList.add("done");
@@ -729,6 +760,7 @@
           bars: Q.filter(function (q) { return answers[q.id] !== null; }).map(function (q) {
             return { label: q.domain, pct: answers[q.id] * 10, value: answers[q.id] + "/10" };
           }),
+          context: toolContext(),
           answers: Q.map(function (q) { return [q.text, answers[q.id] !== null ? answers[q.id] + " out of 10" : "Not answered"]; })
         };
       });
@@ -764,7 +796,7 @@
           '<p class="item-text">' + esc(d.name) + '</p><p class="item-sub">' + esc(d.description) + ' &middot; 0 = worst, ' + d.maxValue + ' = best</p></div></div>' +
           scaleHtml("pk" + d.id, d.maxValue, answers[d.id]) + '</div>';
       });
-      h += '<div id="report"></div></div>' + liveHtml();
+      h += aboutToolHtml() + '<div id="report"></div></div>' + liveHtml();
       root.innerHTML = h;
       bind();
       refresh();
@@ -782,7 +814,7 @@
     }
     root.addEventListener("change", function (e) {
       var t = e.target;
-      if (!t || t.type !== "radio") return;
+      if (!t || t.type !== "radio" || t.name === "toolSex") return;
       var id = Number(t.name.slice(2));
       answers[id] = Number(t.value);
       document.getElementById("item" + id).classList.add("done");
@@ -851,6 +883,7 @@
           bars: D.filter(function (d) { return answers[d.id] !== null; }).map(function (d) {
             return { label: d.name, pct: answers[d.id] / d.maxValue * 100, value: answers[d.id] + "/" + d.maxValue };
           }),
+          context: toolContext(),
           answers: D.map(function (d) { return [d.name + " (" + d.description.toLowerCase() + ")", answers[d.id] !== null ? answers[d.id] + " out of " + d.maxValue : "Not answered"]; })
         };
       });

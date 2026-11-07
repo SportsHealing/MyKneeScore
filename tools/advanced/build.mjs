@@ -8,7 +8,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { LOCAL_SCORES } from "./local-scores.mjs";
+import { LOCAL_SCORES, ABOUT_YOU } from "./local-scores.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(HERE, "../..");
@@ -55,6 +55,15 @@ const scores = all
     o.own = OWN.has(s.id);
     return o;
   });
+
+// Our own research-site score (KS5) also ends with the About you questions.
+// Its score still uses only its own questions.
+for (const s of scores) {
+  if (s.own && s.mode === "quick" && !s.questionSet.some(q => q.outro)) {
+    s.parts = s.parts || [{ label: "Score", ids: s.questionSet.map(q => q.id) }];
+    s.questionSet = [...s.questionSet, ...ABOUT_YOU];
+  }
+}
 
 for (const s of scores) {
   if (s.mode === "quick" && (!s.questionSet || s.questionSet.length === 0)) {
@@ -152,8 +161,8 @@ function rangeText(s) {
 }
 
 // ---------- hub ----------
-// "Before you start" questions are not counted
-const count = s => s.mode === "quick" ? s.questionSet.filter(q => !q.intro).length : s.questions;
+// "Before you start" and "About you" questions are not counted
+const count = s => s.mode === "quick" ? s.questionSet.filter(q => !q.intro && !q.outro).length : s.questions;
 
 function card(s) {
   const n = count(s);

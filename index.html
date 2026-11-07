@@ -460,6 +460,12 @@
   .q-stage { flex: 1; display: flex; align-items: flex-start; padding: clamp(2rem, 6vw, 4.5rem) 0 3rem; }
   .quiz-form .q-slide { display: none; }
   .quiz-form .q-slide.active { display: block; }
+  .quiz-form .q-about { display: none; }
+  .quiz-form .q-about.active { display: block; }
+  .about-label { display: block; font-weight: 600; color: var(--green-ink); margin: 0 0 0.4rem; }
+  .about-age { width: 8rem; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+  .about-age:hover { border-color: var(--gold); }
+  .about-hint { font-size: 0.85rem; color: var(--text-muted); margin: 0.35rem 0 1.2rem; }
   @media (prefers-reduced-motion: no-preference) {
     .quiz-form .q-slide.active { animation: qfade 0.3s ease; }
   }
@@ -996,6 +1002,23 @@
           </div>
         </div>
 
+        <!-- About you: not scored, so it is not a q-slide. Shown after question 10. -->
+        <div class="q-about" id="qAbout">
+          <h2 class="q-title" tabindex="-1">A little about you</h2>
+          <div class="q-card">
+            <p class="q-topic">About you &middot; not scored</p>
+            <label class="about-label" for="aboutAge">What is your age?</label>
+            <input class="about-age" type="number" id="aboutAge" name="age" min="1" max="120" inputmode="numeric" autocomplete="off">
+            <p class="about-hint">Optional. Leave blank if you prefer not to say.</p>
+            <p class="about-label" id="aboutSexLabel">Are you male or female?</p>
+            <div class="opts" role="radiogroup" aria-labelledby="aboutSexLabel">
+              <input type="radio" name="sex" id="sexM" value="Male"><label for="sexM">Male</label>
+              <input type="radio" name="sex" id="sexF" value="Female"><label for="sexF">Female</label>
+              <input type="radio" name="sex" id="sexN" value="Prefer not to say"><label for="sexN">Prefer not to say</label>
+            </div>
+          </div>
+        </div>
+
       </form>
 
       <div class="q-nav" id="quizNav">
@@ -1051,6 +1074,8 @@
     var form      = document.getElementById("kneeForm");
     var slides    = [].slice.call(form.querySelectorAll(".q-slide"));
     var totalQ    = slides.length;
+    var about     = document.getElementById("qAbout");
+    var steps     = slides.concat([about]); /* About you is the last step, never scored */
     var navWrap   = document.getElementById("quizNav");
     var backBtn   = document.getElementById("backBtn");
     var nextBtn   = document.getElementById("nextBtn");
@@ -1151,33 +1176,40 @@
       show(0);
     }
 
+    /* About you: age is optional, sex must be chosen (it has "Prefer not to say") */
+    function aboutDone() { return !!form.querySelector('input[name="sex"]:checked'); }
+    function aboutText() {
+      var age = document.getElementById("aboutAge").value.trim();
+      var sex = form.querySelector('input[name="sex"]:checked');
+      return { age: /^\d{1,3}$/.test(age) && +age >= 1 && +age <= 120 ? age : "Not given", sex: sex ? sex.value : "Not given" };
+    }
+
     function show(i) {
       current = i;
-      slides.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
-      var pct = ((i + 1) / totalQ) * 100;
+      steps.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
+      var pct = ((i + 1) / steps.length) * 100;
       fill.style.width = pct + "%";
-      meta.textContent = "Question " + (i + 1) + " of " + totalQ;
+      meta.textContent = i < totalQ ? "Question " + (i + 1) + " of " + totalQ : "About you";
       backBtn.disabled = (i === 0);
-      nextBtn.textContent = (i === totalQ - 1) ? "See my results" : "Next";
-      nextBtn.disabled = !answered(i);
-      var h = slides[i].querySelector(".q-title");
+      nextBtn.textContent = (i === steps.length - 1) ? "See my results" : "Next";
+      nextBtn.disabled = i < totalQ ? !answered(i) : !aboutDone();
+      var h = steps[i].querySelector(".q-title");
       if (h) { h.focus(); }
     }
 
     form.addEventListener("change", function (e) {
       if (!e.target.name) { return; }
+      if (current >= totalQ) { nextBtn.disabled = !aboutDone(); return; }
       if (e.target.name !== groupName(current)) { nextBtn.disabled = !answered(current); return; }
       nextBtn.disabled = false;
-      if (current < totalQ - 1) {
-        window.setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
-      } else {
-        window.setTimeout(finish, reduce ? 0 : 320);
-      }
+      window.setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
     });
+    /* Enter in the age box goes on, as the Next button would */
+    form.addEventListener("submit", function (e) { e.preventDefault(); nextBtn.click(); });
 
     nextBtn.addEventListener("click", function () {
-      if (!answered(current)) { return; }
-      if (current < totalQ - 1) { show(current + 1); } else { finish(); }
+      if (current < totalQ ? !answered(current) : !aboutDone()) { return; }
+      if (current < steps.length - 1) { show(current + 1); } else { finish(); }
     });
     backBtn.addEventListener("click", function () { if (current > 0) { show(current - 1); } });
     exitBtn.addEventListener("click", close);
@@ -1192,6 +1224,7 @@
     function finish() {
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
+      if (!aboutDone()) { show(totalQ); return; }
 
       /* Answers are held as halves (0 to 20) and weights as hundredths, so the
          weighted total is a whole number. Dividing by 20 gives the score out of
@@ -1208,7 +1241,7 @@
       var score = Math.floor(totalWeighted / 20) + ((totalWeighted % 20) >= 10 ? 1 : 0);
       var band = bands.find(function (b) { return score >= b.min; });
 
-      last = { score: score, band: band, perQ: perQ, when: new Date() };
+      last = { score: score, band: band, perQ: perQ, when: new Date(), about: aboutText() };
 
       scoreNum.textContent = score;
       dial.style.setProperty("--value", score);
@@ -1228,7 +1261,7 @@
       });
 
       navWrap.style.display = "none";
-      slides.forEach(function (s) { s.classList.remove("active"); });
+      steps.forEach(function (s) { s.classList.remove("active"); });
       fill.style.width = "100%";
       meta.textContent = "Complete";
       resultEl.classList.add("show");
@@ -1301,7 +1334,9 @@
         '<div class="rp-meta">' +
         '<div><span class="rp-k">Name</span><span class="rp-v">' + (name ? esc(name) : "Not given") + '</span></div>' +
         '<div><span class="rp-k">Completed</span><span class="rp-v">' + esc(longDate(r.when)) + '</span></div>' +
-        '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + totalQ + ' of ' + totalQ + '</span></div></div>' +
+        '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + totalQ + ' of ' + totalQ + '</span></div>' +
+        '<div><span class="rp-k">Age</span><span class="rp-v">' + esc(r.about.age) + '</span></div>' +
+        '<div><span class="rp-k">Sex</span><span class="rp-v">' + esc(r.about.sex) + '</span></div></div>' +
         '<div class="rp-score"><svg class="rp-ring" viewBox="0 0 120 120" aria-hidden="true">' +
         '<circle class="rp-ring-track" cx="60" cy="60" r="52"></circle>' +
         '<circle class="rp-ring-fill rp-' + lv + '" cx="60" cy="60" r="52" stroke-dasharray="' + on.toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 60 60)"></circle></svg>' +
@@ -1345,6 +1380,7 @@
       var lines = ["My Knee Score results", "", "Short Knee Score"];
       if (name) { lines.push("Name: " + name); }
       lines.push("Completed: " + longDate(r.when));
+      lines.push("Age: " + r.about.age, "Sex: " + r.about.sex);
       lines.push("Score: " + r.score + " out of 100 (" + r.band.name + ")");
       lines.push("", "How your score breaks down (out of 100):");
       r.perQ.forEach(function (q) { lines.push("- " + q.topic + ": " + q.pct); });
