@@ -394,6 +394,7 @@
             '<label for="' + id + '">' + esc(o.label) + '</label>';
         });
         html += '</div>';
+        if (q.hint) html += '<p class="q-hint q-opt-hint">' + esc(q.hint) + '</p>';
         if (q.detail) {
           var did = name + "-detail";
           html += '<div class="q-field"><label for="' + did + '">' + esc(q.detail) + ' <span class="q-hint">(optional)</span></label>' +
@@ -661,7 +662,7 @@
     ["Male", "Female", "Prefer not to say"].forEach(function (o, k) {
       h += '<input type="radio" name="toolSex" id="toolSex-' + k + '" value="' + o + '"><label for="toolSex-' + k + '">' + o + '</label>';
     });
-    return h + '</div></div>';
+    return h + '</div><p class="q-hint">Optional. You can skip this question.</p></div>';
   }
   function toolContext() {
     var out = [];

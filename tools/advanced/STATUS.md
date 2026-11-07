@@ -2,8 +2,8 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
-## 2026-11-07: About you (age, sex) at the end of our own scores (awaiting approval)
-- `ABOUT_YOU` in `local-scores.mjs`: age (optional number, 1 to 120) and sex (Male, Female, Prefer not to say). Flag `outro`: not scored, not numbered, shown as "About you".
+## 2026-11-07: About you (age, sex) at the end of our own scores (owner approved, Dr Gupte signed off, live)
+- `ABOUT_YOU` in `local-scores.mjs`: age (optional number, 1 to 120) and sex (Male, Female, Prefer not to say; optional, owner decision). Flag `outro`: not scored, not numbered, shown as "About you".
 - Added to LK32 and FK21 directly; `build.mjs` appends them to KS5 (research export) and gives KS5 a `parts` entry so its score still uses only its 5 questions.
 - SK11 and PK7: an About you card after the items (`aboutToolHtml()` in `app.js`), recorded in the PDF and email.
 - Hub counts unchanged (32, 21, 5). Scores unchanged. e2e checks age and sex reach the result.

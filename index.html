@@ -1016,6 +1016,7 @@
               <input type="radio" name="sex" id="sexF" value="Female"><label for="sexF">Female</label>
               <input type="radio" name="sex" id="sexN" value="Prefer not to say"><label for="sexN">Prefer not to say</label>
             </div>
+            <p class="about-hint">Optional. You can skip this question.</p>
           </div>
         </div>
 
@@ -1176,8 +1177,8 @@
       show(0);
     }
 
-    /* About you: age is optional, sex must be chosen (it has "Prefer not to say") */
-    function aboutDone() { return !!form.querySelector('input[name="sex"]:checked'); }
+    /* About you: both questions are optional, so this step is always complete */
+    function aboutDone() { return true; }
     function aboutText() {
       var age = document.getElementById("aboutAge").value.trim();
       var sex = form.querySelector('input[name="sex"]:checked');

@@ -124,8 +124,8 @@ export const ABOUT_YOU = [
   { id: "age", section: "About you", outro: true, scored: false, optional: true, type: "fields",
     text: "What is your age?", hint: "Optional. Leave blank if you prefer not to say.",
     fields: [{ key: "age", label: "Age in years", input: "number", min: 1, max: 120 }] },
-  { id: "sex", section: "About you", outro: true, scored: false,
-    text: "Are you male or female?",
+  { id: "sex", section: "About you", outro: true, scored: false, optional: true,
+    text: "Are you male or female?", hint: "Optional. You can skip this question.",
     options: ["Male", "Female", "Prefer not to say"].map(label => ({ value: label, label })) },
 ];
 
