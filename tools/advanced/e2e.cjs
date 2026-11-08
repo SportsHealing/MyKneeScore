@@ -125,6 +125,22 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
     fails++; console.log("MAIL MISMATCH", mailto);
   }
 
+  // Top menu: every link stays on one line, on the home page and an Advanced page, at common widths
+  for (const pg of ["../index.html", "lk32.html"]) {
+    for (const w of [1000, 1280, 1440, 1920]) {
+      await page.setViewportSize({ width: w, height: 900 });
+      await page.goto(BASE + pg);
+      await page.evaluate(() => document.fonts.ready);
+      const wrapped = await page.evaluate(() => [...document.querySelectorAll(".nav ul li")]
+        .filter(li => getComputedStyle(li).display !== "none")
+        .filter(li => { const r = document.createRange(); r.selectNodeContents(li.querySelector("a")); return new Set([...r.getClientRects()].filter(x => x.width > 0).map(x => Math.round(x.top))).size > 1; })
+        .map(li => li.textContent.trim()));
+      checks++;
+      if (wrapped.length) { fails++; console.log("MENU WRAPS", pg, w, wrapped.join(", ")); }
+    }
+  }
+  await page.setViewportSize({ width: 1280, height: 900 });
+
   // hub filter
   await page.goto(BASE + "index.html");
   const total = await page.$$eval("#scoreGrid .score-card", c => c.length);
