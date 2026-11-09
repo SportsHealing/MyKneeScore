@@ -117,7 +117,7 @@
   }
   .wordmark {
     font-family: var(--body);
-    font-size: 1.35rem;
+    font-size: 1.55rem;
     font-weight: 700;
     color: var(--ivory);
     text-decoration: none;
@@ -474,6 +474,12 @@
     .nav.open ul .nav-long { display: inline; }
     .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
   }
+
+  /* Header spans the full screen: logo and Start the test sit in the corners */
+  header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 700px) {
+    header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  }
 </style>
 </head>
 <body>
@@ -517,7 +523,7 @@
   <section class="a-hero">
     <div class="wrap">
       <p class="eyebrow">Track progress</p>
-      <h1>One number, <em>watched over time.</em></h1>
+      <h1>One number, watched over time.</h1>
       <p class="lede">A single score is a snapshot. A series of scores is a story. Every time you take a test, your new score joins the ones before it, so you can see whether your knee is getting better or worse.</p>
     </div>
   </section>

@@ -447,3 +447,9 @@ footer a:hover { text-decoration: underline; }
   .nav.open ul .nav-long { display: inline; }
   .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
 }
+
+/* Header spans the full screen: logo and Start the test sit in the corners */
+header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+@media (max-width: 700px) {
+  header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
+}
