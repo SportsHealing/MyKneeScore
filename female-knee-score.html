@@ -117,7 +117,7 @@
   }
   .wordmark {
     font-family: var(--body);
-    font-size: 1.35rem;
+    font-size: 1.55rem;
     font-weight: 700;
     color: var(--ivory);
     text-decoration: none;
@@ -483,6 +483,12 @@
     .nav.open ul .nav-long { display: inline; }
     .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
   }
+
+  /* Header spans the full screen: logo and Start the test sit in the corners */
+  header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 700px) {
+    header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  }
 </style>
 </head>
 <body>
@@ -526,7 +532,7 @@
   <section class="a-hero">
     <div class="wrap">
       <p class="eyebrow">Female Knee Score (FK21)</p>
-      <h1>A knee score <em>built for women and girls.</em></h1>
+      <h1>A knee score built for women and girls.</h1>
       <p class="lede">FK21 asks the knee questions that matter most, plus the female health factors that standard knee questionnaires leave out. It is new, so every woman and girl who completes it helps build a clearer picture.</p>
       <div class="cta-row" style="justify-content:flex-start; margin-top:1.6rem;"><a class="btn btn-gold" href="advanced/fk21.html#quiz">Start the Female Knee Score</a><a class="btn btn-ghost-dark" href="advanced/fk21.html">About FK21</a></div>
     </div>

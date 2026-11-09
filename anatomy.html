@@ -117,7 +117,7 @@
   }
   .wordmark {
     font-family: var(--body);
-    font-size: 1.35rem;
+    font-size: 1.55rem;
     font-weight: 700;
     color: var(--ivory);
     text-decoration: none;
@@ -300,7 +300,6 @@
     scroll-margin-top: 100px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .card.is-active { border-left-color: var(--gold); box-shadow: 0 0 0 2px rgba(var(--gold-rgb), 0.35); }
   .card .tag {
     font-family: var(--body);
     font-size: 0.7rem;
@@ -355,6 +354,7 @@
 
   /* Diagram parts */
   .anat [data-part] { cursor: pointer; }
+  .anat [data-part]:focus { outline: none; }
   .anat .bone { fill: var(--bone); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
   .anat .lig { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke 0.2s, stroke-width 0.2s; }
   .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
@@ -396,6 +396,12 @@
     .nav.open ul a { display: block; padding: 0.85rem 0.2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.15); }
     .nav.open ul .nav-long { display: inline; }
     .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
+  }
+
+  /* Header spans the full screen: logo and Start the test sit in the corners */
+  header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 700px) {
+    header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
   }
 </style>
 </head>
@@ -771,18 +777,19 @@
       }
     }
 
+    /* Clicking a part of the diagram or the key just scrolls to its section */
     function goTo(name) {
       var target = document.getElementById("p-" + name);
       if (!target) { return; }
       target.scrollIntoView({ behavior: "smooth", block: "center" });
-      setActive(name, true);
-      window.setTimeout(function () { setActive(name, false); }, 2200);
     }
 
     for (var i = 0; i < parts.length; i++) {
       (function (el) {
         var name = el.getAttribute("data-part");
         var isTrigger = el.tagName.toLowerCase() === "g" || el.classList.contains("key-row");
+        /* The section cards below have no hover or highlight effect */
+        if (!isTrigger) { return; }
 
         el.addEventListener("mouseenter", function () { setActive(name, true); });
         el.addEventListener("mouseleave", function () { setActive(name, false); });

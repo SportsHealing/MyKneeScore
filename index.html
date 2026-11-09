@@ -600,6 +600,17 @@
     .nav.open ul .nav-long { display: inline; }
     .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
   }
+
+  /* Header spans the full screen: logo and Start the test sit in the corners */
+  header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 700px) {
+    header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  }
+
+  /* Hero fills the first screen below the header, edge to edge.
+     --header-h is set from the real header height by a script below the header. */
+  .hero { min-height: calc(100vh - var(--header-h, 4.5rem)); min-height: calc(100svh - var(--header-h, 4.5rem)); display: flex; align-items: center; }
+  .hero > .hero-grid { width: 100%; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
 </style>
 </head>
 <body>
@@ -635,6 +646,16 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
     });
+  })();
+</script>
+
+<script>
+  /* The hero fills the screen below the header, whatever the header height */
+  (function () {
+    var h = document.querySelector("header");
+    function set() { document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px"); }
+    set();
+    window.addEventListener("resize", set);
   })();
 </script>
 
