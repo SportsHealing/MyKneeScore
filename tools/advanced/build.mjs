@@ -204,7 +204,7 @@ ${header(true)}
   <section class="hero hero-slim">
     <div class="wrap">
       <p class="eyebrow">Advanced scores</p>
-      <h1>The questionnaires <em>clinicians use.</em></h1>
+      <h1>The questionnaires clinicians use.</h1>
       <p class="lede">These are the knee scores used by surgeons, physiotherapists and researchers. Each one asks about a specific kind of knee problem. Pick the one that fits you, answer the questions, and get your score straight away.</p>
       <p class="hero-note">Free. No account needed. Nothing you enter leaves your device.</p>
     </div>
