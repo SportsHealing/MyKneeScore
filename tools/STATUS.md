@@ -130,3 +130,4 @@ Questions waiting on the owner. Resume any of these when the owner asks. Remove 
 - 2026-11-09: Owner approved going live, chose to keep the diagram hover shading, and asked for the home and Track progress headlines in one font (no italic accent) too.
 - 2026-11-09: Anatomy and Advanced hub headlines also in one font (owner). Advanced score page titles keep the italic acronym, e.g. "(KOOS-JR)" (owner).
 - 2026-11-10: Owner saw a thin white line under the green home hero. Cause: the header is 70.69px but offsetHeight rounded it to 71, so the hero stopped 0.31px short. Now the exact height is rounded down and re-measured when the header resizes (fonts loading). Checked 9 screen sizes x 4 display scalings: no gap.
+- 2026-11-10: Female Knee Score page: the source line and "How FK21 helps" now span the full content width, like the boxes above them (owner).
