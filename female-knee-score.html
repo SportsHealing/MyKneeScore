@@ -443,7 +443,8 @@
   .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
   .note-list + .note-list { margin-top: 1.6rem; }
-  .source-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 1.2rem; max-width: 46em; }
+  .note-list.note-full { max-width: none; }
+  .source-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 1.2rem; }
   .source-note a { color: var(--green-soft); font-weight: 600; overflow-wrap: anywhere; }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.6rem; }
   .stat { background: var(--green-deep); border-radius: 14px; padding: 1.2rem 1.3rem; display: grid; gap: 0.35rem; }
@@ -590,7 +591,7 @@
         <div class="tile"><h3>Pitches and boots</h3><p>Female athletes often train on lower quality and artificial pitches, where ACL injuries are reported to be about 50% more likely than on natural grass. Most football boots are designed around male feet and loading.</p></div>
         <div class="tile"><h3>Surgery choices</h3><p>In women, hamstring grafts have been linked with a higher failure rate than patellar tendon grafts, and grafts wider than 8 mm do better. Adding a lateral extra-articular tenodesis lowers re-tear risk in elite athletes.</p></div>
       </div>
-      <ul class="note-list">
+      <ul class="note-list note-full">
         <li><b>How FK21 helps.</b> It tracks your confidence, landing and pivoting, and symptoms across your cycle, so you and your clinician can see your trend through the critical first two years. <a href="track-progress.html">How tracking works</a>.</li>
       </ul>
     </div>
