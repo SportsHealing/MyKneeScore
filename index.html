@@ -650,12 +650,17 @@
 </script>
 
 <script>
-  /* The hero fills the screen below the header, whatever the header height */
+  /* The hero fills the screen below the header, whatever the header height.
+     The exact height is rounded down, so the green always reaches the bottom of
+     the screen (offsetHeight rounds, which left a thin white line). It is
+     measured again whenever the header changes size, e.g. once fonts load. */
   (function () {
     var h = document.querySelector("header");
-    function set() { document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px"); }
+    function set() { document.documentElement.style.setProperty("--header-h", Math.floor(h.getBoundingClientRect().height) + "px"); }
     set();
     window.addEventListener("resize", set);
+    if (window.ResizeObserver) { new ResizeObserver(set).observe(h); }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(set); }
   })();
 </script>
 
