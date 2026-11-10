@@ -64,6 +64,7 @@ Update it at the end of every piece of work.
 | Knee scan note: even border on both sides (screen and PDF, home and Advanced) | Approved 31 Oct. Going live. | Claude |
 
 ## Decisions log
+- 2026-11-10: Text width rule (owner): running text and bullet lists stay at a readable width (about 46em, roughly 85 characters a line); boxes, figures and one or two line notes (e.g. source lines) use the full content width.
 - 2026-10-15: Use kneelens.com in the footer "Our sites" row in place of omkneehealth.com, for now.
 - 2026-10-15: Analytics to be cookie free (Plausible proposed). No cookie banner.
 - 2026-10-15: `tools/` hidden from the live site.
