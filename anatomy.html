@@ -368,6 +368,9 @@
   .anat .lig-band { stroke-width: 9; }
   .anat .lig-flat { stroke-width: 12; stroke-linecap: butt; }
   .anat .lig-cord { stroke-width: 10; }
+  .anat .patella-veil, .anat .patella-veil * { pointer-events: none; }
+  .anat .patella-veil path:first-child { fill: rgba(var(--bone-rgb), 0.42); stroke: var(--green-ink); stroke-width: 1.4; transition: fill 0.2s; }
+  .anat .patella-veil.is-active path:first-child { fill: rgba(var(--bone-active-rgb), 0.6); }
   .anat .plateau { fill: none; stroke: var(--bone-active); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
   .anat .glint { fill: none; stroke: var(--ivory); stroke-width: 3; stroke-linecap: round; opacity: 0.85; pointer-events: none; }
   .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
@@ -545,6 +548,15 @@
             <text class="lbl" x="144" y="252" text-anchor="end">Meniscus</text>
           </g>
 
+          <!-- The patella sits over the cruciates. The clickable kneecap is drawn under
+               the ligaments; a see-through copy on top lets them show through, and
+               clicks pass through it to whichever part is underneath. -->
+          <g data-part="patella" tabindex="0" role="button" aria-label="Patella">
+            <path class="patella" d="M212,162 C214,145 260,143 264,162 C266,186 254,210 238,224 C222,210 210,186 212,162 Z"/>
+            <line class="lead" x1="150" y1="182" x2="214" y2="176"/>
+            <text class="lbl" x="144" y="186" text-anchor="end">Patella</text>
+          </g>
+
           <g data-part="cruciate" tabindex="0" role="button" aria-label="Cruciate ligaments">
             <path class="lig lig-band" d="M226,198 C232,214 240,230 246,244"/>
             <path class="lig lig-band" d="M248,198 C242,214 236,230 230,244"/>
@@ -556,12 +568,10 @@
             <text class="lbl" x="342" y="216" text-anchor="start">ACL and PCL</text>
           </g>
 
-          <g data-part="patella" tabindex="0" role="button" aria-label="Patella">
-            <path class="patella" d="M213,128 C215,112 259,110 263,128 C265,150 252,172 238,184 C224,172 211,150 213,128 Z"/>
-            <path class="shade" d="M220,130 C224,146 231,160 238,170"/>
-            <path class="shade" d="M226,126 C229,140 234,152 239,160"/>
-            <line class="lead" x1="150" y1="182" x2="216" y2="150"/>
-            <text class="lbl" x="144" y="186" text-anchor="end">Patella</text>
+          <g data-part="patella" class="patella-veil" aria-hidden="true">
+            <path d="M212,162 C214,145 260,143 264,162 C266,186 254,210 238,224 C222,210 210,186 212,162 Z"/>
+            <path class="shade" d="M219,164 C223,180 230,196 238,208"/>
+            <path class="shade" d="M226,160 C229,174 234,186 239,194"/>
           </g>
 
           <g data-part="mcl" tabindex="0" role="button" aria-label="Medial collateral ligament">
