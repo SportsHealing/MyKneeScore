@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
-## 2026-11-13: Paediatric scores (awaiting Pedi-SKV wording and approval)
+## 2026-11-13: Paediatric scores (live; Pedi-SKV wording confirmed by owner from the paper)
 - `PAEDIATRIC` set in `build.mjs` (pedi-ikdc, pedi-skv): left off the hub, breadcrumb and "All paediatric scores" link point to ../paediatrics.html. Pages stay in advanced/.
 - Pedi-SKV in `local-scores.mjs` with `external: true` (not one of our own scores, so no About you questions). `type: "percent"`: slider and number box, whole numbers 0 to 100; options 0 and 100 give the engine its maximum, so quickScore is unchanged and the score equals the answer.
 - Question text is a placeholder containing TO_CONFIRM until the owner confirms the wording from the paper; house style check 10 blocks it from going live.

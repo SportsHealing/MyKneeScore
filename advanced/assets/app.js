@@ -516,7 +516,7 @@
     function answerText(q) {
       var v = answers[q.id];
       if (v === undefined) return "Not answered";
-      if (q.type === "percent") return v + " out of 100";
+      if (q.type === "percent") return v + "%";
       for (var k = 0; k < q.options.length; k++) { if (q.options[k].value === v) return q.options[k].label; }
       return String(v);
     }

@@ -174,7 +174,7 @@ export const LOCAL_SCORES = [
   },
   {
     // Published score (not ours): listed on the Paediatrics page, without our About you questions.
-    // The question wording must match Marot et al. 2021 exactly; confirmed with the owner before going live.
+    // Question wording exactly as in Marot et al. 2021, confirmed by the owner from the paper (2026-11-13).
     id: "pedi-skv",
     external: true,
     name: "Pedi-SKV",
@@ -199,8 +199,8 @@ export const LOCAL_SCORES = [
     doi: "10.1302/1863-2548.15.200237",
     questionSet: [{
       id: 1, type: "percent",
-      text: "PEDI_SKV_WORDING_TO_CONFIRM: What percentage of a normal knee is your knee today?",
-      inputLabel: "Your knee, from 0 to 100", lowLabel: "0", highLabel: "100 = normal knee",
+      text: "How would you rate your knee today as a percentage of normal (0% to 100% scale with 100% being normal)?",
+      inputLabel: "Your knee today, as a percentage of normal", lowLabel: "0%", highLabel: "100% = normal",
       options: [{ value: "0", label: "0" }, { value: "100", label: "100" }],
     }],
   },
