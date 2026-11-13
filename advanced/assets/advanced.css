@@ -69,12 +69,15 @@ header {
   .nav ul a { font-size: 0.95rem; white-space: nowrap; }
   .nav .start-link { padding: 0.4rem 0.85rem; }
 }
-/* "How it works" makes way for "Female Knee Score" on tablets */
-@media (max-width: 920px) {
+/* Seven menu items: on narrower screens the least used make way, so the menu stays on one line. All are in the phone menu. */
+@media (max-width: 1180px) {
   .nav ul li:nth-child(1) { display: none; }
 }
-@media (max-width: 860px) {
-  .nav ul li:nth-child(3) { display: none; }
+@media (max-width: 960px) {
+  .nav ul li:nth-child(4) { display: none; }
+}
+@media (max-width: 780px) {
+  .nav ul li:nth-child(5) { display: none; }
 }
 @media (max-width: 760px) {
   .wordmark { font-size: 1.25rem; }
@@ -209,6 +212,14 @@ section.paper { background: var(--paper); border-block: 1px solid var(--line); }
 .opts-stack input:checked + label { background: var(--green-ink); border-color: var(--green-ink); color: var(--gold-pale); font-weight: 600; }
 .opts-stack input:focus-visible + label { outline: 3px solid var(--gold); outline-offset: 2px; }
 .q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.8rem; }
+/* A 0 to 100 answer (Pedi-SKV): slider plus number box */
+.q-percent label { display: block; font-weight: 600; color: var(--green-ink); margin-bottom: 0.6rem; }
+.pct-row { display: flex; align-items: center; gap: 0.8rem; }
+.pct-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--green-ink); height: 2rem; }
+.pct-row input[type="number"] { width: 5.2rem; font: inherit; font-size: 1.2rem; font-weight: 600; text-align: center; color: var(--text); padding: 0.5rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+.pct-unit { font-weight: 600; color: var(--green-ink); }
+.pct-ends { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; padding-right: 6.5rem; }
+
 /* Tick boxes, date and number fields (FK43 "About you" questions) */
 .opts-stack input[type="checkbox"]:checked + label::before { content: "\2713"; margin-right: 0.5rem; }
 .q-fields { display: grid; gap: 0.9rem; }

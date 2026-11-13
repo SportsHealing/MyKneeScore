@@ -10,7 +10,7 @@ Exit code 0 if everything passes, 1 otherwise.
 """
 import os, re, sys
 
-PAGES = ["index.html", "anatomy.html", "track-progress.html", "female-knee-score.html"]
+PAGES = ["index.html", "anatomy.html", "track-progress.html", "female-knee-score.html", "paediatrics.html"]
 TEXT_EXT = (".html", ".txt", ".md", ".css", ".js", ".mjs", ".cjs", ".yml", ".sh")
 SKIP_DIRS = {".git", "node_modules", ".github"}
 
@@ -130,6 +130,14 @@ for p in text_files():
     url = re.sub(r'(^|/)index\.html$', r'\1', url)
     if "<loc>%s</loc>" % url not in sitemap:
         fail("sitemap lists every page", "%s is missing %s" % ("sitemap.xml", url))
+
+# 10. Draft wording waiting for confirmation must never reach the live site.
+check("no unconfirmed draft text", "incident: Pedi-SKV wording pending, 2026-11-13")
+for p in text_files():
+    if p.startswith("./tools/"):
+        continue
+    if "TO_CONFIRM" in read(p):
+        fail("no unconfirmed draft text", "%s contains TO_CONFIRM placeholder text" % p)
 
 print()
 if failures:
