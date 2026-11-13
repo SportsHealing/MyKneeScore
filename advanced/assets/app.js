@@ -375,7 +375,16 @@
       if (reminder && !q.intro && !q.outro && (q.period || answers[reminder.id] !== undefined)) {
         html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(q.period || answers[reminder.id].toLowerCase()) + '</p>';
       }
-      if (q.type === "fields") {
+      if (q.type === "percent") {
+        // One 0 to 100 answer (Pedi-SKV): a slider and a number box that move together
+        var pv = answers[q.id] !== undefined ? answers[q.id] : "";
+        html += '<div class="q-percent">' +
+          '<label for="' + name + '-pct">' + esc(q.inputLabel || "Your answer (0 to 100)") + '</label>' +
+          '<div class="pct-row"><input type="range" id="' + name + '-range" min="0" max="100" step="1" value="' + esc(pv === "" ? 50 : pv) + '" data-percent aria-label="' + esc(q.inputLabel || "Your answer (0 to 100)") + '">' +
+          '<input type="number" id="' + name + '-pct" min="0" max="100" step="1" inputmode="numeric" value="' + esc(pv) + '" data-percent><span class="pct-unit">%</span></div>' +
+          '<div class="pct-ends"><span>' + esc(q.lowLabel || "0") + '</span><span>' + esc(q.highLabel || "100") + '</span></div>' +
+          '</div>';
+      } else if (q.type === "fields") {
         html += '<div class="q-fields">';
         q.fields.forEach(function (f) {
           var fid = name + "-" + f.key;
@@ -416,6 +425,16 @@
 
     body.addEventListener("input", function (e) {
       var t = e.target;
+      if (t && t.hasAttribute("data-percent")) {
+        // Keep the slider and the number box in step; only whole numbers 0 to 100 count
+        var qp = questions[current];
+        var raw = t.value.trim();
+        var ok = /^\d{1,3}$/.test(raw) && +raw <= 100;
+        [].forEach.call(body.querySelectorAll("[data-percent]"), function (el) { if (el !== t && ok) el.value = raw; });
+        if (ok) answers[qp.id] = String(+raw); else delete answers[qp.id];
+        nextBtn.disabled = !isAnswered(qp);
+        return;
+      }
       if (!t || !t.hasAttribute("data-field")) return;
       var q = questions[current];
       details[q.id] = details[q.id] || {};
@@ -497,6 +516,7 @@
     function answerText(q) {
       var v = answers[q.id];
       if (v === undefined) return "Not answered";
+      if (q.type === "percent") return v + " out of 100";
       for (var k = 0; k < q.options.length; k++) { if (q.options[k].value === v) return q.options[k].label; }
       return String(v);
     }
@@ -599,7 +619,7 @@
         '<button type="button" class="btn btn-gold" data-act="retake">Retake</button>' +
         (r ? '<button type="button" class="btn btn-ghost" data-act="copy">Copy result</button>' : "") +
         '<button type="button" class="btn btn-ghost" data-act="print">Print</button>' +
-        '<a class="btn btn-ghost" href="index.html">All scores</a></div>';
+        (S.paediatric ? '<a class="btn btn-ghost" href="../paediatrics.html">All paediatric scores</a></div>' : '<a class="btn btn-ghost" href="index.html">All scores</a></div>');
       resultEl.innerHTML = html;
       resultEl.classList.add("show");
       resultEl.querySelector('[data-act="retake"]').addEventListener("click", reset);

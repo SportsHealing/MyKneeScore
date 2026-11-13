@@ -150,12 +150,15 @@
     .nav ul a { font-size: 0.95rem; white-space: nowrap; }
     .nav .start-link { padding: 0.4rem 0.85rem; }
   }
-  /* "How it works" makes way for "Female Knee Score" on tablets */
-  @media (max-width: 920px) {
+  /* Seven menu items: on narrower screens the least used make way, so the menu stays on one line. All are in the phone menu. */
+  @media (max-width: 1180px) {
     .nav ul li:nth-child(1) { display: none; }
   }
-  @media (max-width: 860px) {
-    .nav ul li:nth-child(3) { display: none; }
+  @media (max-width: 960px) {
+    .nav ul li:nth-child(4) { display: none; }
+  }
+  @media (max-width: 780px) {
+    .nav ul li:nth-child(5) { display: none; }
   }
   @media (max-width: 760px) {
     .wordmark { font-size: 1.25rem; }
@@ -414,6 +417,7 @@
       <ul id="mainMenu">
         <li><a href="index.html#how">How it works</a></li>
         <li><a href="female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="paediatrics.html">Paediatrics</a></li>
         <li><a href="track-progress.html">Track progress</a></li>
         <li><a href="anatomy.html" aria-current="page">Knee anatomy</a></li>
         <li class="nav-adv"><a href="advanced/index.html">Advanced<span class="nav-long"> scores</span></a></li>

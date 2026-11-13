@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedi-SKV | Pediatric Simple Knee Value | My Knee Score</title>
+<script>
+  // Embed mode (?embed=1): the page shows only the questionnaire, for an iFrame
+  // on a sister site. Set before the page draws, so the site header never flashes.
+  if (/[?&]embed=1(&|$)/.test(location.search)) { document.documentElement.classList.add("embed"); }
+</script>
+<meta name="description" content="Take the Pediatric Simple Knee Value (Pedi-SKV) online. 1 questions, Under 1 min. Get your score instantly.">
+<link rel="canonical" href="https://mykneescore.com/advanced/pedi-skv.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="My Knee Score">
+<meta property="og:title" content="Pedi-SKV | Pediatric Simple Knee Value | My Knee Score">
+<meta property="og:description" content="Take the Pediatric Simple Knee Value (Pedi-SKV) online. 1 questions, Under 1 min. Get your score instantly.">
+<meta property="og:url" content="https://mykneescore.com/advanced/pedi-skv.html">
+<meta property="og:image" content="https://mykneescore.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="My Knee Score. Put a number on your knee.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/advanced.css">
+</head>
+<body data-score="pedi-skv">
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="../index.html">My<span>Knee</span>Score</a>
+    <nav aria-label="Main">
+      <ul id="mainMenu">
+        <li><a href="../index.html#how">How it works</a></li>
+        <li><a href="../female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="../paediatrics.html">Paediatrics</a></li>
+        <li><a href="../track-progress.html">Track progress</a></li>
+        <li><a href="../anatomy.html">Knee anatomy</a></li>
+        <li class="nav-adv"><a href="index.html">Advanced<span class="nav-long"> scores</span></a></li>
+        <li><a class="start-link" href="../index.html#quiz">Start the test</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>
+<main id="top">
+  <section class="hero hero-slim">
+    <div class="wrap">
+      <p class="eyebrow"><a href="../paediatrics.html">Paediatrics</a> &middot; General Knee</p>
+      <h1>Pediatric Simple Knee Value <em>(Pedi-SKV)</em></h1>
+      <p class="lede">One question: how your knee compares with a normal knee, from 0 to 100. Developed and tested in children and teenagers.</p>
+      <ul class="facts">
+        <li><b>1</b> question</li>
+        <li><b>Under 1 min</b></li>
+        <li>Score <b>0 to 100, higher is better</b></li>
+        <li><b>Validated</b></li>
+      </ul>
+      
+      <div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the Pedi-SKV</button><a class="btn btn-ghost" href="../paediatrics.html">All paediatric scores</a></div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="wrap about-grid">
+      <div>
+        <h2>About the Pedi-SKV</h2>
+        <h3>Who it is for</h3>
+        <p>Children and teenagers with a knee problem, for a very quick check or to track progress between longer questionnaires.</p>
+        <h3>What it measures</h3>
+        <p>Your overall view of your knee, as a percentage of a normal knee.</p>
+        <h3>Sections</h3><ul class="ticks"><li>Single overall rating</li></ul>
+        <h3>Reading your score</h3>
+        <p>100 is a normal knee. Your answer is your score. Lower numbers mean your knee feels further from normal.</p>
+      </div>
+      <aside class="side-card">
+        <p class="eyebrow">Strengths</p>
+        <ul class="ticks"><li>Takes seconds to complete</li><li>Easy for children to understand</li><li>In its validation study it agreed strongly with the Pedi-IKDC and Lysholm scores, and picked up change after surgery</li></ul>
+        <p class="eyebrow">Limitations</p>
+        <ul class="ticks"><li>A single rating cannot show which part of knee function is affected</li><li>Validated in a small study (44 patients)</li></ul>
+        <p class="eyebrow">Source</p>
+        <p class="cite">Marot V, Vilette H, Dalmas Y, Justo A, Reina N, Cavaignac E, Berard E, Accadbled F. Pediatric Simple Knee Value: a simple patient-reported outcome measure for the knee. J Child Orthop. 2021. <a href="https://doi.org/10.1302/1863-2548.15.200237" rel="noopener" target="_blank">Read the paper</a></p>
+        <p class="cite">Licence: Free</p>
+      </aside>
+    </div>
+  </section>
+</main>
+<div class="disclaimer">
+  <div class="wrap">
+    <strong>Important.</strong> These questionnaires are provided for education and self-tracking. A score is not a diagnosis and does not replace advice from a doctor or physiotherapist. Seek urgent care for a knee that is hot, red and swollen, follows a significant injury, or will not bear weight.
+  </div>
+</div>
+<footer>
+  <div class="wrap foot">
+    <p>&copy; 2026 mykneescore.com</p>
+    <p><a href="../index.html#quiz">Take the test</a> &middot; <a href="../anatomy.html">Knee anatomy</a> &middot; <a href="index.html">Advanced scores</a> &middot; <a href="#top">Back to top</a></p>
+    <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
+    <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
+  </div>
+</footer>
+<div class="quiz-app" id="quizApp" role="dialog" aria-modal="true" aria-label="Pedi-SKV questionnaire" hidden>
+  <div class="quiz-topbar">
+    <div class="wrap quiz-topbar-inner">
+      <button type="button" class="quiz-exit" id="quizExit" aria-label="Close the questionnaire">Exit</button>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-meta" id="progressMeta" aria-live="polite"></p>
+    </div>
+  </div>
+  <div class="q-stage">
+    <div class="wrap narrow">
+      <div id="quizBody"></div>
+      <div class="q-nav" id="quizNav">
+        <button type="button" class="btn btn-ghost-green" id="backBtn">Back</button>
+        <button type="button" class="btn btn-green" id="nextBtn">Next</button>
+      </div>
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/scores-data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

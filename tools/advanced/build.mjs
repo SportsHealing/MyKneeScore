@@ -32,7 +32,11 @@ const SLUGS = { ks6: "ks5" };
 const REDIRECTS = { fk43: "fk21" };
 
 // Our own instruments, shown in their own group on the hub
-const OWN = new Set(["sk11", "pk7", "ks6", ...LOCAL_SCORES.map(s => s.id)]);
+const OWN = new Set(["sk11", "pk7", "ks6", ...LOCAL_SCORES.filter(s => !s.external).map(s => s.id)]);
+
+// Scores for children and teenagers: listed on paediatrics.html, not on the Advanced hub.
+// Their pages stay in advanced/ so existing links and embeds keep working.
+const PAEDIATRIC = new Set(["pedi-ikdc", "pedi-skv"]);
 
 const KEEP = [
   "id", "name", "fullName", "acronym", "category", "questions", "completionTime",
@@ -53,6 +57,7 @@ const scores = all
     o.slug = SLUGS[s.id] || s.id;
     o.mode = DEDICATED[s.id] || "quick";
     o.own = OWN.has(s.id);
+    o.paediatric = PAEDIATRIC.has(s.id);
     return o;
   });
 
@@ -129,6 +134,7 @@ function header(current) {
       <ul id="mainMenu">
         <li><a href="../index.html#how">How it works</a></li>
         <li><a href="../female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="../paediatrics.html">Paediatrics</a></li>
         <li><a href="../track-progress.html">Track progress</a></li>
         <li><a href="../anatomy.html">Knee anatomy</a></li>
         <li class="nav-adv"><a href="index.html"${current ? ' aria-current="page"' : ""}>Advanced<span class="nav-long"> scores</span></a></li>
@@ -193,7 +199,7 @@ function card(s) {
         </a>`;
 }
 
-const published = scores.filter(s => !s.own);
+const published = scores.filter(s => !s.own && !s.paediatric);
 const own = scores.filter(s => s.own);
 const cats = [...new Set(published.map(s => s.category))];
 
@@ -215,7 +221,7 @@ ${header(true)}
       <div class="section-head">
         <p class="eyebrow">Choose a score</p>
         <h2>Published knee scores</h2>
-        <p>Not sure where to start? The main <a href="../index.html#quiz">My Knee Score test</a> is the quickest check. Use these when a clinician asks for a specific score, or when you want more detail on one area.</p>
+        <p>Not sure where to start? The main <a href="../index.html#quiz">My Knee Score test</a> is the quickest check. Use these when a clinician asks for a specific score, or when you want more detail on one area. Scores for children and teenagers are on the <a href="../paediatrics.html">Paediatrics</a> page.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by category">
         <button type="button" class="chip is-on" data-filter="all" aria-pressed="true">All</button>
@@ -262,9 +268,11 @@ function sourceLink(s) {
 
 function scorePage(s) {
   const n = count(s);
+  // Paediatric scores point back to the Paediatrics page instead of the Advanced hub
+  const home = s.paediatric ? { href: "../paediatrics.html", label: "Paediatrics", all: "All paediatric scores" } : { href: "index.html", label: "Advanced scores", all: "All scores" };
   const start = s.mode === "quick"
-    ? `<div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the ${esc(s.acronym)}</button><a class="btn btn-ghost" href="index.html">All scores</a></div>`
-    : `<div class="hero-actions"><a class="btn btn-gold" href="#tool">Start the ${esc(s.acronym)}</a><a class="btn btn-ghost" href="index.html">All scores</a></div>`;
+    ? `<div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the ${esc(s.acronym)}</button><a class="btn btn-ghost" href="${home.href}">${home.all}</a></div>`
+    : `<div class="hero-actions"><a class="btn btn-gold" href="#tool">Start the ${esc(s.acronym)}</a><a class="btn btn-ghost" href="${home.href}">${home.all}</a></div>`;
   const warn = unvalidated(s)
     ? `<p class="warn-note">This score is ${esc(s.validationLevel.toLowerCase())}. Treat the result as a guide only.</p>` : "";
 
@@ -286,7 +294,7 @@ ${header(false)}
 <main id="top">
   <section class="hero hero-slim">
     <div class="wrap">
-      <p class="eyebrow"><a href="index.html">Advanced scores</a> &middot; ${esc(s.category)}</p>
+      <p class="eyebrow"><a href="${home.href}">${home.label}</a> &middot; ${esc(s.category)}</p>
       <h1>${esc(s.fullName)} <em>(${esc(s.acronym)})</em></h1>
       <p class="lede">${esc(s.description)}</p>
       <ul class="facts">
