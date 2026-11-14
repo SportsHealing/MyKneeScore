@@ -56,6 +56,11 @@
     --green-ink-rgb:    22, 56, 45;
     --bone-rgb:         233, 226, 206;
     --bone-active-rgb:  207, 219, 208;
+    --white-rgb:        255, 255, 255;
+    --pencil:           #2e2e2c;
+    --pencil-rgb:       46, 46, 44;
+    --meniscus:         #d8e8f1;
+    --meniscus-line:    #7f9fb2;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -286,9 +291,9 @@
   }
   .key-row:hover, .key-row.is-active { background: var(--ivory); border-color: var(--green-soft); }
   .swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid var(--green-ink); }
-  .sw-bone { background: var(--bone); }
+  .sw-bone { background: var(--white); }
   .sw-lig { background: var(--gold); }
-  .sw-cart { background: var(--sage); }
+  .sw-cart { background: var(--meniscus); }
   .key-row b { font-weight: 600; }
   .key-row small { color: var(--text-soft-deep); font-size: 0.85rem; }
 
@@ -358,29 +363,31 @@
   /* Diagram parts */
   .anat [data-part] { cursor: pointer; }
   .anat [data-part]:focus { outline: none; }
-  .anat .bone { fill: url(#boneShade); stroke: var(--green-ink); stroke-width: 1.4; stroke-linejoin: round; transition: fill 0.2s; }
-  .anat .gs-dark { stop-color: var(--bone-detail); }
-  .anat .gs-mid { stop-color: var(--bone); }
-  .anat .gs-light { stop-color: var(--ivory); }
-  .anat .shade { fill: none; stroke: rgba(var(--green-ink-rgb), 0.28); stroke-width: 1.1; stroke-linecap: round; pointer-events: none; }
-  .anat .fibre { fill: none; stroke: rgba(var(--green-ink-rgb), 0.35); stroke-width: 0.9; stroke-linecap: round; pointer-events: none; }
-  .anat .lig { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke 0.2s, stroke-width 0.2s; }
-  .anat .lig-band { stroke-width: 9; }
-  .anat .lig-flat { stroke-width: 12; stroke-linecap: butt; }
-  .anat .lig-cord { stroke-width: 10; }
+  /* Style of the ACL knee passport: white bones, pencil outlines, hatched shading */
+  .anat .bone, .anat .patella { fill: var(--white); stroke: var(--pencil); stroke-width: 1.6; stroke-linejoin: round; filter: url(#pencil); transition: fill 0.2s; }
+  .anat .sketch { fill: none; stroke: rgba(var(--pencil-rgb), 0.35); stroke-width: 0.8; transform: translate(1.2px, 0.9px); filter: url(#pencil); pointer-events: none; }
+  .anat .hatching { pointer-events: none; opacity: 0.85; }
+  .anat .hatch-line { stroke: rgba(var(--pencil-rgb), 0.75); stroke-width: 0.75; }
+  .anat .edge { fill: none; stroke: url(#hatch); stroke-width: 9; filter: url(#pencil); }
+  .anat .edge-wide { stroke-width: 24; opacity: 0.45; }
+  .anat .hatch-fill { fill: url(#hatch); opacity: 0.6; filter: url(#pencil); }
+  .anat .pencil-line { fill: none; stroke: rgba(var(--pencil-rgb), 0.4); stroke-width: 1; stroke-linecap: round; filter: url(#pencil); pointer-events: none; }
+  .anat .fibre { fill: none; stroke: rgba(var(--pencil-rgb), 0.45); stroke-width: 0.8; stroke-linecap: round; pointer-events: none; }
+  .anat .lig { stroke: rgba(var(--pencil-rgb), 0.75); stroke-width: 1; stroke-linejoin: round; transition: fill 0.2s; }
+  .anat .lig-pcl { fill: var(--gold); }
+  .anat .lig-side { fill: rgba(var(--gold-rgb), 0.8); }
+  .anat .lig-acl { fill: var(--rust); }
+  .anat .lig-acl + .fibre, .anat .lig-acl ~ .fibre { stroke: rgba(var(--white-rgb), 0.5); }
+  .anat .cart { fill: var(--meniscus); stroke: var(--meniscus-line); stroke-width: 1.1; transition: fill 0.2s; }
+  .anat .cart-line { fill: none; stroke: rgba(var(--white-rgb), 0.9); stroke-width: 1.4; stroke-linecap: round; pointer-events: none; }
   .anat .patella-veil, .anat .patella-veil * { pointer-events: none; }
-  .anat .patella-veil path:first-child { fill: rgba(var(--bone-rgb), 0.42); stroke: var(--green-ink); stroke-width: 1.4; transition: fill 0.2s; }
-  .anat .patella-veil.is-active path:first-child { fill: rgba(var(--bone-active-rgb), 0.6); }
-  .anat .plateau { fill: none; stroke: var(--bone-active); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
-  .anat .glint { fill: none; stroke: var(--ivory); stroke-width: 3; stroke-linecap: round; opacity: 0.85; pointer-events: none; }
-  .anat .cart { fill: var(--sage); stroke: var(--green-ink); stroke-width: 1.1; transition: fill 0.2s; }
-  .anat .patella { fill: rgba(var(--bone-rgb), 0.72); stroke: var(--green-ink); stroke-width: 1.6; transition: fill 0.2s; }
+  .anat .veil { fill: rgba(var(--white-rgb), 0.45); stroke: var(--pencil); stroke-width: 1.6; filter: url(#pencil); transition: fill 0.2s; }
+  .anat .patella-veil.is-active .veil { fill: rgba(var(--bone-active-rgb), 0.6); }
   .anat .lead { stroke: rgba(var(--green-ink-rgb), 0.32); stroke-width: 1; }
-  .anat .bone-detail { fill: var(--bone-detail); stroke: var(--green-ink); stroke-width: 1; }
   .anat .lbl { font-family: var(--body); font-size: 13px; font-weight: 600; fill: var(--text-muted-deep); transition: fill 0.2s; }
   .anat [data-part]:hover .bone, .anat [data-part].is-active .bone { fill: var(--bone-active); }
-  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: rgba(var(--bone-active-rgb), 0.85); }
-  .anat [data-part]:hover .lig, .anat [data-part].is-active .lig { stroke: var(--green-soft); stroke-width: 11; }
+  .anat [data-part]:hover .patella, .anat [data-part].is-active .patella { fill: var(--bone-active); }
+  .anat [data-part]:hover .lig, .anat [data-part].is-active .lig { fill: var(--green-soft); }
   .anat [data-part]:hover .cart, .anat [data-part].is-active .cart { fill: var(--green-soft); }
   .anat [data-part]:hover .lbl, .anat [data-part].is-active .lbl { fill: var(--green-ink); font-weight: 700; }
 
@@ -487,106 +494,125 @@
       <figure class="map-figure">
         <svg class="anat" viewBox="0 0 460 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Front view of the knee showing femur, patella, tibia, fibula, four ligaments and the menisci">
           <defs>
-            <!-- Soft side to side shading on the bones; colours come from the stylesheet -->
-            <linearGradient id="boneShade" x1="0" y1="0" x2="1" y2="0">
-              <stop class="gs-dark" offset="0"/>
-              <stop class="gs-mid" offset="0.3"/>
-              <stop class="gs-light" offset="0.55"/>
-              <stop class="gs-mid" offset="0.8"/>
-              <stop class="gs-dark" offset="1"/>
-            </linearGradient>
+            <!-- Drawn in the style of the ACL knee passport: white bones, pencil outlines and hatching.
+                 Colours come from the stylesheet. -->
+            <filter id="pencil" x="-3%" y="-3%" width="106%" height="106%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            
+            <pattern id="hatch" patternUnits="userSpaceOnUse" width="3.4" height="3.4" patternTransform="rotate(38)">
+              <line class="hatch-line" x1="0" y1="0" x2="0" y2="3.4"/>
+            </pattern>
+            <path id="s-femur" d="M200,8 L276,8 C276,60 278,96 290,122 C302,146 320,160 321,190 C322,216 314,238 297,248 C283,256 267,253 259,242 C254,234 252,220 246,213 C242,208 234,208 230,213 C224,220 222,234 217,242 C209,254 192,258 178,252 C160,244 152,222 154,196 C156,166 176,148 186,124 C198,98 200,60 200,8 Z"/>
+            <path id="s-tibia" d="M152,276 C150,268 160,264 176,264 L223,264 L229,254 L235,263 L242,263 L248,253 L254,264 L300,264 C316,264 326,268 326,276 C326,288 318,296 306,304 C290,316 282,336 278,364 L274,470 L204,470 L200,364 C196,336 186,316 172,304 C160,296 152,288 152,276 Z"/>
+            <path id="s-fibula" d="M302,306 C303,296 315,290 325,297 C333,304 334,320 326,330 C322,336 320,344 320,354 L318,470 L304,470 L306,354 C306,344 300,334 298,322 C296,314 298,309 302,306 Z"/>
+            <path id="s-patella" d="M238,128 C262,128 280,144 280,168 C280,194 262,214 242,228 C239,230 237,230 234,228 C214,214 196,194 196,168 C196,144 214,128 238,128 Z"/>
+            <clipPath id="c-femur"><use href="#s-femur"/></clipPath>
+            <clipPath id="c-tibia"><use href="#s-tibia"/></clipPath>
+            <clipPath id="c-fibula"><use href="#s-fibula"/></clipPath>
           </defs>
 
-          <g data-part="femur" tabindex="0" role="button" aria-label="Femur">
-            <path class="bone" d="M216,10 L256,10 C257,50 258,90 262,112 C268,140 288,160 298,176 C308,192 310,212 302,226 C294,238 280,242 268,239 C257,236 253,224 252,206 C251,194 245,186 237,186 C229,186 223,194 222,206 C221,224 216,236 205,240 C191,244 175,238 168,224 C162,210 166,192 176,176 C186,160 206,140 212,112 C215,90 215,50 216,10 Z"/>
-            <path class="shade" d="M221,22 C220,60 220,92 218,118"/>
-            <path class="shade" d="M225,30 C224,62 224,88 223,108"/>
-            <path class="shade" d="M251,22 C252,60 252,92 254,118"/>
-            <path class="shade" d="M247,30 C248,62 248,88 249,108"/>
-            <path class="shade" d="M182,170 C190,178 193,188 192,198"/>
-            <path class="shade" d="M292,170 C284,178 281,188 282,198"/>
-            <path class="shade" d="M172,206 C170,218 176,230 188,236"/>
-            <path class="shade" d="M178,204 C177,214 181,224 190,229"/>
-            <path class="shade" d="M302,208 C303,220 297,232 285,237"/>
-            <path class="shade" d="M296,206 C297,216 293,225 284,230"/>
-            <path class="shade" d="M226,204 C230,195 244,195 248,204"/>
-            <path class="glint" d="M175,228 C184,239 199,241 212,234"/>
-            <path class="glint" d="M262,234 C276,241 291,239 299,228"/>
-            <line class="lead" x1="336" y1="98" x2="262" y2="110"/>
-            <text class="lbl" x="342" y="102" text-anchor="start">Femur</text>
-          </g>
-
           <g data-part="fibula" tabindex="0" role="button" aria-label="Fibula">
-            <path class="bone" d="M292,292 C294,282 310,280 317,288 C322,297 317,308 308,314 L300,440 L288,440 L294,318 C287,310 287,300 292,292 Z"/>
-            <path class="shade" d="M310,296 C313,300 312,306 308,309"/>
-            <path class="shade" d="M304,320 C302,360 301,400 298,434"/>
-            <line class="lead" x1="336" y1="372" x2="300" y2="366"/>
-            <text class="lbl" x="342" y="376" text-anchor="start">Fibula</text>
+            <use class="bone" href="#s-fibula"/>
+            <g class="hatching" clip-path="url(#c-fibula)">
+              <use class="edge edge-wide" href="#s-fibula"/>
+              <use class="edge" href="#s-fibula"/>
+              <path class="hatch-fill" d="M312,300 L340,300 L326,470 L312,470 Z"/>
+            </g>
+            <use class="sketch" href="#s-fibula"/>
+            <line class="lead" x1="336" y1="400" x2="312" y2="400"/>
+            <text class="lbl" x="342" y="404" text-anchor="start">Fibula</text>
           </g>
 
           <g data-part="tibia" tabindex="0" role="button" aria-label="Tibia">
-            <path class="bone" d="M174,256 C172,249 180,245 194,245 L222,245 L229,236 L236,242 L243,235 L251,245 L284,245 C298,245 306,250 306,258 C306,270 299,280 292,287 C278,303 268,322 264,352 L259,440 L211,440 L207,352 C203,322 192,303 180,288 C173,280 171,266 174,256 Z"/>
-            <path class="plateau" d="M176,250 C190,247 214,247 222,248 L236,246 L252,248 C262,247 288,247 304,251"/>
-            <path class="shade" d="M180,258 C210,254 264,254 300,258"/>
-            <path class="shade" d="M182,264 C186,282 195,298 206,314"/>
-            <path class="shade" d="M188,262 C192,278 199,292 208,304"/>
-            <path class="shade" d="M298,264 C293,284 282,300 271,318"/>
-            <path class="shade" d="M292,262 C288,278 280,292 270,304"/>
-            <path class="shade" d="M226,296 C230,309 242,309 246,296"/>
-            <path class="shade" d="M216,330 C214,370 214,404 215,434"/>
-            <path class="shade" d="M254,330 C256,370 256,404 255,434"/>
-            <line class="lead" x1="150" y1="366" x2="208" y2="360"/>
-            <text class="lbl" x="144" y="370" text-anchor="end">Tibia</text>
+            <use class="bone" href="#s-tibia"/>
+            <g class="hatching" clip-path="url(#c-tibia)">
+              <use class="edge edge-wide" href="#s-tibia"/>
+              <use class="edge" href="#s-tibia"/>
+              <path class="hatch-fill" d="M296,262 L330,262 L330,290 C306,310 290,334 284,370 L280,470 L262,470 L266,370 C270,334 284,306 300,290 Z"/>
+              <path class="hatch-fill" d="M150,276 L166,276 C176,296 196,314 204,344 L208,470 L198,470 L196,350 C186,318 162,298 150,286 Z"/>
+            </g>
+            <path class="pencil-line" d="M156,280 C186,290 292,290 322,280"/>
+            <path class="pencil-line" d="M222,330 C226,346 250,346 256,330"/>
+            <path class="pencil-line" d="M214,384 C212,416 212,444 213,466"/>
+            <path class="pencil-line" d="M264,384 C266,416 266,444 265,466"/>
+            <use class="sketch" href="#s-tibia"/>
+            <line class="lead" x1="150" y1="384" x2="204" y2="384"/>
+            <text class="lbl" x="144" y="388" text-anchor="end">Tibia</text>
+          </g>
+
+          <g data-part="femur" tabindex="0" role="button" aria-label="Femur">
+            <use class="bone" href="#s-femur"/>
+            <g class="hatching" clip-path="url(#c-femur)">
+              <use class="edge edge-wide" href="#s-femur"/>
+              <use class="edge" href="#s-femur"/>
+              <path class="hatch-fill" d="M262,8 L282,8 L282,112 C296,140 326,156 328,196 L326,246 L300,250 C314,232 316,196 304,174 C290,150 268,128 262,104 Z"/>
+              <path class="hatch-fill" d="M150,196 L166,196 C164,222 172,240 192,250 L176,258 C158,250 148,226 150,196 Z"/>
+              <path class="hatch-fill" d="M218,236 C224,222 228,212 238,210 C248,212 252,222 258,236 L258,250 L218,250 Z"/>
+            </g>
+            <path class="pencil-line" d="M206,30 C206,62 205,92 200,116"/>
+            <path class="pencil-line" d="M270,30 C270,62 271,92 276,116"/>
+            <path class="pencil-line" d="M170,236 C182,246 200,246 212,236"/>
+            <path class="pencil-line" d="M264,236 C276,246 294,246 306,236"/>
+            <use class="sketch" href="#s-femur"/>
+            <line class="lead" x1="336" y1="98" x2="268" y2="104"/>
+            <text class="lbl" x="342" y="102" text-anchor="start">Femur</text>
           </g>
 
           <g data-part="meniscus" tabindex="0" role="button" aria-label="Menisci">
-            <path class="cart" d="M171,252 C176,240 204,235 223,241 L221,249 C207,246 188,248 173,256 Z"/>
-            <path class="cart" d="M251,241 C270,235 298,240 307,252 L305,256 C291,248 266,246 253,249 Z"/>
-            <path class="glint" d="M180,244 C192,240 206,239 216,241"/>
-            <path class="glint" d="M258,241 C270,239 284,240 296,245"/>
-            <line class="lead" x1="150" y1="248" x2="178" y2="248"/>
-            <text class="lbl" x="144" y="252" text-anchor="end">Meniscus</text>
+            <path class="cart" d="M152,264 C152,256 166,252 186,252 C204,252 217,254 223,258 L222,265 C206,263 186,263 170,267 C159,270 152,269 152,264 Z"/>
+            <path class="cart" d="M326,264 C326,256 312,252 292,252 C274,252 261,254 255,258 L256,265 C272,263 292,263 308,267 C319,270 326,269 326,264 Z"/>
+            <path class="cart-line" d="M158,258 C176,254 204,254 220,258"/>
+            <path class="cart-line" d="M320,258 C302,254 274,254 258,258"/>
+            <line class="lead" x1="150" y1="262" x2="160" y2="262"/>
+            <text class="lbl" x="144" y="266" text-anchor="end">Meniscus</text>
           </g>
 
-          <!-- The patella sits over the cruciates. The clickable kneecap is drawn under
-               the ligaments; a see-through copy on top lets them show through, and
-               clicks pass through it to whichever part is underneath. -->
+          <!-- The patella sits over the cruciates, as in the passport drawing. The clickable kneecap is
+               drawn under the ligaments; a see-through copy on top lets them show through, and clicks
+               pass through it to whichever part is underneath. -->
           <g data-part="patella" tabindex="0" role="button" aria-label="Patella">
-            <path class="patella" d="M212,162 C214,145 260,143 264,162 C266,186 254,210 238,224 C222,210 210,186 212,162 Z"/>
-            <line class="lead" x1="150" y1="182" x2="214" y2="176"/>
-            <text class="lbl" x="144" y="186" text-anchor="end">Patella</text>
+            <use class="patella" href="#s-patella"/>
+            <line class="lead" x1="150" y1="176" x2="200" y2="176"/>
+            <text class="lbl" x="144" y="180" text-anchor="end">Patella</text>
           </g>
 
+          <!-- PCL behind: from the inner wall of the medial condyle down and out to the back of the tibia.
+               ACL in front: from the inner wall of the lateral condyle down, forwards and inwards to the
+               front of the tibia, between the tibial spines. -->
           <g data-part="cruciate" tabindex="0" role="button" aria-label="Cruciate ligaments">
-            <path class="lig lig-band" d="M226,198 C232,214 240,230 246,244"/>
-            <path class="lig lig-band" d="M248,198 C242,214 236,230 230,244"/>
-            <path class="fibre" d="M223,201 C229,217 237,232 243,246"/>
-            <path class="fibre" d="M229,197 C235,213 243,229 249,242"/>
-            <path class="fibre" d="M251,201 C245,217 239,232 233,246"/>
-            <path class="fibre" d="M245,197 C239,213 233,229 227,242"/>
-            <line class="lead" x1="336" y1="212" x2="244" y2="216"/>
-            <text class="lbl" x="342" y="216" text-anchor="start">ACL and PCL</text>
+            <path class="lig lig-pcl" d="M219,215 C223,210 232,210 234,215 C238,231 246,247 255,262 C251,267 242,267 240,264 C234,249 226,233 219,215 Z"/>
+            <path class="fibre" d="M223,216 C228,232 236,248 244,263"/>
+            <path class="fibre" d="M227,214 C232,230 240,246 248,262"/>
+            <path class="fibre" d="M231,214 C236,230 244,246 252,261"/>
+            <path class="lig lig-acl" d="M250,213 C254,209 261,212 260,218 C253,235 243,251 235,269 C231,273 222,272 221,267 C228,251 240,233 250,213 Z"/>
+            <path class="fibre" d="M252,214 C245,232 235,250 226,268"/>
+            <path class="fibre" d="M255,215 C248,233 238,251 230,269"/>
+            <path class="fibre" d="M258,217 C251,235 241,253 234,270"/>
+            <line class="lead" x1="336" y1="214" x2="248" y2="232"/>
+            <text class="lbl" x="342" y="218" text-anchor="start">ACL and PCL</text>
           </g>
 
           <g data-part="patella" class="patella-veil" aria-hidden="true">
-            <path d="M212,162 C214,145 260,143 264,162 C266,186 254,210 238,224 C222,210 210,186 212,162 Z"/>
-            <path class="shade" d="M219,164 C223,180 230,196 238,208"/>
-            <path class="shade" d="M226,160 C229,174 234,186 239,194"/>
+            <use class="veil" href="#s-patella"/>
+            <path class="pencil-line" d="M208,170 C214,192 226,210 238,222"/>
+            <use class="sketch" href="#s-patella"/>
           </g>
 
           <g data-part="mcl" tabindex="0" role="button" aria-label="Medial collateral ligament">
-            <path class="lig lig-flat" d="M178,174 C167,206 167,246 180,306"/>
-            <path class="fibre" d="M175,180 C165,210 165,248 177,302"/>
-            <path class="fibre" d="M182,180 C172,210 172,248 184,302"/>
-            <line class="lead" x1="150" y1="306" x2="180" y2="304"/>
-            <text class="lbl" x="144" y="310" text-anchor="end">MCL</text>
+            <path class="lig lig-side" d="M152,182 C155,176 163,176 165,182 C165,228 171,278 188,336 C185,342 177,342 175,337 C159,280 151,228 152,182 Z"/>
+            <path class="fibre" d="M156,186 C156,232 163,282 180,336"/>
+            <path class="fibre" d="M161,184 C161,230 168,280 184,336"/>
+            <line class="lead" x1="150" y1="310" x2="179" y2="310"/>
+            <text class="lbl" x="144" y="314" text-anchor="end">MCL</text>
           </g>
 
           <g data-part="lcl" tabindex="0" role="button" aria-label="Lateral collateral ligament">
-            <path class="lig lig-cord" d="M302,182 C312,212 315,254 310,290"/>
-            <path class="fibre" d="M302,188 C310,216 313,254 308,286"/>
-            <line class="lead" x1="336" y1="290" x2="311" y2="288"/>
-            <text class="lbl" x="342" y="294" text-anchor="start">LCL</text>
+            <path class="lig lig-side" d="M318,186 C320,181 327,181 328,186 C333,222 334,260 329,300 C327,305 321,305 320,300 C325,260 324,222 318,186 Z"/>
+            <path class="fibre" d="M323,188 C328,224 329,262 325,300"/>
+            <line class="lead" x1="336" y1="250" x2="326" y2="250"/>
+            <text class="lbl" x="342" y="254" text-anchor="start">LCL</text>
           </g>
 
         </svg>
@@ -596,7 +622,7 @@
       <div class="key">
         <p class="eyebrow">The key</p>
         <h2>Start with the map</h2>
-        <p>Select a structure to jump to it. Bones are cream, ligaments gold, cartilage green.</p>
+        <p>Select a structure to jump to it. Bones are white, ligaments gold and brown, cartilage blue.</p>
 
         <button class="key-row" type="button" data-part="femur"><span class="swatch sw-bone"></span><span><b>Femur</b> <small>thigh bone, top of the joint</small></span></button>
         <button class="key-row" type="button" data-part="tibia"><span class="swatch sw-bone"></span><span><b>Tibia</b> <small>shin bone, carries the load</small></span></button>
