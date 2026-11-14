@@ -379,7 +379,7 @@
   .anat .lig-acl { fill: var(--rust); }
   .anat .lig-acl + .fibre, .anat .lig-acl ~ .fibre { stroke: rgba(var(--white-rgb), 0.5); }
   .anat .cart { fill: var(--meniscus); stroke: var(--meniscus-line); stroke-width: 1.1; transition: fill 0.2s; }
-  .anat .cart-line { fill: none; stroke: rgba(var(--white-rgb), 0.9); stroke-width: 1.4; stroke-linecap: round; pointer-events: none; }
+  .anat .cart-face { fill: var(--meniscus-line); }
   .anat .patella-veil, .anat .patella-veil * { pointer-events: none; }
   .anat .veil { fill: rgba(var(--white-rgb), 0.45); stroke: var(--pencil); stroke-width: 1.6; filter: url(#pencil); transition: fill 0.2s; }
   .anat .patella-veil.is-active .veil { fill: rgba(var(--bone-active-rgb), 0.6); }
@@ -541,8 +541,8 @@
             <path class="pencil-line" d="M214,384 C212,416 212,444 213,466"/>
             <path class="pencil-line" d="M264,384 C266,416 266,444 265,466"/>
             <use class="sketch" href="#s-tibia"/>
-            <line class="lead" x1="140" y1="384" x2="204" y2="384"/>
-            <text class="lbl" x="134" y="388" text-anchor="end">Tibia</text>
+            <line class="lead" x1="140" y1="430" x2="208" y2="430"/>
+            <text class="lbl" x="134" y="434" text-anchor="end">Tibia</text>
           </g>
 
           <g data-part="femur" tabindex="0" role="button" aria-label="Femur">
@@ -564,10 +564,10 @@
           </g>
 
           <g data-part="meniscus" tabindex="0" role="button" aria-label="Menisci">
-            <path class="cart" d="M152,264 C152,256 166,252 186,252 C204,252 217,254 223,258 L222,265 C206,263 186,263 170,267 C159,270 152,269 152,264 Z"/>
-            <path class="cart" d="M326,264 C326,256 312,252 292,252 C274,252 261,254 255,258 L256,265 C272,263 292,263 308,267 C319,270 326,269 326,264 Z"/>
-            <path class="cart-line" d="M158,258 C176,254 204,254 220,258"/>
-            <path class="cart-line" d="M320,258 C302,254 274,254 258,258"/>
+            <path class="cart cart-face" d="M152,260 A36,8 0 0 0 224,260 L223,266 C208,270 168,270 153,266 Z"/>
+            <path class="cart" fill-rule="evenodd" d="M152,260 A36,8 0 1 0 224,260 A36,8 0 1 0 152,260 Z M180,259 A14,2.2 0 1 0 208,259 A14,2.2 0 1 0 180,259 Z"/>
+            <path class="cart cart-face" d="M254,260 A36,8 0 0 0 326,260 L325,266 C310,270 270,270 255,266 Z"/>
+            <path class="cart" fill-rule="evenodd" d="M254,260 A36,8 0 1 0 326,260 A36,8 0 1 0 254,260 Z M272,259 A13,2.2 0 1 0 298,259 A13,2.2 0 1 0 272,259 Z"/>
             <text class="lbl" x="134" y="266" text-anchor="end">Meniscus</text>
           </g>
 
@@ -603,12 +603,12 @@
           </g>
 
           <!-- Collateral ligaments run along the outside edge of the joint, not over the bone.
-               MCL: from the medial epicondyle of the femur, past the joint line, to the inner side of the tibia
-               below it. LCL: a cord from the lateral epicondyle of the femur to the head of the fibula. -->
+               MCL: a long, broad band from just above the medial epicondyle of the femur, past the joint line,
+               to the inner side of the tibia well below it. LCL: a cord from the lateral epicondyle of the femur to the head of the fibula. -->
           <g data-part="mcl" tabindex="0" role="button" aria-label="Medial collateral ligament">
-            <path class="lig lig-side" d="M150,180 C154,178 157,182 156,188 C153,206 152,236 151,262 C150,280 156,294 168,306 C178,316 186,326 192,336 C190,342 184,344 180,340 C172,330 160,320 150,310 C141,298 139,280 140,262 C141,236 143,206 145,188 C145,182 147,179 150,180 Z"/>
-            <path class="fibre" d="M148,186 C146,212 145,240 145,264 C145,284 152,300 166,314 C174,322 181,330 186,338"/>
-            <line class="lead" x1="140" y1="292" x2="147" y2="292"/>
+            <path class="lig lig-side" d="M162,144 C166,140 172,142 171,148 C162,166 154,182 152,204 C151,224 150,248 150,262 C150,282 154,292 164,300 C180,312 192,328 198,352 C200,364 201,374 200,382 C198,388 191,388 190,383 C189,372 187,362 184,350 C179,334 168,322 154,310 C144,300 140,286 140,262 C140,246 141,224 142,204 C144,180 152,160 162,144 Z"/>
+            <path class="fibre" d="M164,148 C154,170 147,190 146,212 C145,236 145,252 145,264 C145,286 150,298 160,306 C175,318 187,334 192,356 C194,366 195,374 195,382"/>
+            <line class="lead" x1="140" y1="292" x2="146" y2="292"/>
             <text class="lbl" x="134" y="296" text-anchor="end">MCL</text>
           </g>
 
