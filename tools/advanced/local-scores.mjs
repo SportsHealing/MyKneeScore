@@ -136,7 +136,8 @@ export const ABOUT_YOU = [
 // Options are shown in the form's order. Study-only fields (study ID,
 // questionnaire type, dates distributed and completed) are left out.
 //
-// Scoring follows the 18 scored items listed in the paper's Appendix 2:
+// Scoring follows the 18 domains named in the paper's Methods (Content Validity)
+// and listed with their ranges in Appendix 2:
 // activity with pain 0-4, pain in the past 4 weeks 0-10, severity of pain 0-10,
 // swelling 0-4, activity with swelling 0-4, catching 0-2 (locking and catching,
 // 0-1 each), activity with giving way 0-4, highest activity 0-4, the nine
@@ -298,7 +299,7 @@ export const LOCAL_SCORES = [
     scoringDirection: "higher_better",
     scoringInterpretation: "0-100 scale, higher = better function. Similar interpretation to adult IKDC. Questions 4, 12 and 14 are recorded with your result but not scored, as in the published scoring.",
     licenseType: "Free",
-    citation: "Kocher MS, et al. Reliability, validity, and responsiveness of the pediatric IKDC subjective knee evaluation form. Am J Sports Med. 2011;39(5):933-939.",
+    citation: "Kocher MS, Smith JT, Iversen MD, Brustowicz K, Ogunwole O, Andersen J, Yoo WJ, McFeely ED, Anderson AF, Zurakowski D. Reliability, validity, and responsiveness of a modified International Knee Documentation Committee Subjective Knee Form (Pedi-IKDC) in children with knee disorders. Am J Sports Med. 2011;39(5):933-939.",
     pubmedId: "21068443",
     doi: "10.1177/0363546510383002",
     questionSet: PEDI_IKDC_QUESTIONS,
