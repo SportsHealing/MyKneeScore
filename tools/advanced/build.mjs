@@ -43,12 +43,16 @@ const KEEP = [
   "subscales", "description", "whatItMeasures", "whoItsFor", "typicalUse",
   "strengths", "limitations", "validationLevel", "mcid", "scoringRange",
   "scoringDirection", "scoringInterpretation", "licenseType", "licenseDetails",
-  "citation", "pubmedId", "doi", "questionSet", "parts",
+  "citation", "pubmedId", "doi", "questionSet", "parts", "numOf", "recordTitle",
 ];
 
 // Research export, plus our own scores defined in local-scores.mjs
 const exported = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-const all = [...exported, ...LOCAL_SCORES.filter(l => !exported.some(s => s.id === l.id))];
+// A local score with the same id as an exported one replaces it (Pedi-IKDC: wording from the original form)
+const all = [
+  ...exported.map(s => LOCAL_SCORES.find(l => l.id === s.id) || s),
+  ...LOCAL_SCORES.filter(l => !exported.some(s => s.id === l.id)),
+];
 const scores = all
   .filter(s => !EXCLUDED[s.id])
   .map(s => {
@@ -187,7 +191,8 @@ function rangeText(s) {
 
 // ---------- hub ----------
 // "Before you start" and "About you" questions are not counted
-const count = s => s.mode === "quick" ? s.questionSet.filter(q => !q.intro && !q.outro).length : s.questions;
+// A score whose form numbers its own questions (Pedi-IKDC: 11a to 11i) gives numOf
+const count = s => s.numOf || (s.mode === "quick" ? s.questionSet.filter(q => !q.intro && !q.outro).length : s.questions);
 
 function card(s) {
   const n = count(s);

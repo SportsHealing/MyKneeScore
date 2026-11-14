@@ -2,6 +2,13 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
+## 2026-11-14: Pedi-IKDC from the original form (Dr Gupte signed off, owner approved, live)
+- Source: Kocher et al. 2011 online Appendix 1 (the form) and Appendix 2 (the 18 scored items), supplied by the owner. The research export's version did not match.
+- `pedi-ikdc` now lives in `local-scores.mjs` (`external: true`). `build.mjs`: a local score with the same id as an exported one replaces it. Nothing else in the build output changes.
+- New optional fields, used by Pedi-IKDC only: `num` (the form's number, e.g. 11a), `stem` (shared lead-in shown above 11a to 11i), score-level `numOf` (questions counted as the form numbers them) and `recordTitle` (shows unscored answers on the result, PDF and email for a score without parts).
+- Scoring through quickScore unchanged: 0 to 10 pain scales reversed so higher is better; locking and catching 0 or 1 each (catching 0 to 2 in Appendix 2); total out of 88. Unscored answers (Q4, Q12, Q14, injury date) use text values, so the engine skips them. e2e has a fixed run scored by hand (86).
+- Pedi-SKV slider ends now just 0% and 100%; question text unchanged.
+
 ## 2026-11-13: Paediatric scores (live; Pedi-SKV wording confirmed by owner from the paper)
 - `PAEDIATRIC` set in `build.mjs` (pedi-ikdc, pedi-skv): left off the hub, breadcrumb and "All paediatric scores" link point to ../paediatrics.html. Pages stay in advanced/.
 - Pedi-SKV in `local-scores.mjs` with `external: true` (not one of our own scores, so no About you questions). `type: "percent"`: slider and number box, whole numbers 0 to 100; options 0 and 100 give the engine its maximum, so quickScore is unchanged and the score equals the answer.

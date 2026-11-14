@@ -129,6 +129,107 @@ export const ABOUT_YOU = [
     options: ["Male", "Female", "Prefer not to say"].map(label => ({ value: label, label })) },
 ];
 
+// ---------- Pedi-IKDC ----------
+// Published score (not ours). Wording copied exactly from the original form:
+// Kocher MS et al. Am J Sports Med 2011;39(5):933-939, online Appendix 1
+// (ds_10.1177_0363546510383002_app1.pdf, supplied by the owner 2026-11-14).
+// Options are shown in the form's order. Study-only fields (study ID,
+// questionnaire type, dates distributed and completed) are left out.
+//
+// Scoring follows the 18 domains named in the paper's Methods (Content Validity)
+// and listed with their ranges in Appendix 2:
+// activity with pain 0-4, pain in the past 4 weeks 0-10, severity of pain 0-10,
+// swelling 0-4, activity with swelling 0-4, catching 0-2 (locking and catching,
+// 0-1 each), activity with giving way 0-4, highest activity 0-4, the nine
+// activities 0-4 each, overall knee function 0-10. Higher is better throughout.
+// Total = sum / 88 x 100, by the generic engine (quickScore) unchanged.
+// Question 4 (moving or bending), 12 (before the injury) and 14 (who completed
+// it) are not among those items, so they are recorded but not scored. Unscored
+// answers use text values, so the engine skips them.
+const PEDI_ACT = [
+  "Very hard activities like jumping or turning fast to change direction, like in basketball or soccer",
+  "Hard activities like heavy lifting, skiing or tennis",
+  "Sort of hard activities like walking fast or jogging",
+  "Light activities like walking at a normal speed",
+];
+const pediActivity = (id, num, section, text, last) => ({
+  id, num, section, text,
+  options: [...PEDI_ACT, last].map((label, i) => ({ value: String(4 - i), label })),
+});
+// 0 to 10 scale; worstHigh = the form's 10 is the worst answer
+const pediScale = (id, num, section, text, low, high, worstHigh) => ({
+  id, num, section, text,
+  options: Array.from({ length: 11 }, (_, n) => ({
+    value: String(worstHigh ? 10 - n : n),
+    label: n === 0 ? `0 (${low})` : n === 10 ? `10 (${high})` : String(n),
+  })),
+});
+const PEDI_ABILITY = ["No, not at all", "Yes, a little", "Yes, somewhat", "Yes, a lot", "I can’t do this"];
+const pediAbility = (id, letter, text) => ({
+  id, num: "11" + letter, section: "Sports activities",
+  stem: "Does your injured knee affect your ability to:", text,
+  options: PEDI_ABILITY.map((label, i) => ({ value: String(4 - i), label })),
+});
+const pediYesNo = (id, num, text) => ({
+  id, num, section: "Symptoms", text,
+  options: [{ value: "0", label: "Yes" }, { value: "1", label: "No" }],
+});
+
+const PEDI_IKDC_QUESTIONS = [
+  {
+    id: "injured", section: "Before you start", intro: true, scored: false, optional: true, type: "fields",
+    text: "We would like to learn more about your injured knee. Each of the questions asks you a different question about your injured knee. Please answer each question below.",
+    fields: [{ key: "date", label: "Date you injured your knee", input: "date" }],
+    hint: "Optional. Leave blank if you are not sure.",
+  },
+  pediActivity(1, "1", "Symptoms", "If you were asked to do the activities below, what is the most you could do today without making your injured knee hurt a lot?",
+    "I can’t do any of the activities listed above because my knee hurts too much now"),
+  pediScale(2, "2", "Symptoms", "During the past 4 weeks, or since your injury, how much of the time did your injured knee hurt?",
+    "Never hurt", "Hurt all of the time", true),
+  pediScale(3, "3", "Symptoms", "How badly does your injured knee hurt today?",
+    "Does not hurt at all", "Hurts so much I can’t stand it", true),
+  {
+    id: 4, num: "4", section: "Symptoms", scored: false,
+    text: "During the past 4 weeks, or since your injury, how hard has it been to move or bend your injured knee?",
+    options: ["Not at all hard", "A little hard", "Somewhat hard", "Very hard", "Extremely hard"].map(label => ({ value: label, label })),
+  },
+  {
+    id: 5, num: "5", section: "Symptoms",
+    text: "During the past 4 weeks, or since your injury, how puffy (or swollen) was your injured knee?",
+    options: ["Not at all puffy", "A little puffy", "Somewhat puffy", "Very puffy", "Extremely puffy"].map((label, i) => ({ value: String(4 - i), label })),
+  },
+  pediActivity(6, "6", "Symptoms", "If you were asked to do the activities below, what is the most you could do today without making your injured knee puffy (or swollen)?",
+    "I can’t do any of the activities listed above because my injured knee is puffy even when I rest"),
+  pediYesNo(7, "7", "During the past 4 weeks, or since your injury, did your injured knee ever get stuck in place (lock) so that you could not move it?"),
+  pediYesNo(8, "8", "During the past 4 weeks, or since your injury, did your injured knee ever feel like it was getting stuck (catching), but you could still move it?"),
+  pediActivity(9, "9", "Symptoms", "If you were asked to do the activities below, what is the most you could do today without your injured knee feeling like it can’t hold you up?",
+    "I can’t do any of the activities listed above because my injured knee feels like it can’t hold me up"),
+  pediActivity(10, "10", "Sports activities", "What is the most you can do on your injured knee most of the time?",
+    "I can’t do any of the activities listed above most of the time"),
+  pediAbility(11, "a", "Go up stairs?"),
+  pediAbility(12, "b", "Go down stairs?"),
+  pediAbility(13, "c", "Kneel on your injured knee?"),
+  pediAbility(14, "d", "Squat down like a baseball catcher?"),
+  pediAbility(15, "e", "Sit in a chair with your knees bent and feet flat on the floor?"),
+  pediAbility(16, "f", "Get up from a chair?"),
+  pediAbility(17, "g", "Run?"),
+  pediAbility(18, "h", "Jump and land on your injured knee?"),
+  pediAbility(19, "i", "Start and stop moving quickly?"),
+  {
+    ...pediScale(20, "12", "Sports activities", "How well did your knee work before you injured it?",
+      "I could not do anything at all", "I could do anything I wanted to", false),
+    scored: false,
+  },
+  pediScale(21, "13", "Sports activities", "How well does your knee work now?",
+    "I am not able to do anything at all", "I am able to do anything I want to do", false),
+  {
+    id: 22, num: "14", scored: false, text: "Who completed the questionnaire?",
+    options: ["Child alone", "Child with help from parent/adult"].map(label => ({ value: label, label })),
+  },
+];
+// Unscored 0 to 10 answers become text ("Rated 7 out of 10") so the engine skips them
+PEDI_IKDC_QUESTIONS.find(q => q.id === 20).options.forEach(o => { o.value = "Rated " + o.value + " out of 10"; });
+
 export const LOCAL_SCORES = [
   {
     id: "lk32",
@@ -173,6 +274,37 @@ export const LOCAL_SCORES = [
     ...SHARED,
   },
   {
+    // Published score (not ours), on the Paediatrics page. Replaces the research
+    // export's version, whose wording did not match the original form.
+    id: "pedi-ikdc",
+    external: true,
+    name: "Pedi-IKDC",
+    fullName: "Pediatric IKDC Subjective Knee Evaluation Form",
+    acronym: "Pedi-IKDC",
+    category: "Sports Knee",
+    questions: 14,
+    numOf: 14,
+    recordTitle: "Recorded, not scored",
+    completionTime: "5-8 min",
+    subscales: ["Symptoms", "Sports Activities"],
+    description: "Pediatric-specific version of IKDC validated for children and adolescents ages 10-18 with various knee conditions.",
+    whatItMeasures: "Knee symptoms, sports function, and daily activities adapted for pediatric language and activities.",
+    whoItsFor: "Children and adolescents (10-18 years) with knee injuries or conditions requiring outcome assessment.",
+    typicalUse: "Pediatric ACL injuries, adolescent sports injuries, youth athletics programs.",
+    strengths: ["Age-appropriate language and activities", "Validated for pediatric population", "Based on proven IKDC", "Free to use"],
+    limitations: ["Limited to pediatric population (10-18)", "May require parental assistance for younger children", "Cannot compare directly to adult IKDC"],
+    validationLevel: "Well Validated",
+    mcid: 10,
+    scoringRange: { min: 0, max: 100 },
+    scoringDirection: "higher_better",
+    scoringInterpretation: "0-100 scale, higher = better function. Similar interpretation to adult IKDC. Questions 4, 12 and 14 are recorded with your result but not scored, as in the published scoring.",
+    licenseType: "Free",
+    citation: "Kocher MS, Smith JT, Iversen MD, Brustowicz K, Ogunwole O, Andersen J, Yoo WJ, McFeely ED, Anderson AF, Zurakowski D. Reliability, validity, and responsiveness of a modified International Knee Documentation Committee Subjective Knee Form (Pedi-IKDC) in children with knee disorders. Am J Sports Med. 2011;39(5):933-939.",
+    pubmedId: "21068443",
+    doi: "10.1177/0363546510383002",
+    questionSet: PEDI_IKDC_QUESTIONS,
+  },
+  {
     // Published score (not ours): listed on the Paediatrics page, without our About you questions.
     // Question wording exactly as in Marot et al. 2021, confirmed by the owner from the paper (2026-11-13).
     id: "pedi-skv",
@@ -200,7 +332,7 @@ export const LOCAL_SCORES = [
     questionSet: [{
       id: 1, type: "percent",
       text: "How would you rate your knee today as a percentage of normal (0% to 100% scale with 100% being normal)?",
-      inputLabel: "Your knee today, as a percentage of normal", lowLabel: "0%", highLabel: "100% = normal",
+      inputLabel: "Your answer (0% to 100%)", lowLabel: "0%", highLabel: "100%",
       options: [{ value: "0", label: "0" }, { value: "100", label: "100" }],
     }],
   },

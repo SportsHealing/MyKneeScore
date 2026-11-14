@@ -129,7 +129,7 @@
     if (name) lines.push("Name: " + name);
     lines.push("Completed: " + longDate(when));
     lines.push("Score: " + d.score + " out of " + d.max + " (" + d.label + ")");
-    if (d.context && d.context.length) { lines.push("", "About you:"); d.context.forEach(function (c) { lines.push("- " + c); }); }
+    if (d.context && d.context.length) { lines.push("", (d.contextTitle || "About you") + ":"); d.context.forEach(function (c) { lines.push("- " + c); }); }
     (d.extras || []).forEach(function (x) { lines.push(x.name + ": " + x.score + " out of " + x.max + " (" + x.label + ")"); });
     if (d.bars && d.bars.length) {
       lines.push("", d.barsTitle + ":");
@@ -220,12 +220,12 @@
       h += '<div class="rp-sec"><h2>' + esc(d.barsTitle) + '</h2><div class="rp-bars">' + barRows(d.bars) + '</div></div>';
     }
     if (d.context && d.context.length) {
-      h += '<div class="rp-sec"><h2>About you (not scored)</h2><ul class="rp-list">' +
+      h += '<div class="rp-sec"><h2>' + esc(d.contextTitle || "About you (not scored)") + '</h2><ul class="rp-list">' +
         d.context.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join("") + '</ul></div>';
     }
     if (d.answers && d.answers.length) {
       h += '<div class="rp-sec"><h2>Your answers</h2><table class="rp-table"><thead><tr><th>#</th><th>Question</th><th>Your answer</th></tr></thead><tbody>' +
-        d.answers.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
+        d.answers.map(function (a, i) { return '<tr><td>' + esc(a[2] || String(i + 1)) + '</td><td>' + esc(a[0]) + '</td><td>' + esc(a[1]) + '</td></tr>'; }).join("") +
         '</tbody></table></div>';
     }
     var url = location.href.split("#")[0].split("?")[0];
@@ -369,8 +369,11 @@
       current = i;
       var q = questions[i];
       var name = "q" + q.id;
-      var html = '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
-        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro || q.outro ? '' : ' &middot; Question ' + (i + 1 - offset)) + '</p>';
+      // A form can number its own questions (Pedi-IKDC: 11a to 11i) and share a stem across them
+      var num = q.num || String(i + 1 - offset);
+      var html = (q.stem ? '<p class="q-stem">' + esc(q.stem) + '</p>' : '') +
+        '<h2 class="q-title" tabindex="-1">' + esc(q.text) + '</h2>' +
+        '<div class="q-card"><p class="q-topic">' + esc(S.acronym) + (q.section ? ' &middot; ' + esc(q.section) : '') + (q.intro || q.outro ? '' : ' &middot; Question ' + esc(num)) + '</p>';
       // A question with its own fixed period (night and day counts: the last week) shows that instead
       if (reminder && !q.intro && !q.outro && (q.period || answers[reminder.id] !== undefined)) {
         html += '<p class="q-hint q-period">' + esc(reminder.remind) + ': ' + esc(q.period || answers[reminder.id].toLowerCase()) + '</p>';
@@ -414,7 +417,7 @@
       body.innerHTML = html;
 
       fill.style.width = (((i + (isAnswered(q) ? 1 : 0)) / total) * 100) + "%";
-      meta.textContent = q.intro || q.outro ? q.section : "Question " + (i + 1 - offset) + " of " + (total - offset - outros);
+      meta.textContent = q.intro || q.outro ? q.section : "Question " + num + " of " + (S.numOf || (total - offset - outros));
       backBtn.disabled = i === 0;
       var last = i === total - 1;
       nextBtn.textContent = last ? "See my score" : "Next";
@@ -508,7 +511,9 @@
           parts.push(answers[q.id]);
         }
         if (d.detail) parts.push(d.detail);
-        if (parts.length) out.push((q.intro || q.outro ? "" : "Q" + q.id + ". ") + q.text + " " + parts.join("; "));
+        // An opening date box (Pedi-IKDC) needs only its field label, not the instructions above it
+        var lead = q.intro && q.type === "fields" ? "" : (q.intro || q.outro ? "" : "Q" + (q.num || q.id) + ". ") + q.text + " ";
+        if (parts.length) out.push(lead + parts.join("; "));
       });
       return out;
     }
@@ -553,8 +558,10 @@
         }),
         barsTitle: "Your score by section (out of 100)",
         bars: bars,
-        context: S.parts ? contextLines() : [],
-        answers: scoredQs.map(function (q) { return [q.text, answerText(q)]; })
+        context: S.parts || S.recordTitle ? contextLines() : [],
+        contextTitle: S.recordTitle,
+        // The form's own number (11a) where it has one
+        answers: scoredQs.map(function (q) { return [(q.stem ? q.stem + " " : "") + q.text, answerText(q), q.num]; })
       };
     }
 
@@ -607,6 +614,14 @@
             html += '<div class="result-advice"><b>About you (not scored)</b><ul class="ctx-list">' +
               ctx.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join("") + '</ul></div>';
             copy += "\n\nAbout you\n" + ctx.join("\n");
+          }
+        }
+        if (!S.parts && S.recordTitle) {
+          var rctx = contextLines();
+          if (rctx.length) {
+            html += '<div class="result-advice"><b>' + esc(S.recordTitle) + '</b><ul class="ctx-list">' +
+              rctx.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join("") + '</ul></div>';
+            copy += "\n\n" + S.recordTitle + "\n" + rctx.join("\n");
           }
         }
       } else {
