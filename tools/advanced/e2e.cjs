@@ -142,6 +142,27 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   }
   await page.setViewportSize({ width: 1280, height: 900 });
 
+  // Pedi-IKDC: the original form's numbering (11a to 11i), and a fixed run scored by hand.
+  // First answer everywhere: 4+10+10+4+4+0+0+4+4+(9 x 4)+0 = 76 of 88 = 86. Questions 4, 12 and 14 are recorded, not scored.
+  {
+    await page.goto(BASE + "pedi-ikdc.html");
+    await page.click("[data-open-quiz]");
+    await page.click("#nextBtn");
+    let saw11a = false;
+    for (let n = 0; n < 30 && !(await page.$("#result.show")); n++) {
+      if ((await page.textContent("#progressMeta")) === "Question 11a of 14") saw11a = true;
+      const before = await page.textContent("#progressMeta");
+      await page.click(".opts-stack label >> nth=0");
+      await page.waitForTimeout(340);
+      if (!(await page.$("#result.show")) && (await page.textContent("#progressMeta")) === before) await page.click("#nextBtn");
+    }
+    await page.waitForSelector("#result.show", { timeout: 4000 });
+    const shown = await page.$eval("#result .dial-num", d => parseInt(d.textContent, 10));
+    const recorded = await page.$$eval("#result .ctx-list li", l => l.map(x => x.textContent.slice(0, 4)));
+    checks++;
+    if (!saw11a || shown !== 86 || recorded.join("|") !== "Q4. |Q12.|Q14.") { fails++; console.log("PEDI-IKDC FIXED RUN", saw11a, shown, recorded.join("|")); }
+  }
+
   // hub filter
   await page.goto(BASE + "index.html");
   const total = await page.$$eval("#scoreGrid .score-card", c => c.length);
