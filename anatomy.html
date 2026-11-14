@@ -380,6 +380,7 @@
   .anat .lig-acl + .fibre, .anat .lig-acl ~ .fibre { stroke: rgba(var(--white-rgb), 0.5); }
   .anat .cart { fill: var(--meniscus); stroke: var(--meniscus-line); stroke-width: 1.1; transition: fill 0.2s; }
   .anat .cart-face { fill: var(--meniscus-line); }
+  .anat .cart-line { fill: none; stroke: rgba(var(--white-rgb), 0.85); stroke-width: 1.1; stroke-linecap: round; pointer-events: none; }
   .anat .patella-veil, .anat .patella-veil * { pointer-events: none; }
   .anat .veil { fill: rgba(var(--white-rgb), 0.45); stroke: var(--pencil); stroke-width: 1.6; filter: url(#pencil); transition: fill 0.2s; }
   .anat .patella-veil.is-active .veil { fill: rgba(var(--bone-active-rgb), 0.6); }
@@ -564,10 +565,15 @@
           </g>
 
           <g data-part="meniscus" tabindex="0" role="button" aria-label="Menisci">
-            <path class="cart cart-face" d="M152,260 A36,8 0 0 0 224,260 L223,266 C208,270 168,270 153,266 Z"/>
-            <path class="cart" fill-rule="evenodd" d="M152,260 A36,8 0 1 0 224,260 A36,8 0 1 0 152,260 Z M180,259 A14,2.2 0 1 0 208,259 A14,2.2 0 1 0 180,259 Z"/>
-            <path class="cart cart-face" d="M254,260 A36,8 0 0 0 326,260 L325,266 C310,270 270,270 255,266 Z"/>
-            <path class="cart" fill-rule="evenodd" d="M254,260 A36,8 0 1 0 326,260 A36,8 0 1 0 254,260 Z M272,259 A13,2.2 0 1 0 298,259 A13,2.2 0 1 0 272,259 Z"/>
+            <!-- Seen slightly from above. Medial meniscus (inner side): a wide C, open towards the middle.
+                 Lateral meniscus (outer side): a tighter, almost closed O. Both are wedges, thick at the
+                 outer rim and thin at the inner edge; their horns attach between the tibial spines. -->
+            <path class="cart cart-face" d="M152,262 A36,9 0 0 0 219,266.5 L218,268.5 C200,273 170,272 154,267 Z"/>
+            <path class="cart" d="M219,257.5 A36,9 0 1 0 219,266.5 L213.6,264.6 A19,4 0 1 1 213.6,259.4 Z"/>
+            <path class="cart cart-face" d="M256.7,263.9 A34,9 0 0 0 324,262 L323,267 C308,273 276,273 258,267 Z"/>
+            <path class="cart" d="M256.7,260.1 A34,9 0 1 1 256.7,263.9 L275,263.2 A17,3.6 0 1 0 275,260.8 Z"/>
+            <path class="cart-line" d="M215.5,258.5 A28,6.5 0 1 0 215.5,265.5"/>
+            <path class="cart-line" d="M265.9,260.4 A25,6.3 0 1 1 265.9,263.6"/>
             <text class="lbl" x="134" y="266" text-anchor="end">Meniscus</text>
           </g>
 
