@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-04 (chat "Kneescore - advanced scores")
 
-## 2026-11-14: Pedi-IKDC from the original form (awaiting sign-off)
+## 2026-11-14: Pedi-IKDC from the original form (Dr Gupte signed off, owner approved, live)
 - Source: Kocher et al. 2011 online Appendix 1 (the form) and Appendix 2 (the 18 scored items), supplied by the owner. The research export's version did not match.
 - `pedi-ikdc` now lives in `local-scores.mjs` (`external: true`). `build.mjs`: a local score with the same id as an exported one replaces it. Nothing else in the build output changes.
 - New optional fields, used by Pedi-IKDC only: `num` (the form's number, e.g. 11a), `stem` (shared lead-in shown above 11a to 11i), score-level `numOf` (questions counted as the form numbers them) and `recordTitle` (shows unscored answers on the result, PDF and email for a score without parts).
