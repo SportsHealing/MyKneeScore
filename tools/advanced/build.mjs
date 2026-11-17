@@ -8,7 +8,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { LOCAL_SCORES } from "./local-scores.mjs";
+import { LOCAL_SCORES, ABOUT_YOU } from "./local-scores.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(HERE, "../..");
@@ -32,19 +32,27 @@ const SLUGS = { ks6: "ks5" };
 const REDIRECTS = { fk43: "fk21" };
 
 // Our own instruments, shown in their own group on the hub
-const OWN = new Set(["sk11", "pk7", "ks6", ...LOCAL_SCORES.map(s => s.id)]);
+const OWN = new Set(["sk11", "pk7", "ks6", ...LOCAL_SCORES.filter(s => !s.external).map(s => s.id)]);
+
+// Scores for children and teenagers: listed on paediatrics.html, not on the Advanced hub.
+// Their pages stay in advanced/ so existing links and embeds keep working.
+const PAEDIATRIC = new Set(["pedi-ikdc", "pedi-skv"]);
 
 const KEEP = [
   "id", "name", "fullName", "acronym", "category", "questions", "completionTime",
   "subscales", "description", "whatItMeasures", "whoItsFor", "typicalUse",
   "strengths", "limitations", "validationLevel", "mcid", "scoringRange",
   "scoringDirection", "scoringInterpretation", "licenseType", "licenseDetails",
-  "citation", "pubmedId", "doi", "questionSet", "parts",
+  "citation", "pubmedId", "doi", "questionSet", "parts", "numOf", "recordTitle",
 ];
 
 // Research export, plus our own scores defined in local-scores.mjs
 const exported = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-const all = [...exported, ...LOCAL_SCORES.filter(l => !exported.some(s => s.id === l.id))];
+// A local score with the same id as an exported one replaces it (Pedi-IKDC: wording from the original form)
+const all = [
+  ...exported.map(s => LOCAL_SCORES.find(l => l.id === s.id) || s),
+  ...LOCAL_SCORES.filter(l => !exported.some(s => s.id === l.id)),
+];
 const scores = all
   .filter(s => !EXCLUDED[s.id])
   .map(s => {
@@ -53,8 +61,18 @@ const scores = all
     o.slug = SLUGS[s.id] || s.id;
     o.mode = DEDICATED[s.id] || "quick";
     o.own = OWN.has(s.id);
+    o.paediatric = PAEDIATRIC.has(s.id);
     return o;
   });
+
+// Our own research-site score (KS5) also ends with the About you questions.
+// Its score still uses only its own questions.
+for (const s of scores) {
+  if (s.own && s.mode === "quick" && !s.questionSet.some(q => q.outro)) {
+    s.parts = s.parts || [{ label: "Score", ids: s.questionSet.map(q => q.id) }];
+    s.questionSet = [...s.questionSet, ...ABOUT_YOU];
+  }
+}
 
 for (const s of scores) {
   if (s.mode === "quick" && (!s.questionSet || s.questionSet.length === 0)) {
@@ -117,16 +135,36 @@ function header(current) {
   <div class="wrap nav">
     <a class="wordmark" href="../index.html">My<span>Knee</span>Score</a>
     <nav aria-label="Main">
-      <ul>
+      <ul id="mainMenu">
         <li><a href="../index.html#how">How it works</a></li>
-        <li><a href="../index.html#meaning">Your score</a></li>
+        <li><a href="../female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="../paediatrics.html">Paediatrics</a></li>
+        <li><a href="../track-progress.html">Track progress</a></li>
         <li><a href="../anatomy.html">Knee anatomy</a></li>
         <li class="nav-adv"><a href="index.html"${current ? ' aria-current="page"' : ""}>Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="../index.html#quiz">Start the test</a></li>
       </ul>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
-</header>`;
+</header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>`;
 }
 
 const disclaimer = `<div class="disclaimer">
@@ -152,8 +190,9 @@ function rangeText(s) {
 }
 
 // ---------- hub ----------
-// "Before you start" questions are not counted
-const count = s => s.mode === "quick" ? s.questionSet.filter(q => !q.intro).length : s.questions;
+// "Before you start" and "About you" questions are not counted
+// A score whose form numbers its own questions (Pedi-IKDC: 11a to 11i) gives numOf
+const count = s => s.numOf || (s.mode === "quick" ? s.questionSet.filter(q => !q.intro && !q.outro).length : s.questions);
 
 function card(s) {
   const n = count(s);
@@ -165,7 +204,7 @@ function card(s) {
         </a>`;
 }
 
-const published = scores.filter(s => !s.own);
+const published = scores.filter(s => !s.own && !s.paediatric);
 const own = scores.filter(s => s.own);
 const cats = [...new Set(published.map(s => s.category))];
 
@@ -176,7 +215,7 @@ ${header(true)}
   <section class="hero hero-slim">
     <div class="wrap">
       <p class="eyebrow">Advanced scores</p>
-      <h1>The questionnaires <em>clinicians use.</em></h1>
+      <h1>The questionnaires clinicians use.</h1>
       <p class="lede">These are the knee scores used by surgeons, physiotherapists and researchers. Each one asks about a specific kind of knee problem. Pick the one that fits you, answer the questions, and get your score straight away.</p>
       <p class="hero-note">Free. No account needed. Nothing you enter leaves your device.</p>
     </div>
@@ -187,7 +226,7 @@ ${header(true)}
       <div class="section-head">
         <p class="eyebrow">Choose a score</p>
         <h2>Published knee scores</h2>
-        <p>Not sure where to start? The main <a href="../index.html#quiz">My Knee Score test</a> is the quickest check. Use these when a clinician asks for a specific score, or when you want more detail on one area.</p>
+        <p>Not sure where to start? The main <a href="../index.html#quiz">My Knee Score test</a> is the quickest check. Use these when a clinician asks for a specific score, or when you want more detail on one area. Scores for children and teenagers are on the <a href="../paediatrics.html">Paediatrics</a> page.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by category">
         <button type="button" class="chip is-on" data-filter="all" aria-pressed="true">All</button>
@@ -234,9 +273,11 @@ function sourceLink(s) {
 
 function scorePage(s) {
   const n = count(s);
+  // Paediatric scores point back to the Paediatrics page instead of the Advanced hub
+  const home = s.paediatric ? { href: "../paediatrics.html", label: "Paediatrics", all: "All paediatric scores" } : { href: "index.html", label: "Advanced scores", all: "All scores" };
   const start = s.mode === "quick"
-    ? `<div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the ${esc(s.acronym)}</button><a class="btn btn-ghost" href="index.html">All scores</a></div>`
-    : `<div class="hero-actions"><a class="btn btn-gold" href="#tool">Start the ${esc(s.acronym)}</a><a class="btn btn-ghost" href="index.html">All scores</a></div>`;
+    ? `<div class="hero-actions"><button type="button" class="btn btn-gold" data-open-quiz>Start the ${esc(s.acronym)}</button><a class="btn btn-ghost" href="${home.href}">${home.all}</a></div>`
+    : `<div class="hero-actions"><a class="btn btn-gold" href="#tool">Start the ${esc(s.acronym)}</a><a class="btn btn-ghost" href="${home.href}">${home.all}</a></div>`;
   const warn = unvalidated(s)
     ? `<p class="warn-note">This score is ${esc(s.validationLevel.toLowerCase())}. Treat the result as a guide only.</p>` : "";
 
@@ -258,7 +299,7 @@ ${header(false)}
 <main id="top">
   <section class="hero hero-slim">
     <div class="wrap">
-      <p class="eyebrow"><a href="index.html">Advanced scores</a> &middot; ${esc(s.category)}</p>
+      <p class="eyebrow"><a href="${home.href}">${home.label}</a> &middot; ${esc(s.category)}</p>
       <h1>${esc(s.fullName)} <em>(${esc(s.acronym)})</em></h1>
       <p class="lede">${esc(s.description)}</p>
       <ul class="facts">

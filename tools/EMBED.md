@@ -57,6 +57,7 @@ Old FK43 links (page, `#quiz` and `?embed=1`) forward to FK21 automatically, so 
 | Marx: Marx Activity Rating Scale | https://mykneescore.com/advanced/marx.html | https://mykneescore.com/advanced/marx.html#quiz | https://mykneescore.com/advanced/marx.html?embed=1 |
 | NPI: Norwich Patellar Instability Score | https://mykneescore.com/advanced/norwich-pis.html | https://mykneescore.com/advanced/norwich-pis.html#quiz | https://mykneescore.com/advanced/norwich-pis.html?embed=1 |
 | Pedi-IKDC: Pediatric IKDC Subjective Knee Evaluation Form | https://mykneescore.com/advanced/pedi-ikdc.html | https://mykneescore.com/advanced/pedi-ikdc.html#quiz | https://mykneescore.com/advanced/pedi-ikdc.html?embed=1 |
+| Pedi-SKV: Pediatric Simple Knee Value | https://mykneescore.com/advanced/pedi-skv.html | https://mykneescore.com/advanced/pedi-skv.html#quiz | https://mykneescore.com/advanced/pedi-skv.html?embed=1 |
 | PK7: mykneescore Pro Knee - PK7 | https://mykneescore.com/advanced/pk7.html | https://mykneescore.com/advanced/pk7.html | https://mykneescore.com/advanced/pk7.html?embed=1 |
 | SANE: Single Assessment Numeric Evaluation | https://mykneescore.com/advanced/sane.html | https://mykneescore.com/advanced/sane.html#quiz | https://mykneescore.com/advanced/sane.html?embed=1 |
 | SK11: mykneescore Short Knee - SK11 | https://mykneescore.com/advanced/sk11.html | https://mykneescore.com/advanced/sk11.html | https://mykneescore.com/advanced/sk11.html?embed=1 |

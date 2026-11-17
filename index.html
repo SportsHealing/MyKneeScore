@@ -155,8 +155,15 @@
     .nav ul a { font-size: 0.95rem; white-space: nowrap; }
     .nav .start-link { padding: 0.4rem 0.85rem; }
   }
-  @media (max-width: 860px) {
-    .nav ul li:nth-child(3) { display: none; }
+  /* Seven menu items: on narrower screens the least used make way, so the menu stays on one line. All are in the phone menu. */
+  @media (max-width: 1180px) {
+    .nav ul li:nth-child(1) { display: none; }
+  }
+  @media (max-width: 960px) {
+    .nav ul li:nth-child(4) { display: none; }
+  }
+  @media (max-width: 780px) {
+    .nav ul li:nth-child(5) { display: none; }
   }
   @media (max-width: 760px) {
     .wordmark { font-size: 1.25rem; }
@@ -304,54 +311,6 @@
   .holistic li:last-child { border-bottom: none; }
   .holistic li::before { content: ""; position: absolute; left: 0; top: 1.15rem; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); }
 
-  /* Score bands */
-  .bands { display: grid; gap: 0.8rem; }
-  .band {
-    display: grid;
-    grid-template-columns: 110px 180px 1fr;
-    gap: 1.2rem;
-    align-items: center;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 1.1rem 1.4rem;
-  }
-  .band-range { font-family: var(--display); font-size: 1.7rem; font-weight: 600; color: var(--green-ink); }
-  .band-name { font-weight: 600; }
-  .band-name::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 0.55rem; }
-  .band.b1 .band-name::before { background: var(--green-soft); }
-  .band.b2 .band-name::before { background: var(--sage); }
-  .band.b3 .band-name::before { background: var(--gold); }
-  .band.b4 .band-name::before { background: var(--rust); }
-  .band p { font-size: 0.96rem; color: var(--text-muted); }
-  @media (max-width: 760px) {
-    .band { grid-template-columns: 1fr; gap: 0.3rem; }
-  }
-
-  /* Tracking */
-  .track { background: var(--green-deep); color: var(--ivory); }
-  .track h2, .track h3 { color: var(--ivory); }
-  .track .section-head p { color: rgba(var(--ivory-rgb), 0.8); }
-  .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-  .chart {
-    background: var(--green-ink);
-    border: 1px solid rgba(var(--gold-pale-rgb), 0.3);
-    border-radius: 16px;
-    padding: 1.6rem;
-  }
-  .chart-title { font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-pale); margin-bottom: 1.2rem; }
-  .bars { display: flex; align-items: flex-end; gap: clamp(0.5rem, 2vw, 1rem); height: 190px; }
-  .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; text-align: center; gap: 0.4rem; }
-  .bar i {
-    display: block;
-    background: linear-gradient(180deg, var(--green-mist), var(--green-soft));
-    border-radius: 6px 6px 2px 2px;
-    height: calc(var(--v) * 1%);
-  }
-  .bar b { font-family: var(--display); font-size: 1.1rem; color: var(--gold-pale); font-weight: 600; }
-  .bar span { font-size: 0.72rem; color: rgba(var(--ivory-rgb), 0.6); }
-  .track p.small { font-size: 0.9rem; color: rgba(var(--ivory-rgb), 0.6); margin-top: 1.2rem; }
-
   /* ---------- Questionnaire preview (main page) ---------- */
   .quiz-intro p { max-width: 40em; }
   .preview-label { font-size: 0.85rem; letter-spacing: 0.04em; color: var(--text-soft); margin: 0 0 1.2rem; }
@@ -460,6 +419,12 @@
   .q-stage { flex: 1; display: flex; align-items: flex-start; padding: clamp(2rem, 6vw, 4.5rem) 0 3rem; }
   .quiz-form .q-slide { display: none; }
   .quiz-form .q-slide.active { display: block; }
+  .quiz-form .q-about { display: none; }
+  .quiz-form .q-about.active { display: block; }
+  .about-label { display: block; font-weight: 600; color: var(--green-ink); margin: 0 0 0.4rem; }
+  .about-age { width: 8rem; font: inherit; color: var(--text); padding: 0.6rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ivory); }
+  .about-age:hover { border-color: var(--gold); }
+  .about-hint { font-size: 0.85rem; color: var(--text-muted); margin: 0.35rem 0 1.2rem; }
   @media (prefers-reduced-motion: no-preference) {
     .quiz-form .q-slide.active { animation: qfade 0.3s ease; }
   }
@@ -527,7 +492,7 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width: 860px) {
-    .hero-grid, .holistic-grid, .track-grid { grid-template-columns: 1fr; }
+    .hero-grid, .holistic-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr; }
     .dial-card { max-width: 420px; margin-inline: auto; }
   }
@@ -544,6 +509,12 @@
   .pdf-box .btn { margin-top: 0.8rem; width: 100%; justify-content: center; }
   .pdf-note { font-size: 0.82rem; color: rgba(var(--ivory-rgb), 0.7); margin-top: 0.35rem; }
   .pdf-opt { font-weight: 400; }
+  .keep-title { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--gold-pale); margin-bottom: 0.6rem; }
+  .pdf-box label.keep-mail { margin-top: 1.1rem; }
+  .keep-row { display: flex; gap: 0.5rem; align-items: stretch; }
+  .keep-row input { flex: 1; min-width: 0; }
+  .pdf-box .keep-row .btn { width: auto; margin-top: 0; flex: none; padding-inline: 1.3rem; }
+  .mail-msg:empty { display: none; }
 
   /* PDF report: only shown when printing it with "Save as PDF" */
   .pdf-report { display: none; }
@@ -609,6 +580,40 @@
     .rp-foot { margin-top: 14pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--text-muted); }
     .rp-foot a { color: var(--green-soft); font-weight: 600; }
   }
+
+  /* Menu stays on one line: links never wrap, and all six fit on wide screens */
+  .nav ul a { white-space: nowrap; }
+  @media (min-width: 1101px) {
+    .nav ul { gap: 1.4rem; }
+    .nav ul a { font-size: 1rem; }
+  }
+
+  /* Phone menu button: every page link in a dropdown */
+  .nav-toggle { display: none; }
+  @media (max-width: 700px) {
+    .nav { position: relative; }
+    .nav > nav { margin-left: auto; }
+    .nav ul li.nav-adv { display: none; }
+    .nav-toggle { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 2.6rem; height: 2.4rem; padding: 0 0.62rem; background: transparent; border: 1px solid rgba(var(--gold-pale-rgb), 0.45); border-radius: 10px; cursor: pointer; flex: none; }
+    .nav-toggle span { display: block; height: 2px; background: var(--ivory); border-radius: 2px; }
+    .nav-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .nav.open ul { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--green-deep); border-top: 1px solid rgba(var(--gold-pale-rgb), 0.25); padding: 0.3rem 0 1rem; z-index: 30; }
+    .nav.open ul li { display: block !important; }
+    .nav.open ul a { display: block; padding: 0.85rem 0.2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(var(--gold-pale-rgb), 0.15); }
+    .nav.open ul .nav-long { display: inline; }
+    .nav.open ul .start-link { margin-top: 0.9rem; text-align: center; border-bottom: none; }
+  }
+
+  /* Header spans the full screen: logo and Start the test sit in the corners */
+  header .wrap.nav { width: auto; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 700px) {
+    header .nav.open ul { padding-inline: clamp(1rem, 3vw, 2.5rem); }
+  }
+
+  /* Hero fills the first screen below the header, edge to edge.
+     --header-h is set from the real header height by a script below the header. */
+  .hero { min-height: calc(100vh - var(--header-h, 4.5rem)); min-height: calc(100svh - var(--header-h, 4.5rem)); display: flex; align-items: center; }
+  .hero > .hero-grid { width: 100%; max-width: none; margin-inline: 0; padding-inline: clamp(1rem, 3vw, 2.5rem); }
 </style>
 </head>
 <body>
@@ -617,17 +622,51 @@
   <div class="wrap nav">
     <a class="wordmark" href="#top">My<span>Knee</span>Score</a>
     <nav aria-label="Main">
-      <ul>
+      <ul id="mainMenu">
         <li><a href="#how">How it works</a></li>
-        <li><a href="#meaning">Your score</a></li>
-        <li><a href="#track">Track progress</a></li>
+        <li><a href="female-knee-score.html">Female Knee Score</a></li>
+        <li><a href="paediatrics.html">Paediatrics</a></li>
+        <li><a href="track-progress.html">Track progress</a></li>
         <li><a href="anatomy.html">Knee anatomy</a></li>
         <li class="nav-adv"><a href="advanced/index.html">Advanced<span class="nav-long"> scores</span></a></li>
         <li><a class="start-link" href="#quiz" data-open-quiz>Start the test</a></li>
       </ul>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </header>
+<script>
+  /* Phone menu button: opens a list of every page */
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".nav-toggle");
+    if (!btn) { return; }
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.querySelector("ul").addEventListener("click", function (e) { if (e.target.closest("a")) { set(false); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+</script>
+
+<script>
+  /* The hero fills the screen below the header, whatever the header height.
+     The exact height is rounded down, so the green always reaches the bottom of
+     the screen (offsetHeight rounds, which left a thin white line). It is
+     measured again whenever the header changes size, e.g. once fonts load. */
+  (function () {
+    var h = document.querySelector("header");
+    function set() { document.documentElement.style.setProperty("--header-h", Math.floor(h.getBoundingClientRect().height) + "px"); }
+    set();
+    window.addEventListener("resize", set);
+    if (window.ResizeObserver) { new ResizeObserver(set).observe(h); }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(set); }
+  })();
+</script>
 
 <main id="top">
 
@@ -636,7 +675,7 @@
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow">A five minute knee health check</p>
-        <h1>Put a number on <em>your knee.</em></h1>
+        <h1>Put a number on your knee.</h1>
         <p class="lede">Ten questions about pain, movement and daily life. One score out of 100. Clear guidance on what to do next, and a simple way to see whether your knee is getting better.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="#quiz" data-open-quiz>Start the test</a>
@@ -694,64 +733,6 @@
         <li><strong>Sleep and mood.</strong> Poor sleep amplifies pain. The questionnaire asks about night pain for this reason.</li>
         <li><strong>Activity, not rest.</strong> For most knees, the right movement is medicine. Complete rest usually makes stiffness worse.</li>
       </ul>
-    </div>
-  </section>
-
-  <!-- Score meaning -->
-  <section id="meaning">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Your score</p>
-        <h2>What the number means</h2>
-        <p>Four bands, each with a clear next step. The bands are a guide, not a diagnosis. Sudden injury, locking, giving way or a hot swollen knee always deserve prompt medical review, whatever the score.</p>
-      </div>
-      <div class="bands">
-        <div class="band b1">
-          <div class="band-range">85–100</div>
-          <div class="band-name">Optimal</div>
-          <p>Your knee is working well. Keep active, keep your legs strong, and retest if anything changes.</p>
-        </div>
-        <div class="band b2">
-          <div class="band-range">70–84</div>
-          <div class="band-name">Good</div>
-          <p>Your knee works well most of the time. A structured six week strengthening programme usually closes the gap. Retest monthly.</p>
-        </div>
-        <div class="band b3">
-          <div class="band-range">60–69</div>
-          <div class="band-name">Fair</div>
-          <p>Symptoms are limiting you. See a physiotherapist or GP. Options include supervised rehabilitation, weight support and, for some, an injection.</p>
-        </div>
-        <div class="band b4">
-          <div class="band-range">0–59</div>
-          <div class="band-name">Pay attention</div>
-          <p>This is affecting your daily life quite significantly. You may require a specialist review and possibly some imaging such as an MRI scan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tracking -->
-  <section id="track" class="track">
-    <div class="wrap track-grid">
-      <div>
-        <div class="section-head" style="margin-bottom:1rem;">
-          <p class="eyebrow">Track progress</p>
-          <h2>One number, watched over time</h2>
-        </div>
-        <p>A single score is a snapshot. A series of scores is a story. Retake the test every two to four weeks during treatment or recovery.</p>
-        <p style="margin-top:0.9rem;">A rise of 10 points or more is a meaningful improvement. A steady fall is a signal to review your plan with a clinician.</p>
-        <p class="small">Tip: write your score and date in your phone notes, or screenshot each result. Retesting takes five minutes.</p>
-      </div>
-      <div class="chart" role="img" aria-label="Example recovery chart showing scores rising from 41 to 78 over four months">
-        <p class="chart-title">Example: recovery after physiotherapy</p>
-        <div class="bars">
-          <div class="bar"><i style="--v:41"></i><b>41</b><span>Mar</span></div>
-          <div class="bar"><i style="--v:48"></i><b>48</b><span>Apr</span></div>
-          <div class="bar"><i style="--v:57"></i><b>57</b><span>May</span></div>
-          <div class="bar"><i style="--v:66"></i><b>66</b><span>Jun</span></div>
-          <div class="bar"><i style="--v:78"></i><b>78</b><span>Jul</span></div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -829,7 +810,7 @@
 <footer>
   <div class="wrap foot">
     <p>© 2026 mykneescore.com</p>
-    <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="#meaning">Score guide</a> · <a href="anatomy.html">Knee anatomy</a> · <a href="advanced/index.html">Advanced scores</a> · <a href="#top">Back to top</a></p>
+    <p><a href="#quiz" data-open-quiz>Take the test</a> · <a href="track-progress.html#meaning">Score guide</a> · <a href="anatomy.html">Knee anatomy</a> · <a href="advanced/index.html">Advanced scores</a> · <a href="#top">Back to top</a></p>
     <p class="foot-find">Our sites: <a href="https://mykneescan.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">mykneescan.com</a> &middot; <a href="https://kneelens.com/?utm_source=mykneescore&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener">kneelens.com</a></p>
     <p class="foot-find">Find me: <a href="https://chinmaygupte.com" target="_blank" rel="noopener">chinmaygupte.com</a> &middot; <a href="https://sportshealing.com" target="_blank" rel="noopener">sportshealing.com</a></p>
     <p class="foot-version">Short Knee Score v2.0 &middot; page updated 31 October 2026</p>
@@ -990,6 +971,24 @@
           </div>
         </div>
 
+        <!-- About you: not scored, so it is not a q-slide. Shown after question 10. -->
+        <div class="q-about" id="qAbout">
+          <h2 class="q-title" tabindex="-1">A little about you</h2>
+          <div class="q-card">
+            <p class="q-topic">About you &middot; not scored</p>
+            <label class="about-label" for="aboutAge">What is your age?</label>
+            <input class="about-age" type="number" id="aboutAge" name="age" min="1" max="120" inputmode="numeric" autocomplete="off">
+            <p class="about-hint">Optional. Leave blank if you prefer not to say.</p>
+            <p class="about-label" id="aboutSexLabel">Are you male or female?</p>
+            <div class="opts" role="radiogroup" aria-labelledby="aboutSexLabel">
+              <input type="radio" name="sex" id="sexM" value="Male"><label for="sexM">Male</label>
+              <input type="radio" name="sex" id="sexF" value="Female"><label for="sexF">Female</label>
+              <input type="radio" name="sex" id="sexN" value="Prefer not to say"><label for="sexN">Prefer not to say</label>
+            </div>
+            <p class="about-hint">Optional. You can skip this question.</p>
+          </div>
+        </div>
+
       </form>
 
       <div class="q-nav" id="quizNav">
@@ -1015,12 +1014,18 @@
         <p class="small">Note today's date and score, then retest in two to four weeks. This tool does not replace a medical assessment.</p>
 
         <div class="pdf-box">
-          <label for="pdfName">Patient name for the PDF <span class="pdf-opt">(optional)</span></label>
+          <p class="keep-title">Keep your results</p>
+          <label for="pdfName">Your name <span class="pdf-opt">(optional, shown on the PDF)</span></label>
           <input type="text" id="pdfName" autocomplete="off" spellcheck="false" maxlength="60">
-          <p class="pdf-note">Only printed on the PDF. Not saved or sent anywhere.</p>
           <p class="pdf-note" id="pdfHistory" hidden></p>
-          <button type="button" class="btn btn-gold" id="pdfBtn">Download PDF report</button>
-          <p class="pdf-note">Then choose "Save as PDF". On iPhone, tap Share, then Save to Files.</p>
+          <button type="button" class="btn btn-gold" id="pdfBtn">Download PDF</button>
+          <label for="mailTo" class="keep-mail">Or email them to yourself</label>
+          <div class="keep-row">
+            <input type="email" id="mailTo" autocomplete="off" inputmode="email" spellcheck="false" maxlength="120" placeholder="you@example.com">
+            <button type="button" class="btn btn-ghost" id="mailBtn">Send</button>
+          </div>
+          <p class="pdf-note mail-msg" id="mailMsg" role="status" aria-live="polite"></p>
+          <p class="pdf-note">Nothing you type is saved or sent to us. PDF: choose "Save as PDF" (iPhone: Share, then Save to Files). Email: your own email app opens with your results and personal link, ready to send.</p>
         </div>
 
         <div class="result-actions">
@@ -1039,6 +1044,8 @@
     var form      = document.getElementById("kneeForm");
     var slides    = [].slice.call(form.querySelectorAll(".q-slide"));
     var totalQ    = slides.length;
+    var about     = document.getElementById("qAbout");
+    var steps     = slides.concat([about]); /* About you is the last step, never scored */
     var navWrap   = document.getElementById("quizNav");
     var backBtn   = document.getElementById("backBtn");
     var nextBtn   = document.getElementById("nextBtn");
@@ -1056,6 +1063,9 @@
     var listEl    = document.getElementById("breakdownList");
     var pdfName   = document.getElementById("pdfName");
     var pdfBtn    = document.getElementById("pdfBtn");
+    var mailTo    = document.getElementById("mailTo");
+    var mailBtn   = document.getElementById("mailBtn");
+    var mailMsg   = document.getElementById("mailMsg");
     var last      = null; /* the latest result, for the PDF report */
     var current   = 0;
     var reduce    = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1127,6 +1137,8 @@
     function reset() {
       form.reset();
       pdfName.value = "";
+      mailTo.value = "";
+      mailMsg.textContent = "";
       last = null;
       resultEl.classList.remove("show");
       navWrap.style.display = "";
@@ -1134,33 +1146,40 @@
       show(0);
     }
 
+    /* About you: both questions are optional, so this step is always complete */
+    function aboutDone() { return true; }
+    function aboutText() {
+      var age = document.getElementById("aboutAge").value.trim();
+      var sex = form.querySelector('input[name="sex"]:checked');
+      return { age: /^\d{1,3}$/.test(age) && +age >= 1 && +age <= 120 ? age : "Not given", sex: sex ? sex.value : "Not given" };
+    }
+
     function show(i) {
       current = i;
-      slides.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
-      var pct = ((i + 1) / totalQ) * 100;
+      steps.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
+      var pct = ((i + 1) / steps.length) * 100;
       fill.style.width = pct + "%";
-      meta.textContent = "Question " + (i + 1) + " of " + totalQ;
+      meta.textContent = i < totalQ ? "Question " + (i + 1) + " of " + totalQ : "About you";
       backBtn.disabled = (i === 0);
-      nextBtn.textContent = (i === totalQ - 1) ? "See my results" : "Next";
-      nextBtn.disabled = !answered(i);
-      var h = slides[i].querySelector(".q-title");
+      nextBtn.textContent = (i === steps.length - 1) ? "See my results" : "Next";
+      nextBtn.disabled = i < totalQ ? !answered(i) : !aboutDone();
+      var h = steps[i].querySelector(".q-title");
       if (h) { h.focus(); }
     }
 
     form.addEventListener("change", function (e) {
       if (!e.target.name) { return; }
+      if (current >= totalQ) { nextBtn.disabled = !aboutDone(); return; }
       if (e.target.name !== groupName(current)) { nextBtn.disabled = !answered(current); return; }
       nextBtn.disabled = false;
-      if (current < totalQ - 1) {
-        window.setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
-      } else {
-        window.setTimeout(finish, reduce ? 0 : 320);
-      }
+      window.setTimeout(function () { show(current + 1); }, reduce ? 0 : 300);
     });
+    /* Enter in the age box goes on, as the Next button would */
+    form.addEventListener("submit", function (e) { e.preventDefault(); nextBtn.click(); });
 
     nextBtn.addEventListener("click", function () {
-      if (!answered(current)) { return; }
-      if (current < totalQ - 1) { show(current + 1); } else { finish(); }
+      if (current < totalQ ? !answered(current) : !aboutDone()) { return; }
+      if (current < steps.length - 1) { show(current + 1); } else { finish(); }
     });
     backBtn.addEventListener("click", function () { if (current > 0) { show(current - 1); } });
     exitBtn.addEventListener("click", close);
@@ -1175,6 +1194,7 @@
     function finish() {
       var u = firstUnanswered();
       if (u > -1) { show(u); return; }
+      if (!aboutDone()) { show(totalQ); return; }
 
       /* Answers are held as halves (0 to 20) and weights as hundredths, so the
          weighted total is a whole number. Dividing by 20 gives the score out of
@@ -1191,7 +1211,7 @@
       var score = Math.floor(totalWeighted / 20) + ((totalWeighted % 20) >= 10 ? 1 : 0);
       var band = bands.find(function (b) { return score >= b.min; });
 
-      last = { score: score, band: band, perQ: perQ, when: new Date() };
+      last = { score: score, band: band, perQ: perQ, when: new Date(), about: aboutText() };
 
       scoreNum.textContent = score;
       dial.style.setProperty("--value", score);
@@ -1211,7 +1231,7 @@
       });
 
       navWrap.style.display = "none";
-      slides.forEach(function (s) { s.classList.remove("active"); });
+      steps.forEach(function (s) { s.classList.remove("active"); });
       fill.style.width = "100%";
       meta.textContent = "Complete";
       resultEl.classList.add("show");
@@ -1284,7 +1304,9 @@
         '<div class="rp-meta">' +
         '<div><span class="rp-k">Name</span><span class="rp-v">' + (name ? esc(name) : "Not given") + '</span></div>' +
         '<div><span class="rp-k">Completed</span><span class="rp-v">' + esc(longDate(r.when)) + '</span></div>' +
-        '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + totalQ + ' of ' + totalQ + '</span></div></div>' +
+        '<div><span class="rp-k">Questions answered</span><span class="rp-v">' + totalQ + ' of ' + totalQ + '</span></div>' +
+        '<div><span class="rp-k">Age</span><span class="rp-v">' + esc(r.about.age) + '</span></div>' +
+        '<div><span class="rp-k">Sex</span><span class="rp-v">' + esc(r.about.sex) + '</span></div></div>' +
         '<div class="rp-score"><svg class="rp-ring" viewBox="0 0 120 120" aria-hidden="true">' +
         '<circle class="rp-ring-track" cx="60" cy="60" r="52"></circle>' +
         '<circle class="rp-ring-fill rp-' + lv + '" cx="60" cy="60" r="52" stroke-dasharray="' + on.toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 60 60)"></circle></svg>' +
@@ -1321,6 +1343,43 @@
       ph.textContent = pastScores.length + " earlier score" + (pastScores.length === 1 ? "" : "s") + " from your PDF link will be added to this report.";
       ph.hidden = false;
     }
+
+    /* Email a copy: opens the patient's own email app with the results and their
+       personal link. Nothing passes through this site and the address is not kept. */
+    function mailText(r, name) {
+      var lines = ["My Knee Score results", "", "Short Knee Score"];
+      if (name) { lines.push("Name: " + name); }
+      lines.push("Completed: " + longDate(r.when));
+      lines.push("Age: " + r.about.age, "Sex: " + r.about.sex);
+      lines.push("Score: " + r.score + " out of 100 (" + r.band.name + ")");
+      lines.push("", "How your score breaks down (out of 100):");
+      r.perQ.forEach(function (q) { lines.push("- " + q.topic + ": " + q.pct); });
+      lines.push("", "Your scores so far:");
+      pastScores.forEach(function (e) { lines.push("- " + ukDate(e.date) + ": " + e.score); });
+      lines.push("- " + r.when.toLocaleDateString("en-GB") + ": " + r.score + " (this test)");
+      lines.push("", "Your personal link for your next test. It keeps your scores so far, so use this link each time:",
+        retakeLink(r.score, r.when, "quiz&"),
+        "", "For a full copy with every answer, attach the PDF report you saved.",
+        "A score is not a diagnosis and does not replace advice from a doctor or physiotherapist.",
+        "", "mykneescore.com");
+      return lines.join("\n");
+    }
+
+    mailBtn.addEventListener("click", function () {
+      if (!last) { return; }
+      var to = mailTo.value.trim();
+      if (!/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(to)) {
+        mailMsg.textContent = "Please enter a valid email address.";
+        mailTo.focus();
+        return;
+      }
+      var subject = "My Knee Score results - " + last.when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+      window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(mailText(last, pdfName.value.trim()));
+      /* One-off: the address is cleared straight away */
+      mailTo.value = "";
+      mailMsg.textContent = "Your email app should open now. Press Send to get your copy.";
+    });
 
     pdfBtn.addEventListener("click", function () {
       if (!last) { return; }

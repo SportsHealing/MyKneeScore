@@ -22,7 +22,8 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         for (let i = 0; i < s.questionSet.length; i++) {
           const q = s.questionSet[i];
           // FK21 context questions: date/number fields, tick boxes, choice plus detail box. Not scored.
-          if (q.type === "fields") { await page.fill(`#q${q.id}-${q.fields[0].key}`, "2026-09-20"); await page.click("#nextBtn"); continue; }
+          if (q.type === "percent") { const v = String(Math.floor(rand() * 101)); answers[q.id] = v; await page.fill(`#q${q.id}-pct`, v); await page.click("#nextBtn"); continue; }
+          if (q.type === "fields") { await page.fill(`#q${q.id}-${q.fields[0].key}`, q.fields[0].input === "number" ? "45" : "2026-09-20"); await page.click("#nextBtn"); continue; }
           if (q.type === "multi") { await page.click(`label[for="q${q.id}-0"]`); await page.click(`label[for="q${q.id}-1"]`); await page.click("#nextBtn"); continue; }
           if (q.detail) { await page.click(`label[for="q${q.id}-0"]`); await page.fill(`#q${q.id}-detail`, "test"); await page.click("#nextBtn"); continue; }
           const k = Math.floor(rand() * q.options.length);
@@ -51,6 +52,17 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         const hasScan = !!(await page.$("#result .scan-note"));
         checks++;
         if (wantScan !== hasScan) { fails++; console.log("SCAN PROMPT MISMATCH", slug, exp && exp.score, hasScan); }
+        // Our own scores end with About you (age, sex): both must reach the result
+        if (s.questionSet.some(q => q.outro)) {
+          const about = await page.$eval("#result", el => el.textContent);
+          checks++;
+          if (!/Age in years: 45/.test(about) || !/Are you male or female\? (Male|Female|Prefer not to say)/.test(about)) { fails++; console.log("ABOUT YOU MISSING", slug); }
+        }
+        // Every result offers both PDF and email
+        if (run === 0 && exp) {
+          checks++;
+          if (!(await page.$('#result [data-act="pdf"]')) || !(await page.$('#result [data-act="mail"]')) || !(await page.$("#result #mailTo"))) { fails++; console.log("PDF OR EMAIL MISSING", slug); }
+        }
         // PDF report: printing is stubbed, the report must show the same score
         if (run === 0 && exp) {
           await page.evaluate(() => { window.print = () => {}; });
@@ -82,6 +94,8 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
       }
       await page.click("#reportBtn");
       await page.waitForSelector(".report");
+      checks++;
+      if (!(await page.$('#report [data-act="pdf"]')) || !(await page.$('#report [data-act="mail"]'))) { fails++; console.log("PDF OR EMAIL MISSING", slug); }
     }
   }
   // Earlier scores in the PDF link are listed in the next report, and passed on
@@ -98,9 +112,56 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   checks++;
   if (hist.rows !== 3 || !/\?report=3#h=2026-09-01\.40,2026-09-15\.45,\d{4}-\d{2}-\d{2}\.\d+$/.test(hist.link)) { fails++; console.log("HISTORY MISMATCH", JSON.stringify(hist)); }
 
-  // Email a copy was removed on 21 Oct 2026 (owner: to be rebuilt later). Check it stays gone.
+  // Email to myself opens a mailto with the score and the personal link, then clears the address
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Page.enable");
+  let mailto = null;
+  cdp.on("Page.frameRequestedNavigation", e => { if (e.url.startsWith("mailto:")) mailto = e.url; });
+  await page.fill("#mailTo", "patient@example.com");
+  await page.click('[data-act="mail"]');
+  await page.waitForTimeout(300);
+  const body = mailto ? new URL(mailto).searchParams.get("body") : "";
   checks++;
-  if (await page.$("#mailTo") || await page.$('[data-act="mail"]')) { fails++; console.log("EMAIL BOX STILL SHOWN"); }
+  if (!mailto || !mailto.startsWith("mailto:patient@example.com?") || !/report=3#h=2026-09-01\.40,2026-09-15\.45,/.test(body) || await page.inputValue("#mailTo") !== "") {
+    fails++; console.log("MAIL MISMATCH", mailto);
+  }
+
+  // Top menu: every link stays on one line, on the home page and an Advanced page, at common widths
+  for (const pg of ["../index.html", "lk32.html"]) {
+    for (const w of [1000, 1280, 1440, 1920]) {
+      await page.setViewportSize({ width: w, height: 900 });
+      await page.goto(BASE + pg);
+      await page.evaluate(() => document.fonts.ready);
+      const wrapped = await page.evaluate(() => [...document.querySelectorAll(".nav ul li")]
+        .filter(li => getComputedStyle(li).display !== "none")
+        .filter(li => { const r = document.createRange(); r.selectNodeContents(li.querySelector("a")); return new Set([...r.getClientRects()].filter(x => x.width > 0).map(x => Math.round(x.top))).size > 1; })
+        .map(li => li.textContent.trim()));
+      checks++;
+      if (wrapped.length) { fails++; console.log("MENU WRAPS", pg, w, wrapped.join(", ")); }
+    }
+  }
+  await page.setViewportSize({ width: 1280, height: 900 });
+
+  // Pedi-IKDC: the original form's numbering (11a to 11i), and a fixed run scored by hand.
+  // First answer everywhere: 4+10+10+4+4+0+0+4+4+(9 x 4)+0 = 76 of 88 = 86. Questions 4, 12 and 14 are recorded, not scored.
+  {
+    await page.goto(BASE + "pedi-ikdc.html");
+    await page.click("[data-open-quiz]");
+    await page.click("#nextBtn");
+    let saw11a = false;
+    for (let n = 0; n < 30 && !(await page.$("#result.show")); n++) {
+      if ((await page.textContent("#progressMeta")) === "Question 11a of 14") saw11a = true;
+      const before = await page.textContent("#progressMeta");
+      await page.click(".opts-stack label >> nth=0");
+      await page.waitForTimeout(340);
+      if (!(await page.$("#result.show")) && (await page.textContent("#progressMeta")) === before) await page.click("#nextBtn");
+    }
+    await page.waitForSelector("#result.show", { timeout: 4000 });
+    const shown = await page.$eval("#result .dial-num", d => parseInt(d.textContent, 10));
+    const recorded = await page.$$eval("#result .ctx-list li", l => l.map(x => x.textContent.slice(0, 4)));
+    checks++;
+    if (!saw11a || shown !== 86 || recorded.join("|") !== "Q4. |Q12.|Q14.") { fails++; console.log("PEDI-IKDC FIXED RUN", saw11a, shown, recorded.join("|")); }
+  }
 
   // hub filter
   await page.goto(BASE + "index.html");
