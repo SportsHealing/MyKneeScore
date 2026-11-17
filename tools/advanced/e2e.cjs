@@ -7,6 +7,12 @@ const ctx = { window: {} }; vm.createContext(ctx);
 vm.runInContext(require("fs").readFileSync(require("path").resolve(__dirname, "../../advanced/assets/scores-data.js"), "utf8"), ctx);
 const DATA = ctx.window.MKS_SCORES;
 const BASE = (process.env.MKS_BASE || "http://localhost:8765/") + "advanced/";
+// Every test starts behind the disclaimer (assets/disclaimer.js): tick the box, then Start.
+async function accept(page) {
+  await page.waitForSelector(".mks-disc input", { state: "visible", timeout: 4000 });
+  await page.check(".mks-disc input");
+  await page.click(".mks-disc .mks-go");
+}
 let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
 (async () => {
   const browser = await chromium.launch();
@@ -17,7 +23,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
     if (s.mode === "quick") {
       for (let run = 0; run < 3; run++) {
         await page.goto(BASE + slug + ".html");
-        await page.click("[data-open-quiz]");
+        await page.click("[data-open-quiz]"); await accept(page);
         const answers = {};
         for (let i = 0; i < s.questionSet.length; i++) {
           const q = s.questionSet[i];
@@ -73,7 +79,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
         }
       }
     } else {
-      await page.goto(BASE + slug + ".html");
+      await page.goto(BASE + slug + ".html"); await accept(page);
       const items = s.mode === "sk11" ? engine.SK11_QUESTIONS.map(q => ({ id: q.id, max: 10 })) : engine.PK7_DOMAINS.map(d => ({ id: d.id, max: d.maxValue }));
       const prefix = s.mode === "sk11" ? "sk" : "pk";
       const answers = {}; items.forEach(it => answers[it.id] = null);
@@ -101,7 +107,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   // Earlier scores in the PDF link are listed in the next report, and passed on
   await page.goto(BASE + "koos-jr.html?report=2#h=2026-09-01.40,bad,2026-09-15.45");
   await page.evaluate(() => { window.print = () => {}; });
-  await page.click("[data-open-quiz]");
+  await page.click("[data-open-quiz]"); await accept(page);
   for (let i = 0; i < DATA["koos-jr"].questionSet.length; i++) { await page.click(`label[for="q${DATA["koos-jr"].questionSet[i].id}-0"]`); await page.waitForTimeout(340); }
   await page.waitForSelector("#result.show");
   await page.click('[data-act="pdf"]');
@@ -146,7 +152,7 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
   // First answer everywhere: 4+10+10+4+4+0+0+4+4+(9 x 4)+0 = 76 of 88 = 86. Questions 4, 12 and 14 are recorded, not scored.
   {
     await page.goto(BASE + "pedi-ikdc.html");
-    await page.click("[data-open-quiz]");
+    await page.click("[data-open-quiz]"); await accept(page);
     await page.click("#nextBtn");
     let saw11a = false;
     for (let n = 0; n < 30 && !(await page.$("#result.show")); n++) {
@@ -161,6 +167,42 @@ let seed = 7; const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967
     const recorded = await page.$$eval("#result .ctx-list li", l => l.map(x => x.textContent.slice(0, 4)));
     checks++;
     if (!saw11a || shown !== 86 || recorded.join("|") !== "Q4. |Q12.|Q14.") { fails++; console.log("PEDI-IKDC FIXED RUN", saw11a, shown, recorded.join("|")); }
+  }
+
+  // Disclaimer gate: no test can start until the box is ticked, and the PDF records the acceptance
+  {
+    await page.goto(BASE + "koos.html");
+    await page.click("[data-open-quiz]");
+    const gated = await page.evaluate(() => !!document.querySelector("#quizApp .mks-disc") && document.querySelector("#quizApp .q-stage > .wrap").hidden);
+    await page.click(".mks-disc .mks-go");
+    const stillGated = await page.evaluate(() => !!document.querySelector("#quizApp .mks-disc") && document.querySelector(".mks-disc .mks-err").textContent.length > 0);
+    await accept(page);
+    const open = await page.evaluate(() => !document.querySelector(".mks-disc") && !document.querySelector("#quizApp .q-stage > .wrap").hidden);
+    checks++;
+    if (!gated || !stillGated || !open) { fails++; console.log("DISCLAIMER GATE (quick)", gated, stillGated, open); }
+
+    await page.goto(BASE + "sk11.html");
+    const toolGated = await page.evaluate(() => document.getElementById("toolApp").hidden && !!document.querySelector(".mks-disc"));
+    await accept(page);
+    const toolOpen = await page.evaluate(() => !document.getElementById("toolApp").hidden);
+    checks++;
+    if (!toolGated || !toolOpen) { fails++; console.log("DISCLAIMER GATE (SK11)", toolGated, toolOpen); }
+
+    await page.goto(BASE + "../index.html");
+    await page.click(".hero-actions [data-open-quiz]");
+    const homeGated = await page.evaluate(() => !!document.querySelector("#quizApp .mks-disc") && document.querySelector("#quizApp .q-stage > .wrap").hidden);
+    checks++;
+    if (!homeGated) { fails++; console.log("DISCLAIMER GATE (home)"); }
+
+    await page.goto(BASE + "koos-jr.html");
+    await page.evaluate(() => { window.print = () => {}; });
+    await page.click("[data-open-quiz]"); await accept(page);
+    for (let i = 0; i < DATA["koos-jr"].questionSet.length; i++) { await page.click(`label[for="q${DATA["koos-jr"].questionSet[i].id}-0"]`); await page.waitForTimeout(340); }
+    await page.waitForSelector("#result.show");
+    await page.click('[data-act="pdf"]');
+    const disc = await page.$eval("#pdfReport .rp-disc", el => el.textContent).catch(() => "");
+    checks++;
+    if (!/Disclaimer accepted/.test(disc) || !/ticked the box to accept this disclaimer on \d/.test(disc) || !/England and Wales/.test(disc)) { fails++; console.log("DISCLAIMER NOT IN PDF", disc.slice(0, 120)); }
   }
 
   // hub filter

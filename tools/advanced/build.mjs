@@ -340,6 +340,7 @@ ${tool}
 ${disclaimer}
 ${footer}
 ${s.mode === "quick" ? quizShell(s) : ""}
+<script src="../assets/disclaimer.js"></script>
 <script src="assets/scores-data.js"></script>
 <script src="assets/engine.js"></script>
 <script src="assets/app.js"></script>

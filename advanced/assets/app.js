@@ -232,6 +232,7 @@
     h += '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Use the link below to take the ' + esc(S.acronym) + ' again in 2 to 4 weeks. Your next report will list these scores too.</p>' +
       '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
       trackRows(d.score, when) + '</tbody></table></div>' +
+      window.MKSDisclaimer.reportHtml() +
       '<p class="rp-foot">Retake this score at <a href="' + esc(retakeLink(d.score, when, "")) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
       'The link carries your dates and scores, so your next report lists them too. ' +
       'This report was made on your device. Nothing you entered was saved or sent to us. ' +
@@ -345,6 +346,8 @@
       document.body.classList.add("quiz-open");
       setQuizHash(true);
       reset();
+      // No test starts until the disclaimer is read and ticked (assets/disclaimer.js)
+      window.MKSDisclaimer.gate(app.querySelector(".q-stage > .wrap"));
     }
     function close() {
       if (embed) return;
@@ -715,6 +718,7 @@
   // ---------------------------------------------------------------
   function initSK11() {
     var root = document.getElementById("toolApp");
+    window.MKSDisclaimer.gate(root);
     var Q = E.SK11_QUESTIONS;
     var threshold = 8;
     var answers = {};
@@ -810,6 +814,7 @@
   // ---------------------------------------------------------------
   function initPK7() {
     var root = document.getElementById("toolApp");
+    window.MKSDisclaimer.gate(root);
     var D = E.PK7_DOMAINS;
     var threshold = 5;
     var answers = {};

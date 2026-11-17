@@ -1038,6 +1038,7 @@
   </div>
 </div>
 
+<script src="assets/disclaimer.js"></script>
 <script>
   (function () {
     var app       = document.getElementById("quizApp");
@@ -1126,6 +1127,8 @@
       document.body.style.overflow = "hidden";
       setQuizHash(true);
       reset();
+      /* No test starts until the disclaimer is read and ticked (assets/disclaimer.js) */
+      window.MKSDisclaimer.gate(app.querySelector(".q-stage > .wrap"), function () { show(current); });
     }
     function close() {
       if (embed) { return; }
@@ -1332,6 +1335,7 @@
         '<div class="rp-sec rp-track"><h2>Track your progress</h2><p>Use the link below to take the test again in two to four weeks. Your next report will list these scores too.</p>' +
         '<table class="rp-table"><thead><tr><th>Date</th><th>Score</th><th>Notes</th></tr></thead><tbody>' +
         trackRows(r.score, r.when) + '</tbody></table></div>' +
+        window.MKSDisclaimer.reportHtml() +
         '<p class="rp-foot">Retake the test at <a href="' + esc(retakeLink(r.score, r.when, "quiz&")) + '">' + esc(url.replace(/^https?:\/\//, "")) + '</a>. ' +
         'The link carries your dates and scores, so your next report lists them too. ' +
         'This report was made on your device. Nothing you entered was saved or sent to us. ' +
